@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Code2, Github, Twitter, Linkedin } from 'lucide-react';
+import { Code2, Github } from 'lucide-react';
 
 /**
  * Application Footer
@@ -51,22 +51,12 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="https://github.com/Bitxogm/New-Logic-Agent"
+                  href="https://github.com/kunaltonyyadavstark-cell/Agentic-Ai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
                 >
                   Documentation
-                </a>
-              </li>
-              <li>
-                <a
-                  href="http://localhost:5000/api-docs"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
-                >
-                  API Docs
                 </a>
               </li>
             </ul>
@@ -77,28 +67,12 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-semibold">Follow Us</h3>
             <div className="flex space-x-4">
               <a
-                href="https://github.com/Bitxogm/New-Logic-Agent"
+                href="https://github.com/kunaltonyyadavstark-cell/Agentic-Ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
               >
                 <Github className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/victor-manuel-gonzalez-moreno/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
-              >
-                <Linkedin className="h-5 w-5" />
               </a>
             </div>
           </div>
