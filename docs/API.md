@@ -1,28 +1,28 @@
 # 📡 API Documentation
 
-Documentación completa de la API RESTful de AgentLogic.
+Complete documentation for the AgentLogic REST API.
 
 ## Base URL
 http://localhost:5000/api
 
-## Autenticación
+## Authentication
 
-La API utiliza JWT (JSON Web Tokens) para autenticación.
+The API uses JWT (JSON Web Tokens) for authentication.
 
-### Headers requeridos
+### Required headers
 ```http
 Authorization: Bearer <token>
 Content-Type: application/json
 
 🔐 Authentication Endpoints
 `POST /api/auth/register`
-Registrar un nuevo usuario.
+Register a new user.
 Request:
 json{
   "email": "user@example.com",
   "password": "Password123",
-  "username": "usuario123",
-  "name": "Usuario Test"
+  "username": "johndoe",
+  "name": "User Test"
 }
 Response (201):
 json{
@@ -32,21 +32,21 @@ json{
     "user": {
       "_id": "507f1f77bcf86cd799439011",
       "email": "user@example.com",
-      "username": "usuario123",
-      "name": "Usuario Test",
+      "username": "johndoe",
+      "name": "User Test",
       "createdAt": "2025-10-07T06:00:00.000Z"
     }
   }
 }
 
-**Errores Comunes:**
-- `400 Bad Request`: Validación fallida (e.g., email inválido, password débil).
-- `400 Bad Request`: El email ya está registrado.
-- `429 Too Many Requests`: Límite de registros alcanzado (3 por hora).
+**Common Errors:**
+- `400 Bad Request`: Validation failed (e.g., invalid email or weak password).
+- `400 Bad Request`: The email is already registered.
+- `429 Too Many Requests`: Registration limit reached (3 per hour).
 
 
 `POST /api/auth/login`
-Iniciar sesión.
+Log in.
 Request:
 json{
   "email": "user@example.com",
@@ -60,19 +60,19 @@ json{
     "user": {
       "_id": "507f1f77bcf86cd799439011",
       "email": "user@example.com",
-      "username": "usuario123",
-      "name": "Usuario Test"
+      "username": "johndoe",
+      "name": "User Test"
     }
   }
 }
 
-**Errores Comunes:**
-- `401 Unauthorized`: Credenciales inválidas.
-- `429 Too Many Requests`: Límite de intentos de login alcanzado (5 por 15 minutos).
+**Common Errors:**
+- `401 Unauthorized`: Invalid credentials.
+- `429 Too Many Requests`: Login attempt limit reached (5 per 15 minutes).
 
 
 `GET /api/auth/me`
-Obtener información del usuario autenticado.
+Get information about the authenticated user.
 Headers:
 httpAuthorization: Bearer <token>
 Response (200):
@@ -81,28 +81,28 @@ json{
   "data": {
     "_id": "507f1f77bcf86cd799439011",
     "email": "user@example.com",
-    "username": "usuario123",
-    "name": "Usuario Test",
+    "username": "johndoe",
+    "name": "User Test",
     "createdAt": "2025-10-07T06:00:00.000Z"
   }
 }
 
-**Errores Comunes:**
-- `401 Unauthorized`: No se proporcionó un token.
-- `401 Unauthorized`: El token es inválido o ha expirado.
+**Common Errors:**
+- `401 Unauthorized`: No token was provided.
+- `401 Unauthorized`: The token is invalid or has expired.
 
 
 📝 Exercise Endpoints
 `GET /api/exercises`
-Listar todos los ejercicios.
+List all exercises.
 Query Parameters:
 
-language (opcional): Filtrar por lenguaje
-difficulty (opcional): Filtrar por dificultad (easy, medium, hard)
-page (opcional): Número de página (default: 1)
-limit (opcional): Resultados por página (default: 10)
+language (optional): Filter by language
+difficulty (optional): Filter by difficulty (easy, medium, hard)
+page (optional): Page number (default: 1)
+limit (optional): Results per page (default: 10)
 
-Ejemplo:
+Example:
 bashGET /api/exercises?language=javascript&difficulty=easy&page=1&limit=10
 Response (200):
 json{
@@ -110,8 +110,8 @@ json{
   "data": [
     {
       "_id": "507f1f77bcf86cd799439011",
-      "title": "Suma de dos números",
-      "description": "Crea una función que sume dos números",
+      "title": "Sum of two numbers",
+      "description": "Create a function that adds two numbers",
       "difficulty": "easy",
       "language": "javascript",
       "testCases": [
@@ -120,7 +120,7 @@ json{
           "expectedOutput": 5
         }
       ],
-      "tags": ["básico", "matemáticas"],
+      "tags": ["beginner", "math"],
       "createdAt": "2025-10-07T06:00:00.000Z"
     }
   ],
@@ -133,14 +133,14 @@ json{
 }
 
 `GET /api/exercises/:id`
-Obtener un ejercicio específico.
+Get a specific exercise.
 Response (200):
 json{
   "success": true,
   "data": {
     "_id": "507f1f77bcf86cd799439011",
-    "title": "Suma de dos números",
-    "description": "Crea una función que sume dos números",
+    "title": "Sum of two numbers",
+    "description": "Create a function that adds two numbers",
     "difficulty": "easy",
     "language": "javascript",
     "testCases": [
@@ -149,24 +149,24 @@ json{
         "expectedOutput": 5
       }
     ],
-    "tags": ["básico", "matemáticas"],
+    "tags": ["beginner", "math"],
     "createdAt": "2025-10-07T06:00:00.000Z"
   }
 }
 
-**Errores Comunes:**
-- `404 Not Found`: El ejercicio con el ID especificado no existe.
-- `400 Bad Request`: El ID proporcionado no es un ObjectId válido.
+**Common Errors:**
+- `404 Not Found`: The exercise with the specified ID does not exist.
+- `400 Bad Request`: The provided ID is not a valid ObjectId.
 
 
 `POST /api/exercises`
-Crear un nuevo ejercicio (requiere autenticación).
+Create a new exercise (authentication required).
 Headers:
 httpAuthorization: Bearer <token>
 Request:
 json{
-  "title": "Suma de dos números",
-  "description": "Crea una función que sume dos números",
+  "title": "Sum of two numbers",
+  "description": "Create a function that adds two numbers",
   "difficulty": "easy",
   "language": "javascript",
   "testCases": [
@@ -175,30 +175,30 @@ json{
       "expectedOutput": 5
     }
   ],
-  "tags": ["básico", "matemáticas"]
+  "tags": ["beginner", "math"]
 }
 Response (201):
 json{
   "success": true,
   "data": {
     "_id": "507f1f77bcf86cd799439011",
-    "title": "Suma de dos números",
+    "title": "Sum of two numbers",
     ...
   }
 }
 
-**Errores Comunes:**
-- `401 Unauthorized`: Se requiere autenticación.
-- `400 Bad Request`: Los datos del ejercicio no superan la validación.
+**Common Errors:**
+- `401 Unauthorized`: Authentication is required.
+- `400 Bad Request`: Exercise data failed validation.
 
 
 `PATCH /api/exercises/:id`
-Actualizar un ejercicio (requiere autenticación).
+Update an exercise (authentication required).
 Headers:
 httpAuthorization: Bearer <token>
 Request:
 json{
-  "title": "Nuevo título",
+  "title": "New title",
   "difficulty": "medium"
 }
 Response (200):
@@ -206,70 +206,70 @@ json{
   "success": true,
   "data": {
     "_id": "507f1f77bcf86cd799439011",
-    "title": "Nuevo título",
+    "title": "New title",
     "difficulty": "medium",
     ...
   }
 }
 
-**Errores Comunes:**
-- `401 Unauthorized`: Se requiere autenticación.
-- `404 Not Found`: El ejercicio con el ID especificado no existe.
-- `400 Bad Request`: Los datos a actualizar no superan la validación.
+**Common Errors:**
+- `401 Unauthorized`: Authentication is required.
+- `404 Not Found`: The exercise with the specified ID does not exist.
+- `400 Bad Request`: Update data failed validation.
 
 
 `DELETE /api/exercises/:id`
-Eliminar un ejercicio (requiere autenticación).
+Delete an exercise (authentication required).
 Headers:
 httpAuthorization: Bearer <token>
 Response (200):
 json{
   "success": true,
-  "message": "Ejercicio eliminado correctamente"
+  "message": "Exercise deleted successfully"
 }
 
-**Errores Comunes:**
-- `401 Unauthorized`: Se requiere autenticación.
-- `404 Not Found`: El ejercicio con el ID especificado no existe.
+**Common Errors:**
+- `401 Unauthorized`: Authentication is required.
+- `404 Not Found`: The exercise with the specified ID does not exist.
 
 
 🏥 Health Endpoint
 `GET /health`
-Verificar estado del servidor.
+Check the server status.
 Response (200):
 json{
   "success": true,
-  "message": "API funcionando correctamente",
+  "message": "API is running successfully",
   "timestamp": "2025-10-07T06:00:00.000Z"
 }
 
-⚠️ Códigos de Error
-| Código | Significado                     |
+⚠️ Error Codes
+| Code | Meaning                     |
 |--------|---------------------------------|
-| `200`  | Éxito                           |
-| `201`  | Creado                          |
-| `400`  | Bad Request - Error de validación|
-| `401`  | Unauthorized - No autenticado   |
-| `404`  | Not Found - Recurso no encontrado|
+| `200`  | Success                           |
+| `201`  | Created                          |
+| `400`  | Bad Request - Validation error|
+| `401`  | Unauthorized - Not authenticated   |
+| `404`  | Not Found - Resource not found|
 | `429`  | Too Many Requests - Rate limit  |
 | `500`  | Internal Server Error           |
 
 🛡️ Rate Limits
-| Endpoint | Límite      | Ventana |
+| Endpoint | Limit      | Window |
 |----------|-------------|---------|
 | General  | 100 req     | 15 min  |
 | Login    | 5 req       | 15 min  |
-| Registro | 3 req       | 1 hora  |
+| Registration | 3 req       | 1 hour  |
 
-📝 Ejemplos con cURL
-Registro
+📝 cURL Examples
+Registration
 bashcurl -X POST http://localhost:5000/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
     "password": "Password123",
-    "username": "usuario123",
-    "name": "Usuario Test"
+    "username": "johndoe",
+    "name": "User Test"
   }'
 Login
 bashcurl -X POST http://localhost:5000/api/auth/login \
@@ -278,20 +278,20 @@ bashcurl -X POST http://localhost:5000/api/auth/login \
     "email": "user@example.com",
     "password": "Password123"
   }'
-Crear Ejercicio
+Create Exercise
 bashcurl -X POST http://localhost:5000/api/exercises \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer TU_TOKEN" \
   -d '{
-    "title": "Suma de números",
+    "title": "Sum of numbers",
     "description": "...",
     "difficulty": "easy",
     "language": "javascript",
     "testCases": [...]
   }'
 
-🔗 Recursos Adicionales
+🔗 Additional Resources
 
-Autenticación
+Authentication
 Rate Limiting
-Seguridad
+Security

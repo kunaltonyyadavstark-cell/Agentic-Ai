@@ -2,17 +2,17 @@ import jwt from 'jsonwebtoken';
 import type { JWTPayload } from '../types';
 
 /**
- * Servicio para gestionar JSON Web Tokens
+ * Service for managing JSON Web Tokens.
  */
 export class JWTService {
   private static readonly SECRET = process.env.JWT_SECRET || 'default-secret-change-in-production';
   private static readonly EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
 
   /**
-   * Genera un token JWT para un usuario
+   * Generate a JWT for a user.
    * 
-   * @param payload - Datos a incluir en el token
-   * @returns Token JWT firmado
+   * @param payload - Data to include in the token
+   * @returns A signed JWT
    * 
    * @example
    * const token = JWTService.generateToken({
@@ -29,18 +29,18 @@ export class JWTService {
   }
 
   /**
-   * Verifica y decodifica un token JWT
+   * Verify and decode a JWT.
    * 
-   * @param token - Token a verificar
-   * @returns Payload del token si es válido
-   * @throws Error si el token es inválido o expiró
+   * @param token - Token to verify
+   * @returns The token payload if valid.
+   * @throws Error if the token is invalid or expired.
    * 
    * @example
    * try {
    *   const payload = JWTService.verifyToken(token);
    *   console.log('User ID:', payload.userId);
    * } catch (error) {
-   *   console.error('Token inválido');
+   *   console.error('Invalid token');
    * }
    */
   static verifyToken(token: string): JWTPayload {
@@ -49,21 +49,21 @@ export class JWTService {
       return decoded;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
-        throw new Error('Token expirado');
+        throw new Error('Token expired');
       }
       if (error instanceof jwt.JsonWebTokenError) {
-        throw new Error('Token inválido');
+        throw new Error('Invalid token');
       }
-      throw new Error('Error verificando token');
+      throw new Error('Error verifying token');
     }
   }
 
   /**
-   * Decodifica un token sin verificar (útil para debugging)
-   * NO usar para autenticación
+   * Decode a token without verifying it (useful for debugging).
+   * Do NOT use for authentication.
    * 
-   * @param token - Token a decodificar
-   * @returns Payload del token sin verificar
+   * @param token - Token to decode
+   * @returns Token payload without verification
    */
   static decodeToken(token: string): JWTPayload | null {
     try {

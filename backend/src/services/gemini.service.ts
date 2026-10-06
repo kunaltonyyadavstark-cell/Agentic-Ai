@@ -1,7 +1,7 @@
 /**
- * Servicio de Gemini AI
+ * Gemini AI service
  * 
- * Maneja la comunicación con Google Gemini API
+ * Handles communication with the Google Gemini API.
  */
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
@@ -20,33 +20,33 @@ class GeminiService {
   private model: any = null;
 
   /**
-   * Inicializar el servicio (lazy initialization)
+   * Initialize the service (lazy initialization).
    */
   private initialize(): void {
-    if (this.genAI) return; // Ya inicializado
+    if (this.genAI) return; // Already initialized.
 
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      logger.error('❌ GEMINI_API_KEY no configurada');
-      throw new Error('GEMINI_API_KEY no está configurada en las variables de entorno');
+      logger.error('❌ GEMINI_API_KEY is not configured');
+      throw new Error('GEMINI_API_KEY is not configured in the environment variables');
     }
 
     this.genAI = new GoogleGenerativeAI(apiKey);
     this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-    logger.info('✅ Gemini Service inicializado con gemini-2.5-flash');
+    logger.info('✅ Gemini service initialized with gemini-2.5-flash');
   }
 
   /**
-   * Generar solución de código
+   * Generate a code solution.
    */
   async generateSolution(request: GenerateSolutionRequest): Promise<GenerateSolutionResponse> {
-    this.initialize(); // ✅ Inicializar aquí
+    this.initialize(); // ✅ Initialize here.
 
     const startTime = Date.now();
 
-    logger.info('🤖 Generando solución con Gemini', {
+    logger.info('🤖 Generating solution with Gemini', {
       language: request.language,
       difficulty: request.difficulty,
       problemLength: request.problem.length,
@@ -59,14 +59,14 @@ class GeminiService {
 
       const duration = Date.now() - startTime;
 
-      logger.info('✅ Solución generada exitosamente', {
+      logger.info('✅ Solution generated successfully', {
         duration: `${duration}ms`,
         responseLength: response.length,
       });
 
       return this.parseSolutionResponse(response, request.language);
     } catch (error) {
-      logger.error('❌ Error generando solución', {
+      logger.error('❌ Error generating solution', {
         error: (error as Error).message,
         language: request.language,
       });
@@ -75,14 +75,14 @@ class GeminiService {
   }
 
   /**
-   * Analizar código del usuario
+   * Analyze the user's code.
    */
   async analyzeCode(request: AnalyzeCodeRequest): Promise<AnalyzeCodeResponse> {
-    this.initialize(); // ✅ Inicializar aquí
+    this.initialize(); // ✅ Initialize here.
 
     const startTime = Date.now();
 
-    logger.info('🔍 Analizando código con Gemini', {
+    logger.info('🔍 Analyzing code with Gemini', {
       language: request.language,
       codeLength: request.code.length,
       focusAreas: request.focusAreas,
@@ -95,14 +95,14 @@ class GeminiService {
 
       const duration = Date.now() - startTime;
 
-      logger.info('✅ Análisis completado', {
+      logger.info('✅ Analysis completed', {
         duration: `${duration}ms`,
         language: request.language,
       });
 
       return this.parseAnalysisResponse(response);
     } catch (error) {
-      logger.error('❌ Error analizando código', {
+      logger.error('❌ Error analyzing code', {
         error: (error as Error).message,
         language: request.language,
       });
@@ -111,14 +111,14 @@ class GeminiService {
   }
 
   /**
-   * Explicar concepto o código
+   * Explain a concept or code.
    */
   async explain(request: ExplainRequest): Promise<ExplainResponse> {
-    this.initialize(); // ✅ Inicializar aquí
+    this.initialize(); // ✅ Initialize here.
 
     const startTime = Date.now();
 
-    logger.info('📚 Generando explicación con Gemini', {
+    logger.info('📚 Generating explanation with Gemini', {
       topic: request.topic,
       level: request.level,
     });
@@ -130,14 +130,14 @@ class GeminiService {
 
       const duration = Date.now() - startTime;
 
-      logger.info('✅ Explicación generada', {
+      logger.info('✅ Explanation generated', {
         duration: `${duration}ms`,
         topicLength: request.topic.length,
       });
 
       return this.parseExplanationResponse(response);
     } catch (error) {
-      logger.error('❌ Error generando explicación', {
+      logger.error('❌ Error generating explanation', {
         error: (error as Error).message,
         topic: request.topic,
       });
@@ -145,15 +145,15 @@ class GeminiService {
     }
   }
   /**
-  * Generar contenido genérico con Gemini
-  * Útil para casos de uso no específicos
+  * Generate generic content with Gemini.
+  * Useful for non-specific use cases.
   */
   async generateContent(prompt: string): Promise<string> {
     this.initialize();
 
     const startTime = Date.now();
 
-    logger.info('🤖 Generando contenido con Gemini', {
+    logger.info('🤖 Generating content with Gemini', {
       promptLength: prompt.length,
     });
 
@@ -163,14 +163,14 @@ class GeminiService {
 
       const duration = Date.now() - startTime;
 
-      logger.info('✅ Contenido generado exitosamente', {
+      logger.info('✅ Content generated successfully', {
         duration: `${duration}ms`,
         responseLength: response.length,
       });
 
       return response;
     } catch (error) {
-      logger.error('❌ Error generando contenido', {
+      logger.error('❌ Error generating content', {
         error: (error as Error).message,
       });
       throw error;
@@ -178,61 +178,61 @@ class GeminiService {
   }
 
   private buildSolutionPrompt(request: GenerateSolutionRequest): string {
-    let prompt = `Eres un tutor de programación experto. Genera una solución completa para el siguiente problema:\n\n`;
-    prompt += `Problema: ${request.problem}\n`;
-    prompt += `Lenguaje: ${request.language}\n`;
+    let prompt = `You are an expert programming tutor. Generate a complete solution to the following problem:\n\n`;
+    prompt += `Problem: ${request.problem}\n`;
+    prompt += `Language: ${request.language}\n`;
 
     if (request.difficulty) {
-      prompt += `Dificultad: ${request.difficulty}\n`;
+      prompt += `Difficulty: ${request.difficulty}\n`;
     }
 
     if (request.hints && request.hints.length > 0) {
-      prompt += `Pistas: ${request.hints.join(', ')}\n`;
+      prompt += `Hints: ${request.hints.join(', ')}\n`;
     }
 
-    prompt += `\nPor favor proporciona:\n`;
-    prompt += `1. SOLUCIÓN: El código completo y funcional\n`;
-    prompt += `2. EXPLICACIÓN: Cómo funciona la solución paso a paso\n`;
-    prompt += `3. COMPLEJIDAD: Análisis de complejidad temporal y espacial\n`;
-    prompt += `4. ALTERNATIVAS: Otros enfoques posibles (opcional)\n\n`;
-    prompt += `Formatea la respuesta claramente con estas secciones.`;
+    prompt += `\nPlease provide:\n`;
+    prompt += `1. SOLUTION: Complete, working code\n`;
+    prompt += `2. EXPLANATION: How the solution works, step by step\n`;
+    prompt += `3. COMPLEXITY: Time and space complexity analysis\n`;
+    prompt += `4. ALTERNATIVES: Other possible approaches (optional)\n\n`;
+    prompt += `Format the response clearly using these sections.`;
 
     return prompt;
   }
 
   private buildAnalysisPrompt(request: AnalyzeCodeRequest): string {
-    let prompt = `Eres un experto en revisión de código. Analiza el siguiente código:\n\n`;
+    let prompt = `You are an expert code reviewer. Analyze the following code:\n\n`;
     prompt += `\`\`\`${request.language}\n${request.code}\n\`\`\`\n\n`;
 
     if (request.focusAreas && request.focusAreas.length > 0) {
-      prompt += `Enfócate especialmente en: ${request.focusAreas.join(', ')}\n\n`;
+      prompt += `Focus especially on: ${request.focusAreas.join(', ')}\n\n`;
     }
 
-    prompt += `Proporciona:\n`;
-    prompt += `1. ISSUES: Problemas encontrados (errores, warnings, sugerencias)\n`;
-    prompt += `2. SUGGESTIONS: Sugerencias de mejora\n`;
-    prompt += `3. COMPLEXITY: Análisis de complejidad\n`;
-    prompt += `4. RATING: Calificación del código (1-10)\n`;
-    prompt += `5. SUMMARY: Resumen del análisis\n\n`;
-    prompt += `Sé específico y constructivo.`;
+    prompt += `Provide:\n`;
+    prompt += `1. ISSUES: Problems found (errors, warnings, suggestions)\n`;
+    prompt += `2. SUGGESTIONS: Suggestions for improvement\n`;
+    prompt += `3. COMPLEXITY: Complexity analysis\n`;
+    prompt += `4. RATING: Code rating (1-10)\n`;
+    prompt += `5. SUMMARY: Summary of the analysis\n\n`;
+    prompt += `Be specific and constructive.`;
 
     return prompt;
   }
 
   private buildExplanationPrompt(request: ExplainRequest): string {
-    let prompt = `Eres un tutor de programación. Explica el siguiente tema:\n\n`;
-    prompt += `Tema: ${request.topic}\n`;
-    prompt += `Nivel: ${request.level || 'intermedio'}\n\n`;
+    let prompt = `You are a programming tutor. Explain the following topic:\n\n`;
+    prompt += `Topic: ${request.topic}\n`;
+    prompt += `Level: ${request.level || 'intermediate'}\n\n`;
 
     if (request.includeExamples) {
-      prompt += `Incluye ejemplos de código prácticos.\n\n`;
+      prompt += `Include practical code examples.\n\n`;
     }
 
-    prompt += `Proporciona:\n`;
-    prompt += `1. EXPLICACIÓN: Clara y concisa\n`;
-    prompt += `2. EJEMPLOS: Código de ejemplo (si aplica)\n`;
-    prompt += `3. TEMAS RELACIONADOS: Conceptos relacionados\n`;
-    prompt += `4. RECURSOS: Recursos adicionales para aprender más\n`;
+    prompt += `Provide:\n`;
+    prompt += `1. EXPLANATION: Clear and concise\n`;
+    prompt += `2. EXAMPLES: Example code (if applicable)\n`;
+    prompt += `3. RELATED TOPICS: Related concepts\n`;
+    prompt += `4. RESOURCES: Additional resources for further learning\n`;
 
     return prompt;
   }
@@ -242,11 +242,11 @@ class GeminiService {
     language: string
   ): GenerateSolutionResponse {
     return {
-      solution: this.extractSection(response, 'SOLUCIÓN') || response,
-      explanation: this.extractSection(response, 'EXPLICACIÓN') || '',
+      solution: this.extractSection(response, 'SOLUTION') || response,
+      explanation: this.extractSection(response, 'EXPLANATION') || '',
       language,
-      complexity: this.extractSection(response, 'COMPLEJIDAD'),
-      alternativeApproaches: this.extractSection(response, 'ALTERNATIVAS')?.split('\n'),
+      complexity: this.extractSection(response, 'COMPLEXITY'),
+      alternativeApproaches: this.extractSection(response, 'ALTERNATIVES')?.split('\n'),
     };
   }
 
@@ -262,10 +262,10 @@ class GeminiService {
 
   private parseExplanationResponse(response: string): ExplainResponse {
     return {
-      explanation: this.extractSection(response, 'EXPLICACIÓN') || response,
-      examples: this.extractSection(response, 'EJEMPLOS')?.split('\n'),
-      relatedTopics: this.extractSection(response, 'TEMAS RELACIONADOS')?.split('\n'),
-      resources: this.extractSection(response, 'RECURSOS')?.split('\n'),
+      explanation: this.extractSection(response, 'EXPLANATION') || response,
+      examples: this.extractSection(response, 'EXAMPLES')?.split('\n'),
+      relatedTopics: this.extractSection(response, 'RELATED TOPICS')?.split('\n'),
+      resources: this.extractSection(response, 'RESOURCES')?.split('\n'),
     };
   }
 
@@ -281,5 +281,5 @@ class GeminiService {
   }
 }
 
-// Exportar instancia singleton
+// Export the singleton instance.
 export const geminiService = new GeminiService();

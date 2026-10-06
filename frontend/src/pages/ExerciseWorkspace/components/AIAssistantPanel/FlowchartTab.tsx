@@ -21,7 +21,7 @@ export default function FlowchartTab({ exerciseId }: FlowchartTabProps) {
   const { data, isLoading, error } = useQuery({
     queryKey: ['exercise-flowchart', exerciseId],
     queryFn: () => aiService.generateFlowchart(exerciseId),
-    staleTime: 30 * 60 * 1000, // 30 minutos (no cambia frecuentemente)
+    staleTime: 30 * 60 * 1000, // 30 minutes (does not change frequently)
   })as any;
 
   // Initialize Mermaid

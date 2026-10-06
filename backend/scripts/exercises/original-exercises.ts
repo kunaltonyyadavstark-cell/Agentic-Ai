@@ -1,5 +1,5 @@
 // backend/scripts/exercises/original-exercises.ts
-// Ejercicios originales de AgentLogic Academy
+// Original AgentLogic Academy exercises.
 
 export const originalExercises = [
   // ========================================

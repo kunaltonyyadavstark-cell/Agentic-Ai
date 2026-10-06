@@ -5,18 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Code2, Calendar, ArrowRight } from 'lucide-react';
 import { Exercise } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
-import { es } from 'date-fns/locale';
 
 interface ExerciseCardProps {
   exercise: Exercise;
 }
 
 /**
- * Tarjeta de ejercicio
- * Muestra información resumida y link al detalle
+ * Exercise card
+ * Displays summary information and link to detail
  */
 export default function ExerciseCard({ exercise }: ExerciseCardProps) {
-  // Badge color por dificultad
+  // Badge color by difficulty
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'easy':
@@ -30,15 +29,15 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
     }
   };
 
-  // Traducir dificultad
+  // Difficulty label
   const getDifficultyLabel = (difficulty: string) => {
     switch (difficulty) {
       case 'easy':
-        return 'Fácil';
+        return 'Easy';
       case 'medium':
-        return 'Medio';
+        return 'Medium';
       case 'hard':
-        return 'Difícil';
+        return 'Hard';
       default:
         return difficulty;
     }
@@ -63,20 +62,19 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-3">
-        {/* Lenguaje */}
+        {/* Language */}
         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
           <Code2 className="h-4 w-4" />
           <span className="font-medium">{exercise.language}</span>
         </div>
 
-        {/* Fecha */}
+        {/* Date */}
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-500">
           <Calendar className="h-4 w-4" />
           <span>
-            Creado{' '}
+            Created{' '}
             {formatDistanceToNow(new Date(exercise.createdAt), {
               addSuffix: true,
-              locale: es,
             })}
           </span>
         </div>
@@ -101,7 +99,7 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
       <CardFooter>
         <Button asChild className="w-full" variant="default">
           <Link to={`/exercises/${exercise._id}`}>
-            Ver Ejercicio <ArrowRight className="ml-2 h-4 w-4" />
+            View Exercise <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>

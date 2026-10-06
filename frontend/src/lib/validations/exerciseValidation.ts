@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 // Test Case schema
 export const testCaseSchema = z.object({
-  input: z.array(z.any()).min(1, 'Debe tener al menos un input'),
+  input: z.array(z.any()).min(1, 'Must have at least one input'),
   expectedOutput: z.any(),
   description: z.string().optional(),
 });
@@ -13,57 +13,57 @@ export const testCaseSchema = z.object({
 export const createExerciseSchema = z.object({
   title: z
     .string()
-    .min(3, 'El título debe tener al menos 3 caracteres')
-    .max(100, 'El título no puede exceder 100 caracteres'),
+    .min(3, 'Title must be at least 3 characters')
+    .max(100, 'Title cannot exceed 100 characters'),
   
   description: z
     .string()
-    .min(10, 'La descripción debe tener al menos 10 caracteres')
-    .max(2000, 'La descripción no puede exceder 2000 caracteres'),
+    .min(10, 'Description must be at least 10 characters')
+    .max(2000, 'Description cannot exceed 2000 characters'),
   
   difficulty: z
     .string()
-    .min(1, 'Debes seleccionar una dificultad')
+    .min(1, 'You must select a difficulty')
     .refine((val) => ['easy', 'medium', 'hard'].includes(val), {
-      message: 'La dificultad debe ser easy, medium o hard',
+      message: 'Difficulty must be easy, medium, or hard',
     }),
   
   category: z
     .string()
-    .min(1, 'Debes seleccionar una categoría')
+    .min(1, 'You must select a category')
     .refine((val) => ['arrays', 'strings', 'loops', 'data-structures', 'algorithms', 'logic-math'].includes(val), {
-      message: 'Categoría no válida',
+      message: 'Invalid category',
     }),
 
   
   language: z
     .string()
-    .min(2, 'Debes seleccionar un lenguaje'),
+    .min(2, 'You must select a language'),
   
   tags: z
     .array(z.string())
-    .min(1, 'Debes añadir al menos una etiqueta')
-    .max(10, 'No puedes añadir más de 10 etiquetas'),
+    .min(1, 'You must add at least one tag')
+    .max(10, 'You cannot add more than 10 tags'),
   
   testCases: z
     .array(testCaseSchema)
-    .min(1, 'Debes añadir al menos un caso de prueba')
-    .max(20, 'No puedes añadir más de 20 casos de prueba'),
+    .min(1, 'You must add at least one test case')
+    .max(20, 'You cannot add more than 20 test cases'),
   
   solution: z
     .string()
-    .min(1, 'La solución es obligatoria')
-    .max(10000, 'La solución no puede exceder 10000 caracteres'),
+    .min(1, 'Solution is required')
+    .max(10000, 'Solution cannot exceed 10000 characters'),
   
   starterCode: z
     .string()
-    .max(10000, 'El código inicial no puede exceder 10000 caracteres')
+    .max(10000, 'Starter code cannot exceed 10000 characters')
     .optional()
     .or(z.literal('')),
   
   hints: z
     .array(z.string().min(1))
-    .max(10, 'No puedes añadir más de 10 pistas')
+    .max(10, 'You cannot add more than 10 hints')
     .optional(),
 });
 

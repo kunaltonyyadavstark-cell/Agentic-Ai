@@ -1,5 +1,5 @@
 /**
- * Tests para validación de ENV
+ * Tests for environment validation
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
@@ -9,7 +9,7 @@ describe('Environment Config', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
-    // Resetear env para cada test
+    // Reset the environment for each test.
     process.env = { ...originalEnv };
   });
 
@@ -18,7 +18,7 @@ describe('Environment Config', () => {
   });
 
   describe('getEnvConfig', () => {
-    it('debe retornar configuración con valores', () => {
+    it('returns configuration with values', () => {
       const config = getEnvConfig();
       
       expect(config).toBeDefined();
@@ -26,7 +26,7 @@ describe('Environment Config', () => {
       expect(config.PORT).toBeDefined();
     });
 
-    it('debe usar valores por defecto si no existen', () => {
+    it('uses default values when none are set', () => {
       delete process.env.NODE_ENV;
       delete process.env.PORT;
       

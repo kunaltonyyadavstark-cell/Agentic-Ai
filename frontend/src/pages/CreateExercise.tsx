@@ -20,7 +20,7 @@ const LANGUAGES = ['JavaScript', 'TypeScript', 'Python', 'Java', 'C++', 'C#', 'G
 export default function CreateExercise() {
   const navigate = useNavigate();
 
-  // Estado del formulario
+  // Form state
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [difficulty, setDifficulty] = useState('easy');
@@ -35,28 +35,28 @@ export default function CreateExercise() {
     { input: '', expectedOutput: '', description: '' }
   ]);
 
-  // Mutation para crear ejercicio
+  // Mutation to create exercise
   const createMutation = useMutation({
     mutationFn: (data: any) => exerciseService.create(data),
     onSuccess: (data) => {
-      toast.success('¡Ejercicio creado exitosamente!');
+      toast.success('Exercise created successfully!');
       navigate(`/exercises/${data._id}`);
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Error al crear el ejercicio');
+      toast.error(error.response?.data?.message || 'Failed to create exercise');
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validación básica
+    // Basic validation
     if (!title || !description || tags.length === 0 || testCases.length === 0 || !solution) {
-      toast.error('Por favor completa todos los campos obligatorios');
+      toast.error('Please fill in all required fields');
       return;
     }
 
-    // Parsear test cases
+    // Parse test cases
     const parsedTestCases = testCases.map(tc => ({
       input: JSON.parse(tc.input || '[]'),
       expectedOutput: JSON.parse(tc.expectedOutput || 'null'),
@@ -124,24 +124,24 @@ export default function CreateExercise() {
       <div>
         <Button variant="ghost" size="sm" onClick={() => navigate('/exercises')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Volver a ejercicios
+          Back to exercises
         </Button>
-        <h1 className="text-3xl font-bold mt-2">Crear Ejercicio</h1>
-        <p className="text-muted-foreground mt-1">Añade un nuevo ejercicio a la plataforma</p>
+        <h1 className="text-3xl font-bold mt-2">Create Exercise</h1>
+        <p className="text-muted-foreground mt-1">Add a new exercise to the platform</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Información básica */}
+        {/* Basic information */}
         <Card>
           <CardHeader>
-            <CardTitle>Información Básica</CardTitle>
+            <CardTitle>Basic Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Título *</Label>
+              <Label htmlFor="title">Title *</Label>
               <Input
                 id="title"
-                placeholder="Ej: Suma de dos números"
+                placeholder="e.g. Sum of Two Numbers"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
@@ -149,10 +149,10 @@ export default function CreateExercise() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Descripción *</Label>
+              <Label htmlFor="description">Description *</Label>
               <Textarea
                 id="description"
-                placeholder="Describe el problema..."
+                placeholder="Describe the problem..."
                 rows={5}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -162,21 +162,21 @@ export default function CreateExercise() {
 
             <div className="grid md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label>Dificultad *</Label>
+                <Label>Difficulty *</Label>
                 <Select value={difficulty} onValueChange={setDifficulty}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="easy">Fácil</SelectItem>
-                    <SelectItem value="medium">Medio</SelectItem>
-                    <SelectItem value="hard">Difícil</SelectItem>
+                    <SelectItem value="easy">Easy</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="hard">Hard</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label>Lenguaje *</Label>
+                <Label>Language *</Label>
                 <Select value={language} onValueChange={setLanguage}>
                   <SelectTrigger>
                     <SelectValue />
@@ -192,7 +192,7 @@ export default function CreateExercise() {
               </div>
 
               <div className="space-y-2">
-                <Label>Categoría *</Label>
+                <Label>Category *</Label>
                 <Select value={category} onValueChange={setCategory}>
                   <SelectTrigger>
                     <SelectValue />
@@ -200,21 +200,20 @@ export default function CreateExercise() {
                   <SelectContent>
                     <SelectItem value="arrays">Arrays</SelectItem>
                     <SelectItem value="strings">Strings</SelectItem>
-                    <SelectItem value="loops">Bucles</SelectItem>
-                    <SelectItem value="data-structures">Estructuras de Datos</SelectItem>
-                    <SelectItem value="algorithms">Algoritmos</SelectItem>
-                    <SelectItem value="logic-math">Lógica Matemática</SelectItem>
+                    <SelectItem value="loops">Loops</SelectItem>
+                    <SelectItem value="data-structures">Data Structures</SelectItem>
+                    <SelectItem value="algorithms">Algorithms</SelectItem>
+                    <SelectItem value="logic-math">Logic & Math</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
-
             <div className="space-y-2">
-              <Label>Etiquetas *</Label>
+              <Label>Tags *</Label>
               <div className="flex gap-2">
                 <Input
-                  placeholder="Añadir etiqueta"
+                  placeholder="Add a tag"
                   value={tagInput}
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={(e) => {
@@ -248,17 +247,17 @@ export default function CreateExercise() {
           </CardContent>
         </Card>
 
-        {/* Casos de prueba */}
+        {/* Test cases */}
         <Card>
           <CardHeader>
-            <CardTitle>Casos de Prueba</CardTitle>
-            <CardDescription>Usa formato JSON. Ej: [1, 2] para input, 3 para output</CardDescription>
+            <CardTitle>Test Cases</CardTitle>
+            <CardDescription>Use JSON format. e.g. [1, 2] for input, 3 for output</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {testCases.map((tc, index) => (
               <div key={index} className="p-4 border rounded-lg space-y-3">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-medium">Caso #{index + 1}</h4>
+                  <h4 className="font-medium">Case #{index + 1}</h4>
                   {testCases.length > 1 && (
                     <Button
                       type="button"
@@ -282,7 +281,7 @@ export default function CreateExercise() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Output esperado</Label>
+                    <Label>Expected output</Label>
                     <Textarea
                       placeholder='3'
                       rows={2}
@@ -293,9 +292,9 @@ export default function CreateExercise() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Descripción (opcional)</Label>
+                  <Label>Description (optional)</Label>
                   <Input
-                    placeholder="Ej: Suma básica"
+                    placeholder="e.g. Basic addition"
                     value={tc.description}
                     onChange={(e) => updateTestCase(index, 'description', e.target.value)}
                   />
@@ -305,19 +304,19 @@ export default function CreateExercise() {
 
             <Button type="button" variant="outline" onClick={addTestCase} className="w-full">
               <Plus className="mr-2 h-4 w-4" />
-              Añadir caso de prueba
+              Add test case
             </Button>
           </CardContent>
         </Card>
 
-        {/* Código */}
+        {/* Code */}
         <Card>
           <CardHeader>
-            <CardTitle>Código</CardTitle>
+            <CardTitle>Code</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="solution">Solución * (código completo)</Label>
+              <Label htmlFor="solution">Solution * (full code)</Label>
               <Textarea
                 id="solution"
                 placeholder="def sum(a, b):&#10;    return a + b"
@@ -330,10 +329,10 @@ export default function CreateExercise() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="starterCode">Código inicial (opcional)</Label>
+              <Label htmlFor="starterCode">Starter code (optional)</Label>
               <Textarea
                 id="starterCode"
-                placeholder="def sum(a, b):&#10;    # Tu código aquí&#10;    pass"
+                placeholder="def sum(a, b):&#10;    # Write your code here&#10;    pass"
                 rows={8}
                 className="font-mono text-sm"
                 value={starterCode}
@@ -343,16 +342,16 @@ export default function CreateExercise() {
           </CardContent>
         </Card>
 
-        {/* Pistas */}
+        {/* Hints */}
         <Card>
           <CardHeader>
-            <CardTitle>Pistas (Opcional)</CardTitle>
+            <CardTitle>Hints (Optional)</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {hints.map((hint, index) => (
               <div key={index} className="flex gap-2">
                 <Input
-                  placeholder={`Pista #${index + 1}`}
+                  placeholder={`Hint #${index + 1}`}
                   value={hint}
                   onChange={(e) => updateHint(index, e.target.value)}
                 />
@@ -369,12 +368,12 @@ export default function CreateExercise() {
 
             <Button type="button" variant="outline" onClick={addHint} className="w-full">
               <Plus className="mr-2 h-4 w-4" />
-              Añadir pista
+              Add hint
             </Button>
           </CardContent>
         </Card>
 
-        {/* Botones de acción */}
+        {/* Action buttons */}
         <div className="flex gap-3 justify-end">
           <Button
             type="button"
@@ -382,15 +381,15 @@ export default function CreateExercise() {
             onClick={() => navigate('/exercises')}
             disabled={createMutation.isPending}
           >
-            Cancelar
+            Cancel
           </Button>
           <Button type="submit" disabled={createMutation.isPending}>
             {createMutation.isPending ? (
-              <>Creando...</>
+              <>Creating...</>
             ) : (
               <>
                 <Save className="mr-2 h-4 w-4" />
-                Crear Ejercicio
+                Create Exercise
               </>
             )}
           </Button>

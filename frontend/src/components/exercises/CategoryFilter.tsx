@@ -25,7 +25,7 @@ interface CategoryFilterProps {
 
 export function CategoryFilter({ selected, onChange }: CategoryFilterProps) {
   const handleCategoryClick = (category: ExerciseCategory) => {
-    // Si ya está seleccionada, la deseleccionamos
+    // If already selected, deselect it
     if (selected === category) {
       onChange(undefined);
     } else {

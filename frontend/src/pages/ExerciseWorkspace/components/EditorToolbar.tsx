@@ -23,20 +23,20 @@ export default function EditorToolbar({
   
   const handleCopy = () => {
     onCopy();
-    toast.success('Código copiado al portapapeles');
+    toast.success('Code copied to clipboard');
   };
 
   const handleClear = () => {
-    if (window.confirm('¿Estás seguro de borrar todo el código?')) {
+    if (window.confirm('Are you sure you want to clear all code?')) {
       onClear();
-      toast.info('Código borrado');
+      toast.info('Code cleared');
     }
   };
 
   const handleReset = () => {
-    if (window.confirm('¿Estás seguro de resetear al código inicial?')) {
+    if (window.confirm('Are you sure you want to reset to the starter code?')) {
       onReset();
-      toast.info('Código reseteado');
+      toast.info('Code reset');
     }
   };
 
@@ -48,7 +48,7 @@ export default function EditorToolbar({
         </Badge>
         {hasUnsavedChanges && (
           <Badge variant="secondary" className="text-xs">
-            <span className="mr-1">●</span> Sin guardar
+            <span className="mr-1">●</span> Unsaved
           </Badge>
         )}
       </div>
@@ -58,7 +58,7 @@ export default function EditorToolbar({
           variant="ghost"
           size="sm"
           onClick={handleCopy}
-          title="Copiar código"
+          title="Copy code"
         >
           <Copy className="h-4 w-4" />
         </Button>
@@ -67,7 +67,7 @@ export default function EditorToolbar({
           variant="ghost"
           size="sm"
           onClick={handleReset}
-          title="Resetear al código inicial"
+          title="Reset to starter code"
         >
           <RotateCcw className="h-4 w-4" />
         </Button>
@@ -76,7 +76,7 @@ export default function EditorToolbar({
           variant="ghost"
           size="sm"
           onClick={handleClear}
-          title="Borrar todo"
+          title="Clear all"
         >
           <Trash2 className="h-4 w-4" />
         </Button>

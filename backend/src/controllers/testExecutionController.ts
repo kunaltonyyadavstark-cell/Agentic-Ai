@@ -1,7 +1,7 @@
 // backend/src/controllers/testExecutionController.ts
 
 import { Request, Response } from 'express';
-// import { VM } from 'vm2'; // ELIMINADO POR SEGURIDAD
+// import { VM } from 'vm2'; // REMOVED FOR SECURITY
 
 import { spawn } from 'child_process';
 import logger from '../config/logger.config';
@@ -42,7 +42,7 @@ const executeJavaScript = async (_code: string, testCase: TestCase, _functionNam
     input: testCase.input,
     expectedOutput: testCase.expectedOutput,
     actualOutput: null,
-    error: 'La ejecución de JavaScript está temporalmente deshabilitada por motivos de seguridad (vulnerabilidad detectada en sandbox). Use Python por ahora.',
+    error: 'JavaScript execution is tembyarily disabled for security reasons (a sandbox vulnerability was detected). Use Python for now.',
     executionTime: Date.now() - startTime,
   };
 };

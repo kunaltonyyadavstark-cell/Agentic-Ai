@@ -3,20 +3,20 @@ import { Exercise } from '../../models/Exercise';
 import type { CreateExerciseDTO } from '../../types';
 
 describe.skip('Exercise Model', () => {
-  describe('Crear ejercicio', () => {
-    it('debe crear un ejercicio válido', async () => {
+  describe('Create exercise', () => {
+    it('creates a valid exercise', async () => {
       const exerciseData: CreateExerciseDTO = {
-        title: 'Suma de dos números',
-        description: 'Escribe una función que sume dos números enteros y devuelva el resultado',
+        title: 'Sum of two numbers',
+        description: 'Write a function that adds two integers and returns the result',
         language: 'python',
         difficulty: 'easy',
-        tags: ['matemáticas', 'básico']
+        tags: ['math', 'beginner']
       };
 
       const exercise = await Exercise.create(exerciseData);
 
       expect(exercise._id).toBeDefined();
-      expect(exercise.title).toBe('Suma de dos números');
+      expect(exercise.title).toBe('Sum of two numbers');
       expect(exercise.language).toBe('python');
       expect(exercise.difficulty).toBe('easy');
       expect(exercise.tags).toHaveLength(2);
@@ -24,17 +24,17 @@ describe.skip('Exercise Model', () => {
       expect(exercise.updatedAt).toBeInstanceOf(Date);
     });
 
-    it('debe crear ejercicio con testCases', async () => {
+    it('creates an exercise with test cases', async () => {
       const exerciseData: CreateExerciseDTO = {
-        title: 'Suma de números',
-        description: 'Función para sumar dos números',
+        title: 'Sum of numbers',
+        description: 'Function to add two numbers',
         language: 'javascript',
         difficulty: 'easy',
         testCases: [
           {
             input: '2, 3',
             expectedOutput: '5',
-            description: 'Suma de 2 y 3'
+            description: 'Sum of 2 and 3'
           }
         ]
       };
@@ -47,10 +47,10 @@ describe.skip('Exercise Model', () => {
     });
   });
 
-  describe('Validaciones', () => {
-    it('debe fallar si falta el título', async () => {
+  describe('Validation', () => {
+    it('fails if the title is missing', async () => {
       const exerciseData = {
-        description: 'Descripción válida con más de 10 caracteres',
+        description: 'Valid description with more than 10 characters',
         language: 'python',
         difficulty: 'easy'
       };
@@ -58,10 +58,10 @@ describe.skip('Exercise Model', () => {
       await expect(Exercise.create(exerciseData)).rejects.toThrow();
     });
 
-    it('debe fallar si el título es muy corto', async () => {
+    it('fails if the title is too short', async () => {
       const exerciseData = {
         title: 'AB',
-        description: 'Descripción válida con más de 10 caracteres',
+        description: 'Valid description with more than 10 characters',
         language: 'python',
         difficulty: 'easy'
       };
@@ -69,10 +69,10 @@ describe.skip('Exercise Model', () => {
       await expect(Exercise.create(exerciseData)).rejects.toThrow();
     });
 
-    it('debe fallar si la descripción es muy corta', async () => {
+    it('fails if the description is too short', async () => {
       const exerciseData = {
-        title: 'Título válido',
-        description: 'Corta',
+        title: 'Valid title',
+        description: 'Short',
         language: 'python',
         difficulty: 'easy'
       };
@@ -80,10 +80,10 @@ describe.skip('Exercise Model', () => {
       await expect(Exercise.create(exerciseData)).rejects.toThrow();
     });
 
-    it('debe fallar con dificultad inválida', async () => {
+    it('fails with invalid difficulty', async () => {
       const exerciseData = {
-        title: 'Título válido',
-        description: 'Descripción válida con más de 10 caracteres',
+        title: 'Valid title',
+        description: 'Valid description with more than 10 characters',
         language: 'python',
         difficulty: 'extreme'
       };
@@ -92,74 +92,74 @@ describe.skip('Exercise Model', () => {
     });
   });
 
-  describe('Búsqueda y filtrado', () => {
-    it('debe encontrar ejercicios por dificultad', async () => {
+  describe('Search and filtering', () => {
+    it('finds exercises by difficulty', async () => {
       await Exercise.create({
-        title: 'Suma fácil',
-        description: 'Ejercicio fácil de suma con números enteros',
+        title: 'Easy addition',
+        description: 'Easy integer addition exercise',
         language: 'python',
         difficulty: 'easy',
-        tags: ['matemáticas']
+        tags: ['math']
       });
 
       const easyExercises = await Exercise.find({ difficulty: 'easy' });
       expect(easyExercises.length).toBeGreaterThanOrEqual(1);
     });
 
-    it('debe encontrar ejercicios por lenguaje', async () => {
+    it('finds exercises by language', async () => {
       await Exercise.create({
-        title: 'Algoritmo Python',
-        description: 'Ejercicio en Python con suficiente descripción',
+        title: 'Python Algorithm',
+        description: 'Python exercise with a sufficiently long description',
         language: 'python',
         difficulty: 'medium',
-        tags: ['algoritmos']
+        tags: ['algorithms']
       });
 
       const pythonExercises = await Exercise.find({ language: 'python' });
       expect(pythonExercises.length).toBeGreaterThanOrEqual(1);
     });
 
-    it('debe encontrar ejercicios por tags', async () => {
+    it('finds exercises by tags', async () => {
       await Exercise.create({
-        title: 'Matemáticas básicas',
-        description: 'Ejercicio básico de matemáticas con descripción completa',
+        title: 'Basic math',
+        description: 'Basic math exercise with a complete description',
         language: 'python',
         difficulty: 'easy',
-        tags: ['matemáticas']
+        tags: ['math']
       });
 
-      const mathExercises = await Exercise.find({ tags: 'matemáticas' });
+      const mathExercises = await Exercise.find({ tags: 'math' });
       expect(mathExercises.length).toBeGreaterThanOrEqual(1);
     });
 
-    it('debe ordenar por fecha de creación', async () => {
+    it('sorts by creation date', async () => {
       const exercises = await Exercise.find().sort({ createdAt: -1 });
       expect(exercises).toBeInstanceOf(Array);
     });
   });
 
-  describe('Actualización', () => {
-    it('debe actualizar un ejercicio', async () => {
+  describe('Update', () => {
+    it('updates an exercise', async () => {
       const exercise = await Exercise.create({
-        title: 'Título original',
-        description: 'Descripción original con suficientes caracteres',
+        title: 'Original title',
+        description: 'Original description with enough characters',
         language: 'python',
         difficulty: 'easy'
       });
 
-      exercise.title = 'Título actualizado';
+      exercise.title = 'Updated title';
       await exercise.save();
 
       const updated = await Exercise.findById(exercise._id);
-      expect(updated?.title).toBe('Título actualizado');
+      expect(updated?.title).toBe('Updated title');
     });
   });
 
-  describe('Eliminación', () => {
-    it('debe eliminar un ejercicio', async () => {
+  describe('Deletion', () => {
+    it('deletes an exercise', async () => {
       const exercise = await Exercise.create({
-        title: 'Para eliminar',
-        description: 'Este ejercicio será eliminado de la base de datos',
+        title: 'To delete',
+        description: 'This exercise will be deleted from the database',
         language: 'python',
         difficulty: 'easy'
       });

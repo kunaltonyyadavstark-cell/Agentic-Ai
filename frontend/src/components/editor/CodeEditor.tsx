@@ -10,76 +10,76 @@ import { toast } from 'sonner';
 interface CodeEditorProps {
   defaultLanguage?: string;
   defaultValue?: string;
-  onChange?: (value: string) => void;  // 👈 AÑADIDO
+  onChange?: (value: string) => void;  // 👈 ADDED
   onRun?: (code: string, language: string) => void;
   height?: string;
-  showToolbar?: boolean;  // 👈 AÑADIDO
+  showToolbar?: boolean;  // 👈 ADDED
 }
 
 /**
  * Monaco Code Editor Component
- * Editor de código con syntax highlighting y autocompletado
+ * Code editor with syntax highlighting and autocompletion
  */
 export default function CodeEditor({
   defaultLanguage = 'javascript',
-  defaultValue = '// Escribe tu código aquí\n',
-  onChange,  // 👈 AÑADIDO
+  defaultValue = '// Write your code here\n',
+  onChange,
   onRun,
   height = '400px',
-  showToolbar = true,  // 👈 AÑADIDO
+  showToolbar = true,
 }: CodeEditorProps) {
   const [language, setLanguage] = useState(defaultLanguage);
   const [code, setCode] = useState(defaultValue);
   const [copied, setCopied] = useState(false);
   const editorRef = useRef<any>(null);
 
-  // Cuando el editor está montado
+  // When the editor is mounted
   const handleEditorDidMount = (editor: any) => {
     editorRef.current = editor;
     editor.focus();
   };
 
-  // 👇 AÑADIDO: Cuando el código cambia desde fuera
+  // When code changes externally
   useEffect(() => {
     setCode(defaultValue);
   }, [defaultValue]);
 
-  // 👇 MODIFICADO: Cuando el usuario escribe
+  // When user types
   const handleEditorChange = (value: string | undefined) => {
     const newCode = value || '';
     setCode(newCode);
     if (onChange) {
-      onChange(newCode);  // 👈 Notificar al padre
+      onChange(newCode);
     }
   };
 
-  // Ejecutar código
+  // Run code
   const handleRun = () => {
     if (onRun) {
       onRun(code, language);
     } else {
-      toast.info('Ejecutando código...', {
-        description: 'Esta funcionalidad se implementará pronto'
+      toast.info('Running code...', {
+        description: 'This feature will be available soon'
       });
     }
   };
 
-  // Copiar código
+  // Copy code
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
     setCopied(true);
-    toast.success('Código copiado al portapapeles');
+    toast.success('Code copied to clipboard');
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Limpiar código
+  // Clear code
   const handleClear = () => {
-    if (window.confirm('¿Estás seguro de borrar todo el código?')) {
+    if (window.confirm('Are you sure you want to clear all code?')) {
       setCode('');
       if (onChange) {
         onChange('');
       }
-      toast.info('Código borrado');
+      toast.info('Code cleared');
     }
   };
 
@@ -98,7 +98,7 @@ export default function CodeEditor({
 
   return (
     <div className="border rounded-lg overflow-hidden bg-background">
-      {/* Toolbar - Solo se muestra si showToolbar es true */}
+      {/* Toolbar - Only shown if showToolbar is true */}
       {showToolbar && (
         <div className="flex items-center justify-between p-3 border-b bg-muted">
           <Select value={language} onValueChange={setLanguage}>
@@ -124,7 +124,7 @@ export default function CodeEditor({
             {onRun && (
               <Button variant="default" size="sm" onClick={handleRun}>
                 <Play className="h-4 w-4 mr-2" />
-                Ejecutar
+                Run
               </Button>
             )}
           </div>

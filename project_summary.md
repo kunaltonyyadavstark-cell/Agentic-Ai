@@ -1,126 +1,126 @@
-# 🚀 AgentLogic Academy - Resumen del Proyecto
+# 🚀 AgentLogic Academy - Project Summary
 
 ---
 
-## 📋 Tabla de Contenidos
+## 📋 Table of Contents
 
-- [📊 Estado General del Proyecto](#-estado-general-del-proyecto)
-- [✅ Características Completadas (Pasos 1-11)](#-características-completadas-pasos-1-11)
-  - [Paso 1-8: Workspace con IA y Gamificación](#paso-1-8-workspace-con-ia-y-gamificación)
-  - [Paso 9: Seguimiento de Progreso del Usuario](#paso-9-seguimiento-de-progreso-del-usuario)
-  - [Paso 10: Filtros y Búsqueda de Ejercicios](#paso-10-filtros-y-búsqueda-de-ejercicios)
-  - [Paso 11: Panel de Analíticas Avanzadas](#paso-11-panel-de-analíticas-avanzadas)
-- [⏳ Tareas Pendientes (Pasos 12-15)](#-tareas-pendientes-pasos-12-15)
-  - [Paso 12: Plantillas de Código](#paso-12-plantillas-de-código)
-  - [Paso 13: Funcionalidades Sociales](#paso-13-funcionalidades-sociales)
-  - [Paso 14: Pruebas y Calidad de Código](#paso-14-pruebas-y-calidad-de-código)
-  - [Paso 15: Pulido y Despliegue](#paso-15-pulido-y-despliegue)
-- [🛠️ Detalles Técnicos](#️-detalles-técnicos)
-  - [Estructura del Proyecto](#estructura-del-proyecto)
-  - [Tecnologías Utilizadas](#tecnologías-utilizadas)
-  - [Comandos Útiles](#comandos-útiles)
-  - [Variables de Entorno](#variables-de-entorno)
-- [🎯 Próximos Pasos](#-próximos-pasos)
-- [💡 Notas Adicionales](#-notas-adicionales)
+- [📊 Project Overview](#-project-overview)
+- [✅ Completed Features (Steps 1-11)](#-completed-features-steps-1-11)
+  - [Steps 1-8: AI Workspace and Gamification](#steps-1-8-ai-workspace-and-gamification)
+  - [Step 9: User Progress Tracking](#step-9-user-progress-tracking)
+  - [Step 10: Exercise Filters and Search](#step-10-exercise-filters-and-search)
+  - [Step 11: Advanced Analytics Dashboard](#step-11-advanced-analytics-dashboard)
+- [⏳ Pending Tasks (Steps 12-15)](#-pending-tasks-steps-12-15)
+  - [Step 12: Code Templates](#step-12-code-templates)
+  - [Step 13: Social Features](#step-13-social-features)
+  - [Step 14: Testing and Code Quality](#step-14-testing-and-code-quality)
+  - [Step 15: Polish and Deployment](#step-15-polish-and-deployment)
+- [🛠️ Technical Details](#️-technical-details)
+  - [Project Structure](#project-structure)
+  - [Technologies Used](#technologies-used)
+  - [Useful Commands](#useful-commands)
+  - [Environment Variables](#environment-variables)
+- [🎯 Next Steps](#-next-steps)
+- [💡 Additional Notes](#-additional-notes)
 
 ---
 
-## 📊 Estado General del Proyecto
+## 📊 Project Overview
 
-- **Proyecto:** AgentLogic Academy
-- **Repositorio:** `https://github.com/Bitxogm/New-Logic-Agent`
-- **Fecha última actualización:** 15 Octubre 2025
-- **Progreso:**
+- **Project:** AgentLogic Academy
+- **Repository:** `https://github.com/Bitxogm/New-Logic-Agent`
+- **Last updated:** October 15, 2025
+- **Progress:**
   ```
-  █████████████████████████░░░░░  73% (11/15 Pasos)
+  █████████████████████████░░░░░  73% (11/15 steps)
   ```
 
-### Logros Destacados
-- ✅ 30 ejercicios diversos en 6 categorías.
-- ✅ Ejecución real de código Python y JavaScript.
-- ✅ IA integrada en 5 pestañas del workspace.
-- ✅ Sistema completo de gamificación (XP, niveles, logros).
-- ✅ Analíticas visuales con heatmap y gráficos.
-- ✅ Búsqueda avanzada con múltiples filtros.
-- ✅ Arquitectura escalable y bien organizada.
+### Key Achievements
+- ✅ 30 diverse exercises across 6 categories.
+- ✅ Real Python and JavaScript code execution.
+- ✅ AI integrated into 5 workspace tabs.
+- ✅ Full gamification system (XP, levels, achievements).
+- ✅ Visual analytics with a heatmap and charts.
+- ✅ Advanced search with multiple filters.
+- ✅ Scalable, well-organized architecture.
 
 ---
 
-## ✅ Características Completadas (Pasos 1-11)
+## ✅ Completed Features (Steps 1-11)
 
-### Paso 1-8: Workspace con IA y Gamificación
+### Steps 1-8: AI Workspace and Gamification
 
 **Backend:**
-- 12 endpoints REST documentados con Swagger.
-- Autenticación JWT con `bcrypt`.
-- Integración con Gemini 2.0 Flash.
-- Ejecución de código en servidor (Python + JavaScript).
-- Logging profesional con Winston y sanitización.
-- Seguridad: Helmet, CORS, rate limiting.
-- Pruebas unitarias y de integración con Vitest.
+- 12 REST endpoints documented with Swagger.
+- JWT authentication with `bcrypt`.
+- Integration with Gemini 2.0 Flash.
+- Server-side code execution (Python + JavaScript).
+- Professional logging with Winston and sanitization.
+- Security: Helmet, CORS, and rate limiting.
+- Unit and integration tests with Vitest.
 
 **Frontend:**
-- Stack moderno: React 18, TypeScript, Vite.
-- Gestión de estado con Zustand y TanStack Query.
-- UI con `shadcn/ui` y Tailwind CSS.
-- Editor de código Monaco (experiencia VS Code).
-- **Workspace:** Paneles redimensionables, 5 pestañas de asistencia IA (Explicación, Diagrama, Chat, Tests, Solución), análisis en tiempo real y ejecución de tests.
+- Modern stack: React 18, TypeScript, Vite.
+- State management with Zustand and TanStack Query.
+- UI with `shadcn/ui` and Tailwind CSS.
+- Monaco code editor (VS Code experience).
+- **Workspace:** Resizable panels, 5 AI assistance tabs (Explanation, Diagram, Chat, Tests, Solution), real-time analysis, and test execution.
 
-**Gamificación:**
-- Sistema de XP, niveles y recompensas por dificultad.
-- Logros (badges) y rachas (streaks).
-- Penalización por uso de pistas y celebraciones al completar ejercicios.
+**Gamification:**
+- XP, levels, and difficulty-based rewards.
+- Achievements (badges) and streaks.
+- Hint usage penalties and celebrations for completing exercises.
 
-### Paso 9: Seguimiento de Progreso del Usuario
+### Step 9: User Progress Tracking
 
-- **Modelo `UserProgress`:** Almacena XP, nivel, ejercicios completados, logros, rachas, estadísticas por ejercicio e historial de actividad.
-- **Dashboard:** Widgets de estadísticas, gráficos de progreso semanal y seguimiento de metas.
+- **Modelo `UserProgress`:** Stores XP, level, completed exercises, achievements, streaks, per-exercise statistics, and activity history.
+- **Dashboard:** Statistics widgets, weekly progress charts, and goal tracking.
 - **Endpoints:** `GET /api/gamification/stats/:userId`, `GET /api/gamification/progress/:userId`
 
-### Paso 10: Filtros y Búsqueda de Ejercicios
+### Step 10: Exercise Filters and Search
 
-- **Backend:** Búsqueda por título/descripción y filtros combinables (lenguaje, dificultad, categoría, tags).
-- **Frontend:** Barra de búsqueda con `debounce`, filtros por categoría y filtros rápidos (No resueltos, Recientes, Populares).
-- **Contenido:** 30 ejercicios iniciales distribuidos en 6 categorías.
+- **Backend:** Search by title/description and combinable filters (language, difficulty, category, tags).
+- **Frontend:** Search bar with `debounce`, category filters and quick filters (Unsolved, Recent, Popular).
+- **Content:** 30 initial exercises across 6 categories.
 
-### Paso 11: Panel de Analíticas Avanzadas
+### Step 11: Advanced Analytics Dashboard
 
-- **Backend:** Nuevos endpoints para obtener datos de analítica.
+- **Backend:** New endpoints for retrieving analytics data.
   ```
   GET /api/analytics/heatmap/:userId
   GET /api/analytics/language-stats/:userId
   GET /api/analytics/difficulty-stats/:userId
   ```
-- **Frontend:** Página de "Analytics" con 3 componentes visuales (Recharts):
-  - **HeatmapCalendar:** Calendario de actividad estilo GitHub.
-  - **LanguageStats:** Gráfico de barras de uso de lenguajes.
-  - **DifficultyDistribution:** Gráfico circular de dificultad de ejercicios.
+- **Frontend:** Page "Analytics" with 3 visual components (Recharts):
+  - **HeatmapCalendar:** GitHub-style activity calendar.
+  - **LanguageStats:** Bar chart of language usage.
+  - **DifficultyDistribution:** Pie chart of exercise difficulty.
 
 ---
 
-## ⏳ Tareas Pendientes (Pasos 12-15)
+## ⏳ Pending Tasks (Steps 12-15)
 
-### Paso 12: Plantillas de Código (30 min)
-- **Objetivo:** Añadir plantillas y snippets de código por lenguaje para un inicio rápido.
-- **Archivos a crear:** `CodeTemplate.ts` (modelo), `templateController.ts`, `templates.ts` (ruta), y componentes de frontend.
+### Step 12: Code Templates (30 min)
+- **Goal:** Add code templates and snippets for each language to help users get started quickly.
+- **Files to create:** `CodeTemplate.ts` (model), `templateController.ts`, `templates.ts` (route), and frontend components.
 
-### Paso 13: Funcionalidades Sociales (3-4 horas)
-- **Objetivo:** Permitir a los usuarios compartir soluciones, comentar y tener perfiles públicos.
-- **Features:** Compartir soluciones, sistema de comentarios y votos, perfiles de usuario.
+### Step 13: Social Features (3-4 hours)
+- **Goal:** Allow users to share solutions, comment, and create public profiles.
+- **Features:** Solution sharing, comments and votes, and user profiles.
 
-### Paso 14: Pruebas y Calidad de Código (2 horas)
-- **Objetivo:** Aumentar la cobertura de pruebas y monitorizar la aplicación.
-- **Tareas:** Pruebas E2E (Playwright/Cypress), aumentar cobertura de tests unitarios (>70%), monitorización de errores (Sentry) y análisis de rendimiento (Lighthouse).
+### Step 14: Testing and Code Quality (2 hours)
+- **Goal:** Increase test coverage and monitor the application.
+- **Tasks:** E2E tests (Playwright/Cypress), increase unit test coverage (>70%), error monitoring (Sentry), and performance analysis (Lighthouse).
 
-### Paso 15: Pulido y Despliegue (3 horas)
-- **Objetivo:** Optimizar la UI/UX y desplegar la aplicación a producción.
-- **Tareas:** Mejoras de UI (animaciones, estados de carga), optimización de rendimiento (code splitting, compresión) y despliegue (Vercel/Netlify, Railway/Render, MongoDB Atlas) con CI/CD.
+### Step 15: Polish and Deployment (3 hours)
+- **Goal:** Improve the UI/UX and deploy the application to production.
+- **Tasks:** UI improvements (animations, loading states), performance optimization (code splitting, compression), and deployment (Vercel/Netlify, Railway/Render, MongoDB Atlas) with CI/CD.
 
 ---
 
-## 🛠️ Detalles Técnicos
+## 🛠️ Technical Details
 
-### Estructura del Proyecto
+### Project Structure
 ```
 AgentLogic-TS/
 ├── backend/
@@ -142,33 +142,33 @@ AgentLogic-TS/
         └── ...
 ```
 
-### Tecnologías Utilizadas
+### Technologies Used
 
-| Área | Tecnología |
+| Area | Technology |
 | :--- | :--- |
 | **Backend** | Node.js, Express, MongoDB, Mongoose, JWT, Gemini 2.0, Winston, Vitest |
 | **Frontend** | React 18, TypeScript, Vite, Zustand, TanStack Query, `shadcn/ui`, Tailwind CSS |
-| **Herramientas** | Monaco Editor, Recharts, React Router, Zod, Sonner |
+| **Tools** | Monaco Editor, Recharts, React Router, Zod, Sonner |
 
-### Comandos Útiles
+### Useful Commands
 
 **Backend:**
 ```bash
 cd backend
-npm run dev              # Iniciar en modo desarrollo
-npm run seed             # Poblar la BD con 30 ejercicios
-npm test                 # Ejecutar pruebas
+npm run dev              # Start in development mode
+npm run seed             # Seed the database with 30 exercises
+npm test                 # Run tests
 ```
 
 **Frontend:**
 ```bash
 cd frontend
-npm run dev              # Iniciar en modo desarrollo
-npm run build            # Compilar para producción
-npm run type-check       # Verificar tipos de TypeScript
+npm run dev              # Start in development mode
+npm run build            # Build for production
+npm run type-check       # Check TypeScript types
 ```
 
-### Variables de Entorno
+### Environment Variables
 
 **Backend (`.env`):**
 ```env
@@ -188,24 +188,24 @@ VITE_API_URL=http://localhost:5000/api
 
 ---
 
-## 🎯 Próximos Pasos
+## 🎯 Next Steps
 
-Al retomar el desarrollo:
-1.  Verificar que ambos entornos (`backend` y `frontend`) arrancan sin errores.
-2.  Revisar este documento para recordar el estado actual.
-3.  Continuar con el **Paso 12: Plantillas de Código**.
-4.  🚀 ¡Seguir construyendo!
+When resuming development:
+1.  Verify that both environments (`backend` and `frontend`) start without errors.
+2.  Review this document to recall the current status.
+3.  Continue with **Step 12: Code Templates**.
+4.  🚀 Keep building!
 
 ---
 
-## 💡 Notas Adicionales
+## 💡 Additional Notes
 
-### Contexto del Desarrollador
-- **Usuario:** Bitxogm
-- **Ubicación:** Madrid, España (CET)
-- **Estilo preferido:** Desarrollo paso a paso, commits frecuentes, soluciones simples y prácticas.
+### Developer Context
+- **User:** Bitxogm
+- **Location:** Madrid, Spain (CET)
+- **Preferred style:** Step-by-step development, frequent commits, and simple, practical solutions.
 
-### Decisiones de Diseño Clave
-- La ruta del Workspace es pública (no requiere autenticación).
-- Se utiliza un script de `seed` con el schema inline para evitar problemas de importación.
-- Se prefiere Recharts sobre Nivo por su simplicidad.
+### Key Design Decisions
+- The Workspace route is public (authentication is not required).
+- A script is used for `seed` with an inline schema to avoid import issues.
+- Recharts is preferred over Nivo for its simplicity.

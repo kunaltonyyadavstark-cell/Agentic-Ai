@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Code2, Github, Twitter, Linkedin } from 'lucide-react';
 
 /**
- * Footer de la aplicación
+ * Application Footer
  */
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,27 +11,27 @@ export default function Footer() {
     <footer className="border-t bg-white dark:bg-gray-950">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          {/* Logo y descripción */}
+          {/* Logo and description */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Code2 className="h-6 w-6 text-blue-600" />
               <span className="text-lg font-bold">AgentLogic</span>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Plataforma educativa potenciada por IA para aprender programación
+              AI-powered educational platform to master programming
             </p>
           </div>
 
-          {/* Enlaces de navegación */}
+          {/* Navigation links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold">Navegación</h3>
+            <h3 className="mb-4 text-sm font-semibold">Navigation</h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   to="/exercises"
                   className="text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
                 >
-                  Ejercicios
+                  Exercises
                 </Link>
               </li>
               <li>
@@ -45,9 +45,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Recursos */}
+          {/* Resources */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold">Recursos</h3>
+            <h3 className="mb-4 text-sm font-semibold">Resources</h3>
             <ul className="space-y-2">
               <li>
                 <a
@@ -56,7 +56,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-sm text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
                 >
-                  Documentación
+                  Documentation
                 </a>
               </li>
               <li>
@@ -72,9 +72,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Redes sociales */}
+          {/* Social */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold">Síguenos</h3>
+            <h3 className="mb-4 text-sm font-semibold">Follow Us</h3>
             <div className="flex space-x-4">
               <a
                 href="https://github.com/Bitxogm/New-Logic-Agent"
@@ -107,7 +107,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="mt-8 border-t pt-8 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            © {currentYear} AgentLogic. Desarrollado con ❤️ usando React, TypeScript y Gemini AI.
+            © {currentYear} AgentLogic. Built with ❤️ using React, TypeScript, and Gemini AI.
           </p>
         </div>
       </div>

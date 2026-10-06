@@ -12,7 +12,7 @@ interface ExerciseListProps {
 }
 
 /**
- * Lista de ejercicios con React Query
+ * Exercise list with React Query
  */
 export default function ExerciseList({ filters }: ExerciseListProps) {
   const {
@@ -23,7 +23,7 @@ export default function ExerciseList({ filters }: ExerciseListProps) {
   } = useQuery({
     queryKey: ['exercises', filters],
     queryFn: () => exerciseService.getAll(filters),
-    staleTime: 5 * 60 * 1000, // 5 minutos
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   // Loading state
@@ -46,9 +46,9 @@ export default function ExerciseList({ filters }: ExerciseListProps) {
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Error</AlertTitle>
         <AlertDescription className="flex items-center justify-between">
-          <span>No se pudieron cargar los ejercicios.</span>
+          <span>Failed to load exercises.</span>
           <Button variant="outline" size="sm" onClick={() => refetch()}>
-            Reintentar
+            Retry
           </Button>
         </AlertDescription>
       </Alert>
@@ -60,11 +60,11 @@ export default function ExerciseList({ filters }: ExerciseListProps) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <FileX className="h-16 w-16 text-gray-400 mb-4" />
-        <h3 className="text-lg font-semibold mb-2">No se encontraron ejercicios</h3>
+        <h3 className="text-lg font-semibold mb-2">No exercises found</h3>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
           {filters.search || filters.language || filters.difficulty || filters.category
-            ? 'Intenta con otros filtros'
-            : 'Aún no hay ejercicios disponibles'}
+            ? 'Try adjusting your filters'
+            : 'No exercises available yet'}
         </p>
       </div>
     );

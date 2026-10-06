@@ -16,23 +16,23 @@ import { useAuthStore } from '@/store/authStore';
 import { LoginData } from '@/types';
 
 /**
- * Schema de validación con Zod
+ * Validation schema with Zod
  */
 const loginSchema = z.object({
   email: z
     .string()
-    .min(1, 'El email es requerido')
-    .email('Email inválido'),
+    .min(1, 'Email is required')
+    .email('Invalid email address'),
   password: z
     .string()
-    .min(1, 'La contraseña es requerida')
-    .min(6, 'La contraseña debe tener al menos 6 caracteres'),
+    .min(1, 'Password is required')
+    .min(6, 'Password must be at least 6 characters'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
 /**
- * Formulario de Login
+ * Login Form
  */
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -53,20 +53,18 @@ export default function LoginForm() {
     try {
       const response = await authService.login(data as LoginData);
       
-      // Guardar en el store
+      // Save to store
       setAuth(response.user, response.token);
       
-      // Notificación de éxito
-      toast.success('¡Bienvenido de nuevo!', {
-        description: `Iniciaste sesión como ${response.user.name}`,
+      // Success toast
+      toast.success('Welcome back!', {
+        description: `Signed in as ${response.user.name}`,
       });
 
-      // Redirigir al dashboard
+      // Redirect to dashboard
       navigate('/dashboard');
     } catch (error: any) {
-      // El error ya se maneja en el interceptor de axios
-      // pero podemos añadir lógica adicional aquí si necesitamos
-      console.error('Error en login:', error);
+      console.error('Login error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -75,9 +73,9 @@ export default function LoginForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Iniciar Sesión</CardTitle>
+        <CardTitle>Sign In</CardTitle>
         <CardDescription>
-          Accede a tu cuenta de AgentLogic
+          Access your AgentLogic account
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -90,7 +88,7 @@ export default function LoginForm() {
               <Input
                 id="email"
                 type="email"
-                placeholder="tu@email.com"
+                placeholder="you@email.com"
                 className="pl-10"
                 {...register('email')}
                 disabled={isLoading}
@@ -103,7 +101,7 @@ export default function LoginForm() {
 
           {/* Password */}
           <div className="space-y-2">
-            <Label htmlFor="password">Contraseña</Label>
+            <Label htmlFor="password">Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
@@ -129,21 +127,21 @@ export default function LoginForm() {
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Iniciando sesión...
+                Signing in...
               </>
             ) : (
-              'Iniciar Sesión'
+              'Sign In'
             )}
           </Button>
 
           {/* Register Link */}
           <div className="text-center text-sm text-gray-600">
-            ¿No tienes cuenta?{' '}
+            Don't have an account?{' '}
             <Link
               to="/register"
               className="font-medium text-blue-600 hover:text-blue-500"
             >
-              Regístrate aquí
+              Sign up here
             </Link>
           </div>
         </form>

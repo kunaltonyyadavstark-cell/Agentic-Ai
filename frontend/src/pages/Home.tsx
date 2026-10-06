@@ -5,7 +5,7 @@ import { Code2, Brain, Lightbulb, Zap, ArrowRight } from 'lucide-react';
 import { useIsAuthenticated } from '@/store/authStore';
 
 /**
- * Página de inicio (Home)
+ * Home Page
  */
 export default function Home() {
   const isAuthenticated = useIsAuthenticated();
@@ -19,13 +19,13 @@ export default function Home() {
         </div>
         
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-          Aprende Programación con{' '}
-          <span className="text-blue-600">Inteligencia Artificial</span>
+          Learn Programming with{' '}
+          <span className="text-blue-600">Artificial Intelligence</span>
         </h1>
         
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-          Plataforma educativa potenciada por Gemini AI para ayudarte a dominar 
-          la lógica de programación a través de ejercicios interactivos
+          Educational platform powered by Gemini AI to help you master 
+          programming logic through interactive exercises
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -33,22 +33,22 @@ export default function Home() {
             <>
               <Button size="lg" asChild>
                 <Link to="/exercises">
-                  Ver Ejercicios <ArrowRight className="ml-2 h-4 w-4" />
+                  Explore Exercises <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/dashboard">Mi Dashboard</Link>
+                <Link to="/dashboard">My Dashboard</Link>
               </Button>
             </>
           ) : (
             <>
               <Button size="lg" asChild>
                 <Link to="/register">
-                  Comenzar Gratis <ArrowRight className="ml-2 h-4 w-4" />
+                  Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/login">Iniciar Sesión</Link>
+                <Link to="/login">Log In</Link>
               </Button>
             </>
           )}
@@ -60,9 +60,9 @@ export default function Home() {
         <Card>
           <CardHeader>
             <Brain className="h-8 w-8 text-blue-600 mb-2" />
-            <CardTitle>IA Avanzada</CardTitle>
+            <CardTitle>Advanced AI</CardTitle>
             <CardDescription>
-              Gemini 2.0 te ayuda a generar, analizar y mejorar tu código
+              Gemini 2.0 helps you generate, analyze, and improve your code
             </CardDescription>
           </CardHeader>
         </Card>
@@ -70,9 +70,9 @@ export default function Home() {
         <Card>
           <CardHeader>
             <Code2 className="h-8 w-8 text-green-600 mb-2" />
-            <CardTitle>Múltiples Lenguajes</CardTitle>
+            <CardTitle>Multiple Languages</CardTitle>
             <CardDescription>
-              Python, JavaScript, Java, C++, TypeScript y más
+              Python, JavaScript, Java, C++, TypeScript, and more
             </CardDescription>
           </CardHeader>
         </Card>
@@ -80,9 +80,9 @@ export default function Home() {
         <Card>
           <CardHeader>
             <Lightbulb className="h-8 w-8 text-yellow-600 mb-2" />
-            <CardTitle>Explicaciones Claras</CardTitle>
+            <CardTitle>Clear Explanations</CardTitle>
             <CardDescription>
-              Comprende cada concepto con ejemplos y tutoriales personalizados
+              Understand every concept with examples and personalized tutorials
             </CardDescription>
           </CardHeader>
         </Card>
@@ -90,9 +90,9 @@ export default function Home() {
         <Card>
           <CardHeader>
             <Zap className="h-8 w-8 text-purple-600 mb-2" />
-            <CardTitle>Aprende Rápido</CardTitle>
+            <CardTitle>Learn Faster</CardTitle>
             <CardDescription>
-              Ejercicios adaptados a tu nivel con feedback instantáneo
+              Exercises tailored to your level with instant feedback
             </CardDescription>
           </CardHeader>
         </Card>
@@ -101,15 +101,15 @@ export default function Home() {
       {/* CTA Section */}
       <section className="bg-blue-50 dark:bg-blue-950 rounded-lg p-12 text-center">
         <h2 className="text-3xl font-bold mb-4">
-          ¿Listo para mejorar tus habilidades?
+          Ready to level up your skills?
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
-          Únete a miles de estudiantes que están aprendiendo programación de forma más efectiva
+          Join thousands of students learning to code more effectively
         </p>
         {!isAuthenticated && (
           <Button size="lg" asChild>
             <Link to="/register">
-              Crear Cuenta Gratis <ArrowRight className="ml-2 h-4 w-4" />
+              Create Free Account <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         )}

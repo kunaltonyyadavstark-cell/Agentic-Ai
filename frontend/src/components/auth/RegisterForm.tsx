@@ -16,40 +16,40 @@ import { useAuthStore } from '@/store/authStore';
 import { RegisterData } from '@/types';
 
 /**
- * Schema de validación con Zod
+ * Validation schema with Zod
  */
 const registerSchema = z.object({
   name: z
     .string()
-    .min(1, 'El nombre es requerido')
-    .min(2, 'El nombre debe tener al menos 2 caracteres'),
+    .min(1, 'Name is required')
+    .min(2, 'Name must be at least 2 characters'),
   username: z
     .string()
-    .min(1, 'El nombre de usuario es requerido')
-    .min(3, 'El nombre de usuario debe tener al menos 3 caracteres')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Solo letras, números y guiones bajos'),
+    .min(1, 'Username is required')
+    .min(3, 'Username must be at least 3 characters')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Letters, numbers, and underscores only'),
   email: z
     .string()
-    .min(1, 'El email es requerido')
-    .email('Email inválido'),
+    .min(1, 'Email is required')
+    .email('Invalid email address'),
   password: z
     .string()
-    .min(1, 'La contraseña es requerida')
-    .min(6, 'La contraseña debe tener al menos 6 caracteres')
-    .regex(/[A-Z]/, 'Debe contener al menos una mayúscula')
-    .regex(/[0-9]/, 'Debe contener al menos un número'),
+    .min(1, 'Password is required')
+    .min(6, 'Password must be at least 6 characters')
+    .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
+    .regex(/[0-9]/, 'Must contain at least one number'),
   confirmPassword: z
     .string()
-    .min(1, 'Confirma tu contraseña'),
+    .min(1, 'Please confirm your password'),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: 'Las contraseñas no coinciden',
+  message: 'Passwords do not match',
   path: ['confirmPassword'],
 });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 /**
- * Formulario de Registro
+ * Registration Form
  */
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -68,31 +68,23 @@ export default function RegisterForm() {
     setIsLoading(true);
 
     try {
-      // Remover confirmPassword antes de enviar
+      // Remove confirmPassword before sending
       const { confirmPassword, ...registerData } = data;
 
       const response = await authService.register(registerData as RegisterData);
-      console.log('========== DEBUG REGISTRO ==========');
-      console.log('Response completo:', response);
-      console.log('User completo:', response.user);
-      console.log('Name específico:', response.user?.name);
-      console.log('===================================');
 
-      // Guardar en el store
+      // Save to store
       setAuth(response.user, response.token);
 
-      // Guardar en el store
-      setAuth(response.user, response.token);
-
-      // Notificación de éxito
-      toast.success('¡Cuenta creada exitosamente!', {
-        description: `Bienvenido a AgentLogic, ${response.user.name}`,
+      // Success notification
+      toast.success('Account created successfully!', {
+        description: `Welcome to AgentLogic, ${response.user.name}`,
       });
 
-      // Redirigir al dashboard
+      // Redirect to dashboard
       navigate('/dashboard');
     } catch (error: any) {
-      console.error('Error en registro:', error);
+      console.error('Registration error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -101,22 +93,22 @@ export default function RegisterForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Crear Cuenta</CardTitle>
+        <CardTitle>Create Account</CardTitle>
         <CardDescription>
-          Únete a AgentLogic y comienza a aprender
+          Join AgentLogic and start learning
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Name */}
           <div className="space-y-2">
-            <Label htmlFor="name">Nombre Completo</Label>
+            <Label htmlFor="name">Full Name</Label>
             <div className="relative">
               <FileText className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
                 id="name"
                 type="text"
-                placeholder="Juan Pérez"
+                placeholder="John Doe"
                 className="pl-10"
                 {...register('name')}
                 disabled={isLoading}
@@ -129,13 +121,13 @@ export default function RegisterForm() {
 
           {/* Username */}
           <div className="space-y-2">
-            <Label htmlFor="username">Nombre de Usuario</Label>
+            <Label htmlFor="username">Username</Label>
             <div className="relative">
               <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
                 id="username"
                 type="text"
-                placeholder="juanperez"
+                placeholder="johndoe"
                 className="pl-10"
                 {...register('username')}
                 disabled={isLoading}
@@ -154,7 +146,7 @@ export default function RegisterForm() {
               <Input
                 id="email"
                 type="email"
-                placeholder="juan@email.com"
+                placeholder="john@email.com"
                 className="pl-10"
                 {...register('email')}
                 disabled={isLoading}
@@ -167,7 +159,7 @@ export default function RegisterForm() {
 
           {/* Password */}
           <div className="space-y-2">
-            <Label htmlFor="password">Contraseña</Label>
+            <Label htmlFor="password">Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
@@ -186,7 +178,7 @@ export default function RegisterForm() {
 
           {/* Confirm Password */}
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
@@ -212,21 +204,21 @@ export default function RegisterForm() {
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creando cuenta...
+                Creating account...
               </>
             ) : (
-              'Crear Cuenta'
+              'Create Account'
             )}
           </Button>
 
           {/* Login Link */}
           <div className="text-center text-sm text-gray-600">
-            ¿Ya tienes cuenta?{' '}
+            Already have an account?{' '}
             <Link
               to="/login"
               className="font-medium text-blue-600 hover:text-blue-500"
             >
-              Inicia sesión aquí
+              Sign in here
             </Link>
           </div>
         </form>

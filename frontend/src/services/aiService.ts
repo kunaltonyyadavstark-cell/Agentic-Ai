@@ -9,13 +9,13 @@ import {
 } from '../types';
 
 /**
- * Servicio de IA (Gemini)
- * Maneja todas las peticiones relacionadas con inteligencia artificial
+ * AI Service (Gemini)
+ * Handles all requests related to artificial intelligence
  */
 class AIService {
   /**
-   * Generar solución de código con IA
-   * Rate limit: 10 peticiones cada 15 minutos
+   * Generate code solution with AI
+   * Rate limit: 10 requests every 15 minutes
    */
   async generateSolution(
     data: GenerateSolutionRequest
@@ -28,9 +28,9 @@ class AIService {
   }
 
   /**
-   * Analizar código del usuario
-   * Detecta bugs, mejoras de rendimiento, legibilidad, etc.
-   * Rate limit: 10 peticiones cada 15 minutos
+   * Analyze user code
+   * Detects bugs, performance improvements, readability, etc.
+   * Rate limit: 10 requests every 15 minutes
    */
   async analyzeCode(data: AnalyzeCodeRequest): Promise<AnalyzeCodeResponse> {
     const response = await api.post<ApiResponse<AnalyzeCodeResponse>>(
@@ -41,8 +41,8 @@ class AIService {
   }
 
   /**
-   * Explicar concepto de programación
-   * Rate limit: 10 peticiones cada 15 minutos
+   * Explain programming concept
+   * Rate limit: 10 requests every 15 minutes
    */
   async explainConcept(
     data: ExplainConceptRequest
@@ -55,8 +55,8 @@ class AIService {
   }
 
   /**
-   * Generar solución para un ejercicio específico
-   * Helper que combina el ejercicio con la generación
+   * Generate solution for a specific exercise
+   * Helper that combines exercise details with generation
    */
   async generateSolutionForExercise(
     exerciseTitle: string,
@@ -76,8 +76,8 @@ class AIService {
   }
 
   /**
-   * Analizar código con enfoque específico
-   * Helper para análisis rápido con áreas predefinidas
+   * Analyze code with specific focus
+   * Helper for quick analysis on predefined areas
    */
   async quickAnalyze(
     code: string,
@@ -97,7 +97,7 @@ class AIService {
   }
 
   /**
-   * Obtener explicación simple (para principiantes)
+   * Get simple explanation (for beginners)
    */
   async getSimpleExplanation(topic: string): Promise<ExplainConceptResponse> {
     return this.explainConcept({
@@ -108,7 +108,7 @@ class AIService {
   }
 
   /**
-   * Obtener explicación avanzada
+   * Get advanced explanation
    */
   async getAdvancedExplanation(
     topic: string
@@ -121,8 +121,8 @@ class AIService {
   }
 
   /**
-  * Analizar ejercicio y obtener roadmap de aprendizaje
-  */
+   * Analyze exercise and get learning roadmap
+   */
   async analyzeExercise(exerciseId: string) {
     const response = await api.post('/ai/analyze-exercise', { exerciseId });
     return getResponseData(response);
@@ -134,7 +134,7 @@ class AIService {
   }
 
   /**
-   * Enviar mensaje al chat contextual
+   * Send message to contextual chat
    */
   async sendChatMessage(
     exerciseId: string,
@@ -153,5 +153,5 @@ class AIService {
 
 }
 
-// Exportar instancia única (singleton)
+// Export singleton instance
 export const aiService = new AIService();

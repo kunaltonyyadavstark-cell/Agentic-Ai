@@ -5,17 +5,17 @@ import { validateBody, validateId } from '../middleware/validateRequest';
 
 const router = Router();
 
-// ✅ FIX H1: AÑADIDO authenticate
+// ✅ FIX H1: Added authenticate
 router.get(
   '/',
-  authenticate,  // ← CRÍTICO: Proteger lista de ejercicios
+  authenticate,  // ← CRITICAL: Protect the exercise list
   exerciseController.getAll.bind(exerciseController)
 );
 
-// ✅ FIX H1: AÑADIDO authenticate
+// ✅ FIX H1: Added authenticate
 router.get(
   '/:id',
-  authenticate,  // ← CRÍTICO: Proteger ejercicio individual
+  authenticate,  // ← CRITICAL: Protect individual exercises
   validateId,
   exerciseController.getById.bind(exerciseController)
 );

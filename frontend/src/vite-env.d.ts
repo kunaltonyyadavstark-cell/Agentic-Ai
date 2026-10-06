@@ -2,7 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_API_URL: string
-  // Añade más variables aquí si las necesitas
+  // Add more variables here if needed
   // readonly VITE_OTRA_VAR: string
 }
 

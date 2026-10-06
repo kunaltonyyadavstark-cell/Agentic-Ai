@@ -7,12 +7,12 @@ import {
 } from '../types';
 
 /**
- * Servicio de Ejercicios
- * Maneja todas las peticiones relacionadas con exercises
+ * Exercise Service
+ * Handles all requests related to exercises
  */
 class ExerciseService {
   /**
-   * Obtener todos los ejercicios con filtros opcionales
+   * Get all exercises with optional filters
    */
   async getAll(filters?: ExerciseFilters): Promise<Exercise[]> {
     const params = new URLSearchParams();
@@ -31,7 +31,7 @@ class ExerciseService {
   }
 
   /**
-   * Obtener ejercicio por ID
+   * Get exercise by ID
    */
   async getById(id: string): Promise<Exercise> {
     const response = await api.get<ApiResponse<Exercise>>(`/exercises/${id}`);
@@ -39,7 +39,7 @@ class ExerciseService {
   }
 
   /**
-   * Crear nuevo ejercicio (requiere autenticación)
+   * Create new exercise (requires authentication)
    */
   async create(data: CreateExerciseData): Promise<Exercise> {
     const response = await api.post<ApiResponse<Exercise>>('/exercises', data);
@@ -47,7 +47,7 @@ class ExerciseService {
   }
 
   /**
-   * Actualizar ejercicio (requiere autenticación)
+   * Update exercise (requires authentication)
    */
   async update(id: string, data: UpdateExerciseData): Promise<Exercise> {
     const response = await api.patch<ApiResponse<Exercise>>(
@@ -58,14 +58,14 @@ class ExerciseService {
   }
 
   /**
-   * Eliminar ejercicio (requiere autenticación)
+   * Delete exercise (requires authentication)
    */
   async delete(id: string): Promise<void> {
     await api.delete(`/exercises/${id}`);
   }
 
   /**
-   * Buscar ejercicios por término
+   * Search exercises by query term
    */
   async search(query: string): Promise<Exercise[]> {
     const response = await api.get<ApiResponse<Exercise[]>>(
@@ -75,7 +75,7 @@ class ExerciseService {
   }
 
   /**
-   * Obtener ejercicios por lenguaje
+   * Get exercises by language
    */
   async getByLanguage(language: string): Promise<Exercise[]> {
     const response = await api.get<ApiResponse<Exercise[]>>(
@@ -85,7 +85,7 @@ class ExerciseService {
   }
 
   /**
-   * Obtener ejercicios por dificultad
+   * Get exercises by difficulty
    */
   async getByDifficulty(difficulty: string): Promise<Exercise[]> {
     const response = await api.get<ApiResponse<Exercise[]>>(
@@ -95,5 +95,5 @@ class ExerciseService {
   }
 }
 
-// Exportar instancia única (singleton)
+// Export singleton instance
 export const exerciseService = new ExerciseService();

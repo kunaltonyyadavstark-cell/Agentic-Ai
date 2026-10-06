@@ -1,5 +1,5 @@
 /**
- * Resultado de una validación
+ * Validation result
  */
 interface ValidationResult {
   isValid: boolean;
@@ -8,15 +8,15 @@ interface ValidationResult {
 }
 
 /**
- * Validador de ejercicios con seguridad integrada
+ * Exercise validator with built-in security
  */
 export class ExerciseValidator {
   /**
-   * Patrones peligrosos que no se permiten
+   * Disallowed dangerous patterns.
    */
   private static readonly DANGEROUS_PATTERNS = [
-    /<script/i,           // Tags de script
-    /javascript:/i,       // JavaScript en URLs
+    /<script/i,           // Script tags
+    /javascript:/i,       // JavaScript URLs
     /on\w+\s*=/i,        // Event handlers (onclick, onerror, etc)
     /<iframe/i,          // iframes
     /<object/i,          // Objects
@@ -24,55 +24,55 @@ export class ExerciseValidator {
   ];
 
   /**
-   * Valida el título de un ejercicio
+   * Validate an exercise title
    * 
-   * @param title - Título a validar
-   * @returns Resultado de la validación con valor sanitizado
+   * @param title - Title to validate
+   * @returns Validation result with sanitized value
    * 
    * @example
-   * const result = ExerciseValidator.validateTitle('Suma de números');
+   * const result = ExerciseValidator.validateTitle('Sum of numbers');
    * if (result.isValid) {
-   *   console.log(result.sanitized); // "Suma de números"
+   *   console.log(result.sanitized); // "Sum of numbers"
    * }
    */
   static validateTitle(title: string): ValidationResult {
-    // Validar que no esté vacío
+    // Ensure that it is not empty
     if (!title || title.trim().length === 0) {
       return {
         isValid: false,
-        error: 'El título no puede estar vacío'
+        error: 'Title cannot be empty'
       };
     }
 
     const trimmed = title.trim();
 
-    // Validar longitud mínima
+    // Validate minimum length
     if (trimmed.length < 3) {
       return {
         isValid: false,
-        error: 'El título debe tener al menos 3 caracteres'
+        error: 'Title must be at least 3 characters'
       };
     }
 
-    // Validar longitud máxima
+    // Validate maximum length
     if (trimmed.length > 200) {
       return {
         isValid: false,
-        error: 'El título no puede exceder 200 caracteres'
+        error: 'Title cannot exceed 200 characters'
       };
     }
 
-    // Validar patrones peligrosos (seguridad)
+    // Validate dangerous patterns (security)
     for (const pattern of this.DANGEROUS_PATTERNS) {
       if (pattern.test(trimmed)) {
         return {
           isValid: false,
-          error: 'El título contiene caracteres no permitidos'
+          error: 'Title contains disallowed characters'
         };
       }
     }
 
-    // Todo OK
+    // All good
     return {
       isValid: true,
       sanitized: trimmed
@@ -80,15 +80,15 @@ export class ExerciseValidator {
   }
 
   /**
-   * Valida la dificultad de un ejercicio
+   * Validate exercise difficulty
    * 
-   * @param difficulty - Dificultad a validar
-   * @returns Resultado de la validación
+   * @param difficulty - Difficulty to validate
+   * @returns Validation result
    * 
    * @example
    * const result = ExerciseValidator.validateDifficulty('easy');
    * if (result.isValid) {
-   *   console.log('Dificultad válida');
+   *   console.log('Valid difficulty');
    * }
    */
   static validateDifficulty(difficulty: string): ValidationResult {
@@ -98,7 +98,7 @@ export class ExerciseValidator {
     if (!validDifficulties.includes(normalized)) {
       return {
         isValid: false,
-        error: 'La dificultad debe ser: easy, medium o hard'
+        error: 'Difficulty must be easy, medium, or hard'
       };
     }
 
@@ -109,16 +109,16 @@ export class ExerciseValidator {
   }
 
   /**
-   * Valida la descripción de un ejercicio
+   * Validate an exercise description
    * 
-   * @param description - Descripción a validar
-   * @returns Resultado de la validación
+   * @param description - Description to validate
+   * @returns Validation result
    */
   static validateDescription(description: string): ValidationResult {
     if (!description || description.trim().length === 0) {
       return {
         isValid: false,
-        error: 'La descripción no puede estar vacía'
+        error: 'Description cannot be empty'
       };
     }
 
@@ -127,23 +127,23 @@ export class ExerciseValidator {
     if (trimmed.length < 10) {
       return {
         isValid: false,
-        error: 'La descripción debe tener al menos 10 caracteres'
+        error: 'Description must be at least 10 characters'
       };
     }
 
     if (trimmed.length > 5000) {
       return {
         isValid: false,
-        error: 'La descripción no puede exceder 5000 caracteres'
+        error: 'Description cannot exceed 5000 characters'
       };
     }
 
-    // Validar patrones peligrosos
+    // Validate dangerous patterns
     for (const pattern of this.DANGEROUS_PATTERNS) {
       if (pattern.test(trimmed)) {
         return {
           isValid: false,
-          error: 'La descripción contiene caracteres no permitidos'
+          error: 'Description contains disallowed characters'
         };
       }
     }
@@ -155,10 +155,10 @@ export class ExerciseValidator {
   }
 
   /**
-   * Valida el lenguaje de programación
+   * Validate the programming language
    * 
-   * @param language - Lenguaje a validar
-   * @returns Resultado de la validación
+   * @param language - Language to validate
+   * @returns Validation result
    */
   static validateLanguage(language: string): ValidationResult {
     const validLanguages = [
@@ -180,7 +180,7 @@ export class ExerciseValidator {
     if (!validLanguages.includes(normalized)) {
       return {
         isValid: false,
-        error: `Lenguaje no soportado. Lenguajes válidos: ${validLanguages.join(', ')}`
+        error: `Unsupported language. Supported languages: ${validLanguages.join(', ')}`
       };
     }
 

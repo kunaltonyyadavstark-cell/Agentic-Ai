@@ -1,7 +1,7 @@
 /**
- * Validación de Variables de Entorno
+ * Environment Variable Validation
  * 
- * Verifica que todas las variables necesarias existan al inicio
+ * Verify that all required variables exist at startup
  */
 
 import logger from './logger.config';
@@ -16,7 +16,7 @@ interface EnvConfig {
 }
 
 /**
- * Variables de entorno requeridas
+ * Required environment variables.
  */
 const requiredEnvVars = [
   'MONGODB_URI',
@@ -27,7 +27,7 @@ const requiredEnvVars = [
 
 
 /**
- * Variables de entorno opcionales con valores por defecto
+ * Optional environment variables with default values.
  */
 const defaultEnvVars: Partial<EnvConfig> = {
   NODE_ENV: 'development',
@@ -37,42 +37,42 @@ const defaultEnvVars: Partial<EnvConfig> = {
 };
 
 /**
- * Validar variables de entorno
+ * Validate environment variables
  */
 export const validateEnv = (): void => {
-  logger.info('🔍 Validando variables de entorno...');
+  logger.info('🔍 Validating environment variables...');
 
   const missing: string[] = [];
 
-  // Verificar variables requeridas
+  // Check required variables.
   for (const envVar of requiredEnvVars) {
     if (!process.env[envVar]) {
       missing.push(envVar);
     }
   }
 
-  // Si faltan variables críticas, fallar
+  // Fail if critical variables are missing
   if (missing.length > 0) {
-    logger.error('❌ Faltan variables de entorno requeridas:', { missing });
+    logger.error('❌ Required environment variables are missing:', { missing });
     throw new Error(
-      `Variables de entorno faltantes: ${missing.join(', ')}\n` +
-      'Por favor configura estas variables en tu archivo .env'
+      `Missing environment variables: ${missing.join(', ')}\n` +
+      'Please configure these variables in your .env file'
     );
   }
 
-  // Aplicar valores por defecto a variables opcionales
+  // Apply default values to optional variables.
   for (const [key, value] of Object.entries(defaultEnvVars)) {
     if (!process.env[key]) {
       process.env[key] = value;
-      logger.info(`ℹ️  Variable ${key} no definida, usando valor por defecto: ${value}`);
+      logger.info(`ℹ️  Variable ${key} is not defined; using default value: ${value}`);
     }
   }
 
-  logger.info('✅ Variables de entorno validadas correctamente');
+  logger.info('✅ Environment variables validated successfully');
 };
 
 /**
- * Obtener configuración de entorno (con tipos)
+ * Get typed environment configuration
  */
 export const getEnvConfig = (): EnvConfig => {
   return {

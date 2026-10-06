@@ -8,8 +8,8 @@ import ExerciseList from '@/components/exercises/ExerciseList';
 import ExerciseFilters from '@/components/exercises/ExerciseFilters';
 
 /**
- * Página de ejercicios
- * Lista todos los ejercicios con filtros
+ * Exercises Page
+ * Lists all exercises with filters
  */
 export default function Exercises() {
   const isAuthenticated = useIsAuthenticated();
@@ -24,29 +24,29 @@ export default function Exercises() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Ejercicios</h1>
+          <h1 className="text-3xl font-bold">Exercises</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Explora y practica con ejercicios de programación
+            Explore and practice coding challenges
           </p>
         </div>
         {isAuthenticated && (
           <Button asChild>
             <Link to="/exercises/create">
               <PlusCircle className="mr-2 h-4 w-4" />
-              Crear Ejercicio
+              Create Exercise
             </Link>
           </Button>
         )}
       </div>
 
-      {/* Filtros y Lista */}
+      {/* Filters and List */}
       <div className="grid gap-6 lg:grid-cols-4">
-        {/* Sidebar de filtros */}
+        {/* Filters sidebar */}
         <div className="lg:col-span-1">
           <ExerciseFilters filters={filters} onFilterChange={setFilters} />
         </div>
 
-        {/* Lista de ejercicios */}
+        {/* Exercise list */}
         <div className="lg:col-span-3">
           <ExerciseList filters={filters} />
         </div>

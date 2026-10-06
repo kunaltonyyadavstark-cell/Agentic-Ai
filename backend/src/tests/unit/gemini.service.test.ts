@@ -1,5 +1,5 @@
 /**
- * Tests para Gemini Service
+ * Tests for Gemini Service
  */
 
 import { describe, it, expect, beforeAll, vi } from 'vitest';
@@ -7,40 +7,40 @@ import { geminiService } from '../../services/gemini.service';
 
 describe('Gemini Service', () => {
   beforeAll(() => {
-    // Asegurar que GEMINI_API_KEY esté definida para tests
+    // Ensure GEMINI_API_KEY is defined for tests
     if (!process.env.GEMINI_API_KEY) {
       process.env.GEMINI_API_KEY = 'test-api-key-for-unit-tests';
     }
   });
 
   describe('Service Initialization', () => {
-    it('debe inicializar el servicio correctamente', () => {
+    it('initializes the service correctly', () => {
       expect(geminiService).toBeDefined();
     });
 
-    it('debe tener método generateSolution', () => {
+    it('has a generateSolution method', () => {
       expect(typeof geminiService.generateSolution).toBe('function');
     });
 
-    it('debe tener método analyzeCode', () => {
+    it('has an analyzeCode method', () => {
       expect(typeof geminiService.analyzeCode).toBe('function');
     });
 
-    it('debe tener método explain', () => {
+    it('has an explain method', () => {
       expect(typeof geminiService.explain).toBe('function');
     });
   });
 
   describe('generateSolution', () => {
-    it('debe aceptar parámetros válidos', () => {
+    it('accepts valid parameters', () => {
       const request = {
-        problem: 'Suma dos números',
+        problem: 'Add two numbers',
         language: 'javascript',
         difficulty: 'easy' as const,
       };
 
       expect(() => {
-        // Solo verificamos que acepta los parámetros
+        // Only verify that it accepts the parameters
         expect(request.problem).toBeDefined();
         expect(request.language).toBeDefined();
       }).not.toThrow();
@@ -48,7 +48,7 @@ describe('Gemini Service', () => {
   });
 
   describe('analyzeCode', () => {
-    it('debe aceptar parámetros válidos', () => {
+    it('accepts valid parameters', () => {
       const request = {
         code: 'function sum(a, b) { return a + b; }',
         language: 'javascript',
@@ -60,9 +60,9 @@ describe('Gemini Service', () => {
   });
 
   describe('explain', () => {
-    it('debe aceptar parámetros válidos', () => {
+    it('accepts valid parameters', () => {
       const request = {
-        topic: 'Variables en JavaScript',
+        topic: 'Variables in JavaScript',
         level: 'beginner' as const,
       };
 

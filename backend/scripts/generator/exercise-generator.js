@@ -11,7 +11,7 @@ const languages = [
 ];
 
 let output = `// backend/scripts/exercises/python-workbook-chapter1.ts\n`;
-output += `// Python Workbook - Capítulo ${data.chapter}: ${data.exercises.length} ejercicios × 4 lenguajes = ${data.exercises.length * 4} registros\n\n`;
+output += `// Python Workbook - Chapter ${data.chapter}: ${data.exercises.length} exercises × 4 languages = ${data.exercises.length * 4} records\n\n`;
 output += `export const pythonWorkbookChapter1 = [\n`;
 
 data.exercises.forEach((exercise) => {
@@ -38,7 +38,7 @@ output += `];\n`;
 
 fs.writeFileSync('python-workbook-chapter1.ts', output);
 
-console.log('✅ Archivo generado: python-workbook-chapter1.ts');
-console.log(`📊 Total ejercicios: ${data.exercises.length}`);
-console.log(`📦 Total registros: ${data.exercises.length * 4}`);
-console.log(`📄 Líneas generadas: ${output.split('\n').length}`);
+console.log('✅ File generated: python-workbook-chapter1.ts');
+console.log(`📊 Total exercises: ${data.exercises.length}`);
+console.log(`📦 Total records: ${data.exercises.length * 4}`);
+console.log(`📄 Lines generated: ${output.split('\n').length}`);

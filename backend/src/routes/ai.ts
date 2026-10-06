@@ -13,10 +13,10 @@ const aiLimiter = rateLimit({
   skip: () => process.env.NODE_ENV === 'test',
   message: {
     success: false,
-    error: 'Demasiadas peticiones de IA. Por favor intenta de nuevo más tarde',
+    error: 'Too many AI requests. Please try again later.',
   },
   handler: (req, res) => {
-    logger.warn('⚠️ Rate limit alcanzado - IA', {
+    logger.warn('⚠️ Rate limit reached - AI', {
       ip: req.ip,
       path: req.path,
       userId: (req as any).user?._id,
@@ -24,21 +24,21 @@ const aiLimiter = rateLimit({
 
     res.status(429).json({
       success: false,
-      error: 'Demasiadas peticiones de IA. Por favor intenta de nuevo más tarde',
+      error: 'Too many AI requests. Please try again later.',
     });
   },
 });
 
 const analysisLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 50, // 50 requests (más permisivo para análisis en tiempo real)
+  windowMs: 15 * 60 * 1000, // 15 minutes.
+  max: 50, // More permissive for real-time analysis.
   skip: () => process.env.NODE_ENV === 'test',
   message: {
     success: false,
-    error: 'Demasiadas peticiones de análisis. Por favor espera un momento',
+    error: 'Too many analysis requests. Please wait a moment.',
   },
   handler: (req, res) => {
-    logger.warn('⚠️ Rate limit alcanzado - Code Analysis', {
+    logger.warn('⚠️ Rate limit reached - Code Analysis', {
       ip: req.ip,
       path: req.path,
       userId: (req as any).user?._id,
@@ -46,7 +46,7 @@ const analysisLimiter = rateLimit({
 
     res.status(429).json({
       success: false,
-      error: 'Demasiadas peticiones de análisis. Por favor espera un momento',
+      error: 'Too many analysis requests. Please wait a moment.',
     });
   },
 });
@@ -55,8 +55,8 @@ const analysisLimiter = rateLimit({
  * @swagger
  * /api/ai/generate-solution:
  *   post:
- *     summary: Generar solución de código con IA
- *     description: Usa Gemini 2.0 para generar una solución completa de código con explicación y análisis de complejidad
+ *     summary: Generate a code solution with AI
+ *     description: Use Gemini 2.0 to generate a complete code solution with an explanation and complexity analysis
  *     tags: [AI]
  *     security:
  *       - bearerAuth: []
@@ -72,26 +72,26 @@ const analysisLimiter = rateLimit({
  *             properties:
  *               problem:
  *                 type: string
- *                 description: Descripción del problema a resolver
- *                 example: Crea una función que sume dos números enteros
+ *                 description: Description of the problem to solve
+ *                 example: Create a function that adds two integers
  *               language:
  *                 type: string
- *                 description: Lenguaje de programación
+ *                 description: Programming language
  *                 example: javascript
  *               difficulty:
  *                 type: string
  *                 enum: [easy, medium, hard]
- *                 description: Dificultad del problema
+ *                 description: Problem difficulty
  *                 example: easy
  *               hints:
  *                 type: array
  *                 items:
  *                   type: string
- *                 description: Pistas opcionales para la solución
- *                 example: ["Usar el operador +", "Retornar el resultado"]
+ *                 description: Optional hints for the solution
+ *                 example: ["Use the + operator", "Return the result"]
  *     responses:
  *       200:
- *         description: Solución generada exitosamente
+ *         description: Solution generated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -108,23 +108,23 @@ const analysisLimiter = rateLimit({
  *                       example: "function sum(a, b) { return a + b; }"
  *                     explanation:
  *                       type: string
- *                       example: Esta función toma dos parámetros y retorna su suma...
+ *                       example: This function takes two parameters and returns their sum...
  *                     language:
  *                       type: string
  *                       example: javascript
  *                     complexity:
  *                       type: string
- *                       example: "O(1) - tiempo constante"
+ *                       example: "O(1) - constant time"
  *                     alternativeApproaches:
  *                       type: array
  *                       items:
  *                         type: string
  *       400:
- *         description: Datos inválidos (problema o lenguaje vacío)
+ *         description: Invalid data (empty problem or language)
  *       401:
- *         description: No autenticado
+ *         description: Not authenticated
  *       429:
- *         description: Límite de peticiones excedido (10 por 15 minutos)
+ *         description: Request limit exceeded (10 per 15 minutes)
  */
 router.post(
   '/generate-solution',
@@ -138,8 +138,8 @@ router.post(
  * @swagger
  * /api/ai/analyze-code:
  *   post:
- *     summary: Analizar código del usuario
- *     description: Analiza código con IA para encontrar problemas, sugerencias de mejora y calificación
+ *     summary: Analyze user code
+ *     description: Analyze code with AI to find issues, improvement suggestions, and a rating
  *     tags: [AI]
  *     security:
  *       - bearerAuth: []
@@ -155,22 +155,22 @@ router.post(
  *             properties:
  *               code:
  *                 type: string
- *                 description: Código a analizar (máximo 10,000 caracteres)
+ *                 description: Code to analyze (maximum 10,000 characters)
  *                 example: "function sum(a, b) { return a + b; }"
  *               language:
  *                 type: string
- *                 description: Lenguaje del código
+ *                 description: Code language
  *                 example: javascript
  *               focusAreas:
  *                 type: array
  *                 items:
  *                   type: string
  *                   enum: [performance, readability, bugs, security]
- *                 description: Áreas específicas en las que enfocarse
+ *                 description: Specific areas to focus on
  *                 example: ["performance", "readability"]
  *     responses:
  *       200:
- *         description: Análisis completado exitosamente
+ *         description: Analysis completed successfully
  *         content:
  *           application/json:
  *             schema:
@@ -201,11 +201,11 @@ router.post(
  *                     summary:
  *                       type: string
  *       400:
- *         description: Código vacío, muy largo o lenguaje inválido
+ *         description: Code is empty, too long, or the language is invalid
  *       401:
- *         description: No autenticado
+ *         description: Not authenticated
  *       429:
- *         description: Límite de peticiones excedido
+ *         description: Request limit exceeded
  */
 router.post(
   '/analyze-code',
@@ -219,8 +219,8 @@ router.post(
  * @swagger
  * /api/ai/explain:
  *   post:
- *     summary: Explicar concepto de programación
- *     description: Obtiene una explicación detallada de un concepto con ejemplos y recursos
+ *     summary: Explain a programming concept
+ *     description: Get a detailed explanation of a concept with examples and resources
  *     tags: [AI]
  *     security:
  *       - bearerAuth: []
@@ -235,20 +235,20 @@ router.post(
  *             properties:
  *               topic:
  *                 type: string
- *                 description: Tema o concepto a explicar
- *                 example: "¿Qué es una variable en JavaScript?"
+ *                 description: Topic or concept to explain
+ *                 example: "What is a variable in JavaScript?"
  *               level:
  *                 type: string
  *                 enum: [beginner, intermediate, advanced]
- *                 description: Nivel de complejidad de la explicación
+ *                 description: Explanation complexity level
  *                 example: beginner
  *               includeExamples:
  *                 type: boolean
- *                 description: Incluir ejemplos de código
+ *                 description: Include code examples
  *                 example: true
  *     responses:
  *       200:
- *         description: Explicación generada exitosamente
+ *         description: Explanation generated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -262,7 +262,7 @@ router.post(
  *                   properties:
  *                     explanation:
  *                       type: string
- *                       example: Una variable es un contenedor para almacenar valores...
+ *                       example: A variable is a container for storing values...
  *                     examples:
  *                       type: array
  *                       items:
@@ -276,11 +276,11 @@ router.post(
  *                       items:
  *                         type: string
  *       400:
- *         description: Tema vacío
+ *         description: Topic is empty
  *       401:
- *         description: No autenticado
+ *         description: Not authenticated
  *       429:
- *         description: Límite de peticiones excedido
+ *         description: Request limit exceeded
  */
 router.post(
   '/explain',
@@ -309,7 +309,7 @@ router.post(
   aiController.sendChatMessage.bind(aiController));
 
 
-// ⬇️ AÑADIR ESTAS LÍNEAS AQUÍ ⬇️
+// ⬇️ ADD THESE LINES HERE ⬇️
 router.post(
   '/analyze-progress',
   authenticate,

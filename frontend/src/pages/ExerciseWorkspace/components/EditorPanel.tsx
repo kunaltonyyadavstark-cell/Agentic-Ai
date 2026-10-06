@@ -58,7 +58,7 @@ export default function EditorPanel({
     setShowConsole(true);
   }, []);
 
-  // Exponer función para que el workspace pueda añadir outputs
+  // Expose the function so the workspace can add outputs.
   // (esto lo usaremos cuando implementemos "Run Tests")
   (window as any).__addConsoleOutput = addOutput;
 

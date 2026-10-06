@@ -1,7 +1,7 @@
 {
   "name": "agentlogic-ts",
   "version": "1.0.0",
-  "description": "Plataforma educativa potenciada por IA para aprender programación",
+  "description": "AI-powered educational platform for learning programming",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" --names \"BACKEND,FRONTEND\" --prefix-colors \"blue,magenta\"",

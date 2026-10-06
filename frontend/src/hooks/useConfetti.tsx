@@ -84,7 +84,7 @@ export const useConfetti = () => {
     celebrateAllTestsPassed,
     celebrateExerciseComplete,
     celebrateAchievement,
-    // Los elementos de recompensa deben renderizarse en el componente que utiliza este hook
+    // Reward elements should be rendered in the component that uses this hook.
     rewardElement: (
       <>
         <span id="confetti-reward" style={{ position: 'fixed', top: '50%', left: '50%', zIndex: 9999 }} />

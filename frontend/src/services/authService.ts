@@ -7,12 +7,12 @@ import {
 } from '../types';
 
 /**
- * Servicio de Autenticación
- * Maneja todas las peticiones relacionadas con auth
+ * Authentication Service
+ * Handles all requests related to auth
  */
 class AuthService {
   /**
-   * Registrar nuevo usuario
+   * Register new user
    */
   async register(data: RegisterData): Promise<AuthResponse> {
     const response = await api.post<ApiResponse<AuthResponse>>('/auth/register', data);
@@ -20,7 +20,7 @@ class AuthService {
   }
 
   /**
-   * Iniciar sesión
+   * Log in user
    */
   async login(data: LoginData): Promise<AuthResponse> {
     const response = await api.post<ApiResponse<AuthResponse>>('/auth/login', data);
@@ -28,7 +28,7 @@ class AuthService {
   }
 
   /**
-   * Obtener usuario actual (requiere token)
+   * Get current user (requires token)
    */
   async getMe(): Promise<User> {
     const response = await api.get<ApiResponse<User>>('/auth/me');
@@ -36,7 +36,7 @@ class AuthService {
   }
 
   /**
-   * Cerrar sesión (limpiar token del lado del cliente)
+   * Log out (clear client-side token)
    */
   logout(): void {
     localStorage.removeItem('token');
@@ -44,7 +44,7 @@ class AuthService {
   }
 
   /**
-   * Verificar si el token es válido
+   * Verify if token is valid
    */
   async verifyToken(): Promise<boolean> {
     try {
@@ -56,12 +56,12 @@ class AuthService {
   }
 
   /**
-   * Verificar si hay un token guardado
+   * Check if token is stored
    */
   hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
 }
 
-// Exportar instancia única (singleton)
+// Export singleton instance
 export const authService = new AuthService();

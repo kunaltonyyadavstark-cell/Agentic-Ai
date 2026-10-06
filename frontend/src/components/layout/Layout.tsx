@@ -7,16 +7,16 @@ interface LayoutProps {
 }
 
 /**
- * Layout principal de la aplicación
- * Incluye Header, contenido y Footer
+ * Main application layout
+ * Includes Header, content, and Footer
  */
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Header fijo en la parte superior */}
+      {/* Sticky header at the top */}
       <Header />
 
-      {/* Contenido principal */}
+      {/* Main content */}
       <main className="flex-1 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4 py-8">
           {children}
@@ -26,9 +26,9 @@ export default function Layout({ children }: LayoutProps) {
       {/* Footer */}
       <Footer />
 
-      {/* Espacio para chatbot flotante (Fase 5) */}
+      {/* Space for floating chatbot (Phase 5) */}
       <div className="fixed bottom-4 right-4 z-50">
-        {/* Aquí irá el chatbot después */}
+        {/* Chatbot will go here */}
         {/* <AIChatbot /> */}
       </div>
     </div>

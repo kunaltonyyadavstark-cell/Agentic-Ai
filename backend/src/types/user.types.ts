@@ -1,39 +1,39 @@
 import { ObjectId } from 'mongodb';
 
 /**
- * Rol del usuario en el sistema
+ * User role in the system.
  */
 export type UserRole = 'user' | 'admin';
 
 /**
- * Documento de usuario en MongoDB con métodos de instancia
+ * MongoDB user document with instance methods
  */
 export interface IUser {
   _id: ObjectId;
-  /** Nombre de usuario único */
+  /** Unique username */
   username: string;
   name: string;
-  /** Email único */
+  /** Unique email */
   email: string;
-  /** Password hasheado (nunca se devuelve al cliente) */
+  /** Hashed password (never returned to the client) */
   password: string;
-  /** Rol del usuario */
+  /** User role */
   role: UserRole;
-  /** Fecha de creación */
+  /** Creation date */
   createdAt: Date;
-  /** Fecha de última actualización */
+  /** Last updated date */
   updatedAt: Date;
   
   /**
-   * Método de instancia: Compara password con el hash almacenado
-   * @param candidatePassword - Password a comparar
-   * @returns true si coincide, false si no
+   * Instance method: Compare the password with the stored hash
+   * @param candidatePassword - Password to compare
+   * @returns true if they match, false otherwise
    */
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 /**
- * DTO para registro de usuario
+ * DTO for user registration.
  */
 export interface RegisterDTO {
   username: string;
@@ -43,7 +43,7 @@ export interface RegisterDTO {
 }
 
 /**
- * DTO para login
+ * DTO for login
  */
 export interface LoginDTO {
   email: string;
@@ -51,7 +51,7 @@ export interface LoginDTO {
 }
 
 /**
- * Respuesta de autenticación con token
+ * Authentication response with token
  */
 export interface AuthResponse {
   token: string;
@@ -65,7 +65,7 @@ export interface AuthResponse {
 }
 
 /**
- * Payload del JWT token
+ * JWT token payload.
  */
 export interface JWTPayload {
   userId: string;

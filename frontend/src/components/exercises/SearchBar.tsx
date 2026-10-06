@@ -12,7 +12,7 @@ interface SearchBarProps {
 export function SearchBar({ value, onChange, placeholder = 'Search exercises...' }: SearchBarProps) {
   const [localValue, setLocalValue] = useState(value);
 
-  // Debounce: esperar 300ms después de que el usuario deje de escribir
+  // Debounce: wait 300ms after user stops typing
   useEffect(() => {
     const timer = setTimeout(() => {
       onChange(localValue);

@@ -21,11 +21,10 @@ import {
 } from 'lucide-react';
 import { useIsAuthenticated } from '@/store/authStore';
 import { formatDistanceToNow } from 'date-fns';
-import { es } from 'date-fns/locale';
 import { toast } from 'sonner';
 
 /**
- * Página de detalle del ejercicio
+ * Exercise Detail Page
  */
 export default function ExerciseDetail() {
   const { id } = useParams<{ id: string }>();
@@ -42,34 +41,34 @@ export default function ExerciseDetail() {
     enabled: !!id,
   });
 
-  // Handlers de IA (por ahora solo muestran toast)
+  // AI handlers
   const handleGenerateSolution = () => {
-    toast.info('Generando solución con IA...', {
-      description: 'Esta funcionalidad se implementará pronto'
+    toast.info('Generating solution with AI...', {
+      description: 'This feature will be available soon'
     });
   };
 
   const handleAnalyzeCode = () => {
-    toast.info('Analizando código...', {
-      description: 'Esta funcionalidad se implementará pronto'
+    toast.info('Analyzing code...', {
+      description: 'This feature will be available soon'
     });
   };
 
   const handleExplainConcept = () => {
-    toast.info('Explicando concepto...', {
-      description: 'Esta funcionalidad se implementará pronto'
+    toast.info('Explaining concept...', {
+      description: 'This feature will be available soon'
     });
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('¿Estás seguro de eliminar este ejercicio?')) return;
+    if (!window.confirm('Are you sure you want to delete this exercise?')) return;
     
     try {
       await exerciseService.delete(id!);
-      toast.success('Ejercicio eliminado exitosamente');
+      toast.success('Exercise deleted successfully');
       navigate('/exercises');
     } catch (error) {
-      toast.error('Error al eliminar el ejercicio');
+      toast.error('Failed to delete exercise');
     }
   };
 
@@ -90,9 +89,9 @@ export default function ExerciseDetail() {
       <Alert variant="destructive">
         <AlertTitle>Error</AlertTitle>
         <AlertDescription>
-          No se pudo cargar el ejercicio.
+          Failed to load exercise.
           <Button variant="outline" size="sm" className="ml-4" onClick={() => navigate('/exercises')}>
-            Volver a ejercicios
+            Back to exercises
           </Button>
         </AlertDescription>
       </Alert>
@@ -111,9 +110,9 @@ export default function ExerciseDetail() {
 
   const getDifficultyLabel = (difficulty: string) => {
     const labels: Record<string, string> = {
-      easy: 'Fácil',
-      medium: 'Medio',
-      hard: 'Difícil'
+      easy: 'Easy',
+      medium: 'Medium',
+      hard: 'Hard'
     };
     return labels[difficulty] || difficulty;
   };
@@ -123,10 +122,10 @@ export default function ExerciseDetail() {
       {/* Breadcrumb */}
       <Button variant="ghost" size="sm" onClick={() => navigate('/exercises')}>
         <ArrowLeft className="mr-2 h-4 w-4" />
-        Volver a ejercicios
+        Back to exercises
       </Button>
 
-      {/* Header del ejercicio */}
+      {/* Exercise header */}
       <div className="space-y-4">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div className="flex-1">
@@ -140,7 +139,7 @@ export default function ExerciseDetail() {
               <div className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
                 <span>
-                  Creado {formatDistanceToNow(new Date(exercise.createdAt), { addSuffix: true, locale: es })}
+                  Created {formatDistanceToNow(new Date(exercise.createdAt), { addSuffix: true })}
                 </span>
               </div>
             </div>
@@ -155,26 +154,26 @@ export default function ExerciseDetail() {
                 <Button variant="outline" size="sm" asChild>
                   <Link to={`/exercises/${id}/edit`}>
                     <Edit className="mr-2 h-4 w-4" />
-                    Editar
+                    Edit
                   </Link>
                 </Button>
                 <Button variant="destructive" size="sm" onClick={handleDelete}>
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Eliminar
+                  Delete
                 </Button>
               </>
             )}
           </div>
         </div>
 
-        {/* 🚀 BOTÓN PRINCIPAL - ACADEMY MODE (UBICACIÓN 1 - MÁS VISIBLE) */}
+        {/* 🚀 PRIMARY BUTTON - ACADEMY MODE */}
         <Button
           onClick={() => navigate(`/exercises/${id}/workspace`)}
           size="lg"
           className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all"
         >
           <Sparkles className="mr-2 h-5 w-5" />
-          Entrar al Academy Workspace
+          Enter Academy Workspace
           <Zap className="ml-2 h-5 w-5" />
         </Button>
 
@@ -190,10 +189,10 @@ export default function ExerciseDetail() {
         )}
       </div>
 
-      {/* Descripción */}
+      {/* Description */}
       <Card>
         <CardHeader>
-          <CardTitle>Descripción</CardTitle>
+          <CardTitle>Description</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
@@ -206,9 +205,9 @@ export default function ExerciseDetail() {
       {exercise.testCases && exercise.testCases.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Casos de Prueba</CardTitle>
+            <CardTitle>Test Cases</CardTitle>
             <CardDescription>
-              Tu solución debe pasar estos casos de prueba
+              Your solution must pass these test cases
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -216,7 +215,7 @@ export default function ExerciseDetail() {
               <div key={index} className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg space-y-2">
                 <div className="flex items-center gap-2 text-sm font-medium">
                   <CheckCircle2 className="h-4 w-4 text-green-600" />
-                  <span>Caso de prueba #{index + 1}</span>
+                  <span>Test Case #{index + 1}</span>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4 text-sm">
                   <div>
@@ -226,7 +225,7 @@ export default function ExerciseDetail() {
                     </pre>
                   </div>
                   <div>
-                    <span className="font-medium">Output esperado:</span>
+                    <span className="font-medium">Expected output:</span>
                     <pre className="mt-1 p-2 bg-white dark:bg-gray-950 rounded border overflow-x-auto">
                       {JSON.stringify(testCase.expectedOutput, null, 2)}
                     </pre>
@@ -247,9 +246,9 @@ export default function ExerciseDetail() {
       {exercise.hints && exercise.hints.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Pistas</CardTitle>
+            <CardTitle>Hints</CardTitle>
             <CardDescription>
-              Algunas ideas para resolver el ejercicio
+              A few ideas to help you solve the exercise
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -265,42 +264,42 @@ export default function ExerciseDetail() {
         </Card>
       )}
 
-      {/* Acciones de IA */}
+      {/* AI Assistance */}
       {isAuthenticated && (
         <Card>
           <CardHeader>
-            <CardTitle>Ayuda con IA</CardTitle>
+            <CardTitle>AI Assistance</CardTitle>
             <CardDescription>
-              Usa Gemini 2.0 para obtener ayuda con este ejercicio
+              Use Gemini 2.0 to get help with this exercise
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-3">
             <Button onClick={handleGenerateSolution} variant="default">
               <Sparkles className="mr-2 h-4 w-4" />
-              Generar Solución
+              Generate Solution
             </Button>
             <Button onClick={handleAnalyzeCode} variant="outline">
               <Search className="mr-2 h-4 w-4" />
-              Analizar mi Código
+              Analyze My Code
             </Button>
             <Button onClick={handleExplainConcept} variant="outline">
               <Lightbulb className="mr-2 h-4 w-4" />
-              Explicar Concepto
+              Explain Concept
             </Button>
           </CardContent>
         </Card>
       )}
 
-      {/* 🚀 BOTÓN SECUNDARIO - ACADEMY MODE (UBICACIÓN 2 - ANTES DEL EDITOR) */}
+      {/* 🚀 SECONDARY BUTTON - ACADEMY MODE */}
       {isAuthenticated && (
         <Card className="border-2 border-blue-200 dark:border-blue-800 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-blue-600" />
-              ¿Quieres una experiencia de aprendizaje completa?
+              Want a complete learning experience?
             </CardTitle>
             <CardDescription>
-              Accede al Academy Workspace con IA tutor, flowcharts interactivos, análisis en tiempo real y mucho más
+              Access the Academy Workspace with an AI tutor, interactive flowcharts, real-time analysis, and much more
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -310,26 +309,26 @@ export default function ExerciseDetail() {
               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
             >
               <Zap className="mr-2 h-5 w-5" />
-              Abrir Academy Workspace
+              Open Academy Workspace
               <Sparkles className="ml-2 h-5 w-5" />
             </Button>
           </CardContent>
         </Card>
       )}
 
-      {/* Editor de código (SIMPLE - PREVIEW) */}
+      {/* Code Editor Preview */}
       {isAuthenticated && (
         <Card>
           <CardHeader>
-            <CardTitle>Vista Previa del Editor</CardTitle>
+            <CardTitle>Editor Preview</CardTitle>
             <CardDescription>
-              Para la experiencia completa, usa el Academy Workspace
+              For the full interactive experience, use the Academy Workspace
             </CardDescription>
           </CardHeader>
           <CardContent>
             <CodeEditor
               defaultLanguage={exercise.language}
-              defaultValue={exercise.solution || `// Escribe tu solución en ${exercise.language}\n`}
+              defaultValue={exercise.solution || `// Write your ${exercise.language} solution here\n`}
               height="500px"
             />
           </CardContent>

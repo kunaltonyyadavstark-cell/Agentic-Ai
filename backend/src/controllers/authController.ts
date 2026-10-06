@@ -6,71 +6,71 @@ import { AppError } from '../middleware/errorHandler';
 import type { RegisterDTO, LoginDTO, AuthResponse } from '../types';
 
 /**
- * Controlador para autenticación de usuarios
+ * Controller for user authentication.
  */
 export class AuthController {
   /**
-   * Registra un nuevo usuario
+   * Register a new user.
    * 
    * @route POST /api/auth/register
    * @access Public
    * 
-   * @param req - Request con body RegisterDTO
+   * @param req - Request with body RegisterDTO
    * @param res - Response
    * @param next - NextFunction
    * 
-   * @returns Token JWT y datos del usuario
+   * @returns JWT and user data
    */
   async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { username, email, password, name }: RegisterDTO = req.body;
 
-      // Validar username
+      // Validate the username.
       const usernameValidation = UserValidator.validateUsername(username);
       if (!usernameValidation.isValid) {
         throw new AppError(usernameValidation.error!, 400);
       }
 
-      // Validar email
+      // Validate the email.
       const emailValidation = UserValidator.validateEmail(email);
       if (!emailValidation.isValid) {
         throw new AppError(emailValidation.error!, 400);
       }
 
-      // Validar password
+      // Validate the password.
       const passwordValidation = UserValidator.validatePassword(password);
       if (!passwordValidation.isValid) {
         throw new AppError(passwordValidation.error!, 400);
       }
 
-      // Verificar que el email no existe
+      // Check that the email is not already registered.
       const existingEmail = await User.findOne({ email: emailValidation.sanitized });
       if (existingEmail) {
-        throw new AppError('El email ya está registrado', 400);
+        throw new AppError('Email is already registered', 400);
       }
 
-      // Verificar que el username no existe
+      // Check that the username is not already taken.
       const existingUsername = await User.findOne({ username: usernameValidation.sanitized });
       if (existingUsername) {
-        throw new AppError('El username ya está en uso', 400);
+        throw new AppError('Username is already taken', 400);
       }
 
-      // Crear usuario
+      // Create user
       const user = await User.create({
         username: usernameValidation.sanitized,
         email: emailValidation.sanitized,
-        password, 
-        name// Se hasheará automáticamente en el pre-save hook
+        password,
+        name, // The password is hashed automatically in the pre-save hook.
       });
 
-      // Generar token
+      // Generate a token.
       const token = JWTService.generateToken({
         userId: user.id.toString(),
         email: user.email,
         role: user.role
       });
 
-      // Preparar respuesta (sin password)
+      // Prepare the response (without the password)
       const response: AuthResponse = {
         token,
         user: {
@@ -85,7 +85,7 @@ export class AuthController {
       res.status(201).json({
         success: true,
         data: response,
-        message: 'Usuario registrado exitosamente'
+        message: 'User registered successfully'
       });
     } catch (error) {
       next(error);
@@ -93,48 +93,48 @@ export class AuthController {
   }
 
   /**
-   * Inicia sesión de usuario
+   * Log a user in.
    * 
    * @route POST /api/auth/login
    * @access Public
    * 
-   * @param req - Request con body LoginDTO
+   * @param req - Request with body LoginDTO
    * @param res - Response
    * @param next - NextFunction
    * 
-   * @returns Token JWT y datos del usuario
+   * @returns JWT and user data
    */
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { email, password }: LoginDTO = req.body;
 
-      // Validar que se proporcionen credenciales
+      // Validate that credentials were provided.
       if (!email || !password) {
-        throw new AppError('Email y password son obligatorios', 400);
+        throw new AppError('Email and password are required', 400);
       }
 
-      // Buscar usuario por email (incluyendo password)
+      // Find user by email (including password)
       const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
 
       if (!user) {
-        throw new AppError('Credenciales inválidas', 401);
+        throw new AppError('Invalid credentials', 401);
       }
 
-      // Verificar password
+      // Verify the password.
       const isPasswordValid = await user.comparePassword(password);
 
       if (!isPasswordValid) {
-        throw new AppError('Credenciales inválidas', 401);
+        throw new AppError('Invalid credentials', 401);
       }
 
-      // Generar token
+      // Generate a token.
       const token = JWTService.generateToken({
         userId: user.id.toString(),
         email: user.email,
         role: user.role
       });
 
-      // Preparar respuesta
+      // Prepare the response
       const response: AuthResponse = {
         token,
         user: {
@@ -149,7 +149,7 @@ export class AuthController {
       res.status(200).json({
         success: true,
         data: response,
-        message: 'Login exitoso'
+        message: 'Login successful'
       });
     } catch (error) {
       next(error);
@@ -157,28 +157,28 @@ export class AuthController {
   }
 
   /**
-   * Obtiene datos del usuario autenticado
+   * Get authenticated user data
    * 
    * @route GET /api/auth/me
    * @access Private
    * 
-   * @param req - Request (debe tener req.user del middleware)
+   * @param req - Request (req.user must be set by the middleware)
    * @param res - Response
    * @param next - NextFunction
    * 
-   * @returns Datos del usuario
+   * @returns User data
    */
   async getMe(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.user) {
-        throw new AppError('No autenticado', 401);
+        throw new AppError('Not authenticated', 401);
       }
 
-      // Buscar usuario actualizado
+      // Find the updated user
       const user = await User.findById(req.user.userId);
 
       if (!user) {
-        throw new AppError('Usuario no encontrado', 404);
+        throw new AppError('User not found', 404);
       }
 
       res.status(200).json({

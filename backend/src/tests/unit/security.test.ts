@@ -1,5 +1,5 @@
 /**
- * Tests para Security Middleware
+ * Tests for Security Middleware
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -8,7 +8,7 @@ import { Request, Response, NextFunction } from 'express';
 
 describe('Security Middleware', () => {
   describe('helmetConfig', () => {
-    it('debe existir la configuración de Helmet', () => {
+    it('has a Helmet configuration', () => {
       expect(helmetConfig).toBeDefined();
       expect(typeof helmetConfig).toBe('function');
     });
@@ -31,12 +31,12 @@ describe('Security Middleware', () => {
       nextFunction = vi.fn();
     });
 
-    it('debe existir el middleware', () => {
+    it('has the middleware', () => {
       expect(mongoSanitize).toBeDefined();
       expect(typeof mongoSanitize).toBe('function');
     });
 
-    it('debe sanitizar $ en body', () => {
+    it('sanitizes $ in the body', () => {
       mockRequest.body = {
         email: 'test@test.com',
         $gt: 'malicious',
@@ -53,7 +53,7 @@ describe('Security Middleware', () => {
       expect(nextFunction).toHaveBeenCalled();
     });
 
-    it('debe sanitizar . en claves', () => {
+    it('sanitizes . in keys', () => {
       mockRequest.body = {
         'user.name': 'test',
         email: 'test@test.com',
@@ -69,7 +69,7 @@ describe('Security Middleware', () => {
       expect(mockRequest.body.email).toBe('test@test.com');
     });
 
-    it('debe sanitizar objetos anidados', () => {
+    it('sanitizes nested objects', () => {
       mockRequest.body = {
         user: {
           $where: 'malicious',

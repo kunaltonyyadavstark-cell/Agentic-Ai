@@ -5,19 +5,19 @@ import { AppError } from '../middleware/errorHandler';
 import type { CreateExerciseDTO, ProgrammingLanguage, UpdateExerciseDTO } from '../types';
 
 /**
- * Controlador para gestionar ejercicios de programación
- * Implementa CRUD completo con validaciones y seguridad
+ * Controller for managing programming exercises.
+ * Implements full CRUD with validation and security
  */
 export class ExerciseController {
   /**
-   * Obtiene todos los ejercicios con paginación y filtros
+   * Get all exercises with pagination and filters.
    * 
    * @route GET /api/exercises
    * @access Public
    * 
-   * @param req - Request con query params (page, limit, difficulty, language, search)
+   * @param req - Request with query parameters (page, limit, difficulty, language, search)
    * @param res - Response
-   * @param next - NextFunction para manejo de errores
+   * @param next - NextFunction for error handling
    * 
    * @example
    * GET /api/exercises?page=1&limit=10&difficulty=easy&language=python
@@ -28,7 +28,7 @@ export class ExerciseController {
       const limit = parseInt(req.query.limit as string) || 10;
       const skip = (page - 1) * limit;
 
-      // Construir filtros
+      // Build filters.
       const filters: Record<string, unknown> = {};
 
       if (req.query.difficulty) {
@@ -47,7 +47,7 @@ export class ExerciseController {
         filters.$text = { $search: req.query.search as string };
       }
 
-      // Ejecutar consulta con paginación
+      // Run the paginated query.
       const [exercises, total] = await Promise.all([
         Exercise.find(filters)
           .skip(skip)
@@ -73,16 +73,16 @@ export class ExerciseController {
   }
 
   /**
-   * Obtiene un ejercicio específico por su ID
+   * Get a specific exercise by its ID.
    * 
    * @route GET /api/exercises/:id
    * @access Public
    * 
-   * @param req - Request con params.id
+   * @param req - Request with params.id
    * @param res - Response
    * @param next - NextFunction
    * 
-   * @throws {AppError} 404 - Si el ejercicio no existe
+   * @throws {AppError} 404 - If the exercise does not exist
    * 
    * @example
    * GET /api/exercises/507f1f77bcf86cd799439011
@@ -94,7 +94,7 @@ export class ExerciseController {
       const exercise = await Exercise.findById(id).lean();
 
       if (!exercise) {
-        throw new AppError('Ejercicio no encontrado', 404);
+        throw new AppError('Exercise not found', 404);
       }
 
       res.status(200).json({
@@ -107,56 +107,56 @@ export class ExerciseController {
   }
 
   /**
-   * Crea un nuevo ejercicio
+   * Create a new exercise
    * 
    * @route POST /api/exercises
-   * @access Public (TODO: cambiar a Private con autenticación)
+   * @access Public (TODO: change to private with authentication)
    * 
-   * @param req - Request con body CreateExerciseDTO
+   * @param req - Request with body CreateExerciseDTO
    * @param res - Response
    * @param next - NextFunction
    * 
-   * @throws {AppError} 400 - Si los datos son inválidos
+   * @throws {AppError} 400 - If the data is invalid
    * 
    * @example
    * POST /api/exercises
    * {
-   *   "title": "Suma de números",
-   *   "description": "Escribe una función que sume dos números",
+   *   "title": "Sum of numbers",
+   *   "description": "Write a function that adds two numbers",
    *   "language": "python",
    *   "difficulty": "easy",
-   *   "tags": ["matemáticas"]
+   *   "tags": ["math"]
    * }
    */
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const exerciseData: CreateExerciseDTO = req.body;
 
-      // Validar título
+      // Validate the title.
       const titleValidation = ExerciseValidator.validateTitle(exerciseData.title);
       if (!titleValidation.isValid) {
         throw new AppError(titleValidation.error!, 400);
       }
 
-      // Validar descripción
+      // Validate the description.
       const descValidation = ExerciseValidator.validateDescription(exerciseData.description);
       if (!descValidation.isValid) {
         throw new AppError(descValidation.error!, 400);
       }
 
-      // Validar dificultad
+      // Validate the difficulty.
       const difficultyValidation = ExerciseValidator.validateDifficulty(exerciseData.difficulty);
       if (!difficultyValidation.isValid) {
         throw new AppError(difficultyValidation.error!, 400);
       }
 
-      // Validar lenguaje
+      // Validate the language.
       const languageValidation = ExerciseValidator.validateLanguage(exerciseData.language);
       if (!languageValidation.isValid) {
         throw new AppError(languageValidation.error!, 400);
       }
 
-      // Usar valores sanitizados
+      // Use sanitized values.
       const sanitizedData: CreateExerciseDTO = {
         title: titleValidation.sanitized!,
         description: descValidation.sanitized!,
@@ -169,13 +169,13 @@ export class ExerciseController {
         solution: exerciseData.solution
       };
 
-      // Crear ejercicio
+      // Create exercise
       const exercise = await Exercise.create(sanitizedData);
 
       res.status(201).json({
         success: true,
         data: exercise,
-        message: 'Ejercicio creado exitosamente'
+        message: 'Exercise created successfully'
       });
     } catch (error) {
       next(error);
@@ -183,22 +183,22 @@ export class ExerciseController {
   }
 
   /**
-   * Actualiza un ejercicio existente
+   * Update an existing exercise
    * 
    * @route PATCH /api/exercises/:id
-   * @access Public (TODO: cambiar a Private y validar ownership)
+   * @access Public (TODO: make private and validate ownership)
    * 
-   * @param req - Request con params.id y body UpdateExerciseDTO
+   * @param req - Request with params.id y body UpdateExerciseDTO
    * @param res - Response
    * @param next - NextFunction
    * 
-   * @throws {AppError} 404 - Si el ejercicio no existe
-   * @throws {AppError} 400 - Si los datos son inválidos
+   * @throws {AppError} 404 - If the exercise does not exist
+   * @throws {AppError} 400 - If the data is invalid
    * 
    * @example
    * PATCH /api/exercises/507f1f77bcf86cd799439011
    * {
-   *   "title": "Nuevo título"
+   *   "title": "New title"
    * }
    */
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -206,7 +206,7 @@ export class ExerciseController {
       const { id } = req.params;
       const updates: UpdateExerciseDTO = req.body;
 
-      // Validar campos si están presentes
+      // Validate fields if present.
       if (updates.title) {
         const validation = ExerciseValidator.validateTitle(updates.title);
         if (!validation.isValid) {
@@ -239,7 +239,7 @@ export class ExerciseController {
         updates.language = validation.sanitized! as ProgrammingLanguage;
       }
 
-      // Actualizar ejercicio
+      // Update exercise
       const exercise = await Exercise.findByIdAndUpdate(
         id,
         { $set: updates },
@@ -247,13 +247,13 @@ export class ExerciseController {
       );
 
       if (!exercise) {
-        throw new AppError('Ejercicio no encontrado', 404);
+        throw new AppError('Exercise not found', 404);
       }
 
       res.status(200).json({
         success: true,
         data: exercise,
-        message: 'Ejercicio actualizado exitosamente'
+        message: 'Exercise updated successfully'
       });
     } catch (error) {
       next(error);
@@ -261,16 +261,16 @@ export class ExerciseController {
   }
 
   /**
-   * Elimina un ejercicio
+   * Delete an exercise
    * 
    * @route DELETE /api/exercises/:id
-   * @access Public (TODO: cambiar a Private y validar ownership)
+   * @access Public (TODO: make private and validate ownership)
    * 
-   * @param req - Request con params.id
+   * @param req - Request with params.id
    * @param res - Response
    * @param next - NextFunction
    * 
-   * @throws {AppError} 404 - Si el ejercicio no existe
+   * @throws {AppError} 404 - If the exercise does not exist
    * 
    * @example
    * DELETE /api/exercises/507f1f77bcf86cd799439011
@@ -282,12 +282,12 @@ export class ExerciseController {
       const exercise = await Exercise.findByIdAndDelete(id);
 
       if (!exercise) {
-        throw new AppError('Ejercicio no encontrado', 404);
+        throw new AppError('Exercise not found', 404);
       }
 
       res.status(200).json({
         success: true,
-        message: 'Ejercicio eliminado exitosamente'
+        message: 'Exercise deleted successfully'
       });
     } catch (error) {
       next(error);
@@ -295,5 +295,5 @@ export class ExerciseController {
   }
 }
 
-// Exportar instancia única del controlador
+// Export the controller singleton.
 export const exerciseController = new ExerciseController();

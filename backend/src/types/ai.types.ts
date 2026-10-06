@@ -1,9 +1,9 @@
 /**
- * Tipos para el servicio de IA (Gemini)
+ * Types for the AI service (Gemini)
  */
 
 /**
- * Solicitud para generar solución
+ * Request to generate a solution
  */
 export interface GenerateSolutionRequest {
   problem: string;
@@ -13,7 +13,7 @@ export interface GenerateSolutionRequest {
 }
 
 /**
- * Respuesta de solución generada
+ * Generated solution response
  */
 export interface GenerateSolutionResponse {
   solution: string;
@@ -24,7 +24,7 @@ export interface GenerateSolutionResponse {
 }
 
 /**
- * Solicitud para analizar código
+ * Request to analyze code
  */
 export interface AnalyzeCodeRequest {
   code: string;
@@ -33,7 +33,7 @@ export interface AnalyzeCodeRequest {
 }
 
 /**
- * Respuesta de análisis de código
+ * Code analysis response
  */
 export interface AnalyzeCodeResponse {
   issues: CodeIssue[];
@@ -51,7 +51,7 @@ export interface CodeIssue {
 }
 
 /**
- * Solicitud para explicación
+ * Explanation request
  */
 export interface ExplainRequest {
   topic: string;
@@ -60,7 +60,7 @@ export interface ExplainRequest {
 }
 
 /**
- * Respuesta de explicación
+ * Explanation response
  */
 export interface ExplainResponse {
   explanation: string;

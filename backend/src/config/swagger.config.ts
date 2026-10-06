@@ -1,5 +1,5 @@
 /**
- * Configuración de Swagger/OpenAPI
+ * Swagger/OpenAPI configuration
  */
 
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -11,21 +11,21 @@ const options: swaggerJsdoc.Options = {
       title: 'AgentLogic API',
       version: '1.0.0',
       description: `
-        🤖 API REST para plataforma educativa de programación con IA
+        🤖 REST API for an AI-powered programming education platform
         
-        ## Características
-        - 🔐 Autenticación JWT
-        - 📝 Gestión de ejercicios de programación
-        - 🤖 Integración con Gemini 2.0 para generación de código
-        - 🛡️ Rate limiting y seguridad completa
-        - 📊 Logging profesional
+        ## Features
+        - 🔐 JWT authentication
+        - 📝 Programming exercise management
+        - 🤖 Gemini 2.0 integration for code generation
+        - 🛡️ Rate limiting and comprehensive security
+        - 📊 Professional logging
         
-        ## Autenticación
-        La mayoría de endpoints requieren autenticación JWT.
+        ## Authentication
+        Most endpoints require JWT authentication.
         
-        1. Registra un usuario en \`POST /api/auth/register\`
-        2. Obtén el token en \`POST /api/auth/login\`
-        3. Usa el token en el header: \`Authorization: Bearer <token>\`
+        1. Register a user at \`POST /api/auth/register\`
+        2. Get a token at \`POST /api/auth/login\`
+        3. Use the token in the header: \`Authorization: Bearer <token>\`
       `,
       contact: {
         name: 'AgentLogic Team',
@@ -39,11 +39,11 @@ const options: swaggerJsdoc.Options = {
     servers: [
       {
         url: 'http://localhost:5000',
-        description: 'Servidor de Desarrollo',
+        description: 'Development server',
       },
       {
         url: 'https://api-production.com',
-        description: 'Servidor de Producción',
+        description: 'Production server',
       },
     ],
     components: {
@@ -52,7 +52,7 @@ const options: swaggerJsdoc.Options = {
           type: 'http',
           scheme: 'bearer',
           bearerFormat: 'JWT',
-          description: 'Ingresa el token JWT obtenido del login',
+          description: 'Enter the JWT obtained after logging in',
         },
       },
       schemas: {
@@ -65,7 +65,7 @@ const options: swaggerJsdoc.Options = {
             },
             error: {
               type: 'string',
-              example: 'Mensaje de error descriptivo',
+              example: 'Descriptive error message',
             },
           },
         },
@@ -78,11 +78,11 @@ const options: swaggerJsdoc.Options = {
             },
             title: {
               type: 'string',
-              example: 'Suma de dos números',
+              example: 'Sum of two numbers',
             },
             description: {
               type: 'string',
-              example: 'Crea una función que sume dos números',
+              example: 'Create a function that adds two numbers',
             },
             difficulty: {
               type: 'string',
@@ -113,7 +113,7 @@ const options: swaggerJsdoc.Options = {
               items: {
                 type: 'string',
               },
-              example: ['básico', 'matemáticas'],
+              example: ['beginner', 'math'],
             },
             createdAt: {
               type: 'string',
@@ -155,25 +155,25 @@ const options: swaggerJsdoc.Options = {
     tags: [
       {
         name: 'Auth',
-        description: '🔐 Autenticación y gestión de usuarios',
+        description: '🔐 Authentication and user management',
       },
       {
         name: 'Exercises',
-        description: '📝 Gestión de ejercicios de programación',
+        description: '📝 Programming exercise management',
       },
       {
         name: 'AI',
-        description: '🤖 Generación de código con Gemini 2.0',
+        description: '🤖 Code generation with Gemini 2.0',
       },
       {
         name: 'Health',
-        description: '🏥 Estado del servidor',
+        description: '🏥 Server status',
       },
     ],
   },
   apis: [
-    './src/routes/*.ts', // Rutas con anotaciones JSDoc
-    './src/index.ts', // Para health check
+    './src/routes/*.ts', // Routes with JSDoc annotations
+    './src/index.ts', // Health check
   ],
 };
 

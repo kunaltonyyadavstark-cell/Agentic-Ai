@@ -3,57 +3,57 @@ import { ExerciseValidator } from '../../utils/exercise.validator';
 
 describe('ExerciseValidator', () => {
   describe('validateTitle', () => {
-    it('debe aceptar un título válido', () => {
-      const result = ExerciseValidator.validateTitle('Suma de dos números');
+    it('accepts a valid title', () => {
+      const result = ExerciseValidator.validateTitle('Sum of two numbers');
       
       expect(result.isValid).toBe(true);
-      expect(result.sanitized).toBe('Suma de dos números');
+      expect(result.sanitized).toBe('Sum of two numbers');
     });
 
-    it('debe rechazar título vacío', () => {
+    it('rejects an empty title', () => {
       const result = ExerciseValidator.validateTitle('');
       
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('vacío');
+      expect(result.error).toContain('empty');
     });
 
-    it('debe rechazar título muy corto', () => {
+    it('rejects a title that is too short', () => {
       const result = ExerciseValidator.validateTitle('AB');
       
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('al menos 3 caracteres');
+      expect(result.error).toContain('at least 3 characters');
     });
 
-    it('debe trimear espacios en blanco', () => {
-      const result = ExerciseValidator.validateTitle('  Hola Mundo  ');
+    it('trims whitespace', () => {
+      const result = ExerciseValidator.validateTitle('  Hello World  ');
       
       expect(result.isValid).toBe(true);
-      expect(result.sanitized).toBe('Hola Mundo');
+      expect(result.sanitized).toBe('Hello World');
     });
 
-    it('debe rechazar HTML malicioso', () => {
+    it('rejects malicious HTML', () => {
       const result = ExerciseValidator.validateTitle('<script>alert("xss")</script>');
       
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('caracteres no permitidos');
+      expect(result.error).toContain('disallowed characters');
     });
   });
 
   describe('validateDifficulty', () => {
-    it('debe aceptar easy, medium, hard', () => {
+    it('accepts easy, medium, and hard', () => {
       expect(ExerciseValidator.validateDifficulty('easy').isValid).toBe(true);
       expect(ExerciseValidator.validateDifficulty('medium').isValid).toBe(true);
       expect(ExerciseValidator.validateDifficulty('hard').isValid).toBe(true);
     });
 
-    it('debe rechazar valores inválidos', () => {
+    it('rejects invalid values', () => {
       const result = ExerciseValidator.validateDifficulty('extreme');
       
       expect(result.isValid).toBe(false);
       expect(result.error).toBeDefined();
     });
 
-    it('debe ser case-insensitive', () => {
+    it('is case-insensitive', () => {
       expect(ExerciseValidator.validateDifficulty('EASY').isValid).toBe(true);
       expect(ExerciseValidator.validateDifficulty('Medium').isValid).toBe(true);
     });

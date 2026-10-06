@@ -1,32 +1,32 @@
 /**
  * Rate Limiting Middleware
  * 
- * Protege contra ataques de fuerza bruta y spam
+ * Protects against brute-force attacks and spam.
  */
 
 import rateLimit from 'express-rate-limit';
 import logger from '../config/logger.config';
 
-// ✅ AÑADIR: Deshabilitar rate limiting en tests
+// ✅ ADD: Disable rate limiting in tests
 const isTestEnvironment = process.env.NODE_ENV === 'test';
 
 /**
- * Rate limiter general para toda la API
- * 100 peticiones por 15 minutos por IP
+ * General rate limiter for the entire API
+ * 100 requests per IP every 15 minutes.
  */
 export const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   validate: {trustProxy: false},
-  skip: () => isTestEnvironment, // ✅ AÑADIR: Skip en tests
+  skip: () => isTestEnvironment, // ✅ Skip in tests.
   message: {
     success: false,
-    error: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo más tarde',
+    error: 'Too many requests from this IP. Please try again later.',
   },
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
-    logger.warn('⚠️ Rate limit alcanzado - General', {
+    logger.warn('⚠️ Rate limit reached - General', {
       ip: req.ip,
       path: req.path,
       method: req.method,
@@ -34,26 +34,26 @@ export const generalLimiter = rateLimit({
 
     res.status(429).json({
       success: false,
-      error: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo más tarde',
+      error: 'Too many requests from this IP. Please try again later.',
     });
   },
 });
 
 /**
- * Rate limiter estricto para login
- * 5 intentos por 15 minutos por IP
+ * Strict rate limiter for login.
+ * 5 attempts per IP every 15 minutes.
  */
 export const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 15,
-  skip: () => isTestEnvironment, // ✅ AÑADIR: Skip en tests
+  skip: () => isTestEnvironment, // ✅ Skip in tests.
   skipSuccessfulRequests: true,
   message: {
     success: false,
-    error: 'Demasiados intentos de login. Por favor intenta de nuevo en 15 minutos',
+    error: 'Too many login attempts. Please try again in 15 minutes.',
   },
   handler: (req, res) => {
-    logger.error('🚨 ALERTA: Rate limit alcanzado - Login', {
+    logger.error('🚨 ALERT: Rate limit reached - Login', {
       ip: req.ip,
       email: req.body?.email,
       attempts: 5,
@@ -61,32 +61,32 @@ export const loginLimiter = rateLimit({
 
     res.status(429).json({
       success: false,
-      error: 'Demasiados intentos de login. Por favor intenta de nuevo en 15 minutos',
+      error: 'Too many login attempts. Please try again in 15 minutes.',
     });
   },
 });
 
 /**
- * Rate limiter para registro de usuarios
- * 3 registros por hora por IP
+ * Rate limiter for user registration.
+ * 3 registrations per IP per hour.
  */
 export const testExecutionLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minuto
+  windowMs: 1 * 60 * 1000, // 1 minute.
   max: 20,
   skip: () => isTestEnvironment,
   message: {
     success: false,
-    error: 'Demasiadas ejecuciones de tests. Por favor intenta de nuevo más tarde',
+    error: 'Too many test runs. Please try again later.',
   },
   handler: (req, res) => {
-    logger.warn('⚠️ Rate limit alcanzado - Test Execution', {
+    logger.warn('⚠️ Rate limit reached - Test Execution', {
       ip: req.ip,
       path: req.path,
     });
 
     res.status(429).json({
       success: false,
-      error: 'Demasiadas ejecuciones de tests. Por favor intenta de nuevo más tarde',
+      error: 'Too many test runs. Please try again later.',
     });
   },
 });
@@ -94,45 +94,45 @@ export const testExecutionLimiter = rateLimit({
 export const registerLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 10,
-  skip: () => isTestEnvironment, // ✅ AÑADIR: Skip en tests
+  skip: () => isTestEnvironment, // ✅ Skip in tests.
   message: {
     success: false,
-    error: 'Demasiados registros desde esta IP. Por favor intenta de nuevo más tarde',
+    error: 'Too many registrations from this IP. Please try again later.',
   },
   handler: (req, res) => {
-    logger.error('🚨 ALERTA: Rate limit alcanzado - Registro', {
+    logger.error('🚨 ALERT: Rate limit reached - Registration', {
       ip: req.ip,
       email: req.body?.email,
     });
 
     res.status(429).json({
       success: false,
-      error: 'Demasiados registros desde esta IP. Por favor intenta de nuevo más tarde',
+      error: 'Too many registrations from this IP. Please try again later.',
     });
   },
 });
 
 /**
- * Rate limiter moderado para creación de recursos
- * 20 peticiones por 15 minutos
+ * Moderate rate limiter for resource creation
+ * 20 requests every 15 minutes.
  */
 export const createResourceLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
-  skip: () => isTestEnvironment, // ✅ AÑADIR: Skip en tests
+  skip: () => isTestEnvironment, // ✅ Skip in tests.
   message: {
     success: false,
-    error: 'Demasiadas creaciones. Por favor intenta de nuevo más tarde',
+    error: 'Too many creations. Please try again later.',
   },
   handler: (req, res) => {
-    logger.warn('⚠️ Rate limit alcanzado - Creación de recursos', {
+    logger.warn('⚠️ Rate limit reached - Resource creation', {
       ip: req.ip,
       path: req.path,
     });
 
     res.status(429).json({
       success: false,
-      error: 'Demasiadas creaciones. Por favor intenta de nuevo más tarde',
+      error: 'Too many creations. Please try again later.',
     });
   },
 });

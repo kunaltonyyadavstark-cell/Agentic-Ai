@@ -3,14 +3,14 @@ import logger from './logger.config';
 
 
 /**
- * Conecta a la base de datos MongoDB
+ * Connect to the MongoDB database
  * 
- * @returns Promise que se resuelve cuando la conexión es exitosa
- * @throws Error si no puede conectar
+ * @returns Promise that resolves when the connection succeeds
+ * @throws Error if the connection fails
  * 
  * @example
  * await connectDatabase();
- * logger.info('Conectado a MongoDB');
+ * logger.info('Connected to MongoDB');
  */
 export async function connectDatabase(): Promise<void> {
   try {
@@ -18,44 +18,44 @@ export async function connectDatabase(): Promise<void> {
     
     await mongoose.connect(mongoUri);
     
-    logger.info('✅ Conectado a MongoDB');
+    logger.info('✅ Connected to MongoDB');
     
-    // Log de eventos de conexión
+    // Log connection events
     mongoose.connection.on('error', (error) => {
-      logger.error('❌ Error de MongoDB:', error);
+      logger.error('❌ MongoDB error:', error);
     });
 
     mongoose.connection.on('disconnected', () => {
-      logger.warn('⚠️ MongoDB desconectado');
+      logger.warn('⚠️ MongoDB disconnected');
     });
 
   } catch (error) {
-    logger.error('❌ Error conectando a MongoDB:', error);
-    // En producción, deberías usar un logger profesional
+    logger.error('❌ Error connecting to MongoDB:', error);
+    // Use a production-grade logger in production
     process.exit(1);
   }
 }
 
 /**
- * Desconecta de la base de datos
- * Útil para tests y shutdown graceful
+ * Disconnect from the database
+ * Useful for tests and graceful shutdown
  */
 export async function disconnectDatabase(): Promise<void> {
   try {
     await mongoose.disconnect();
-    logger.info('MongoDB desconectado correctamente');
+    logger.info('MongoDB disconnected successfully');
   } catch (error) {
-    logger.error('Error desconectando MongoDB:', error);
+    logger.error('Error disconnecting from MongoDB:', error);
   }
 }
 
 /**
- * Limpia todas las colecciones
- * Solo para testing
+ * Clear all collections
+ * Only for testing.
  */
 export async function clearDatabase(): Promise<void> {
   if (process.env.NODE_ENV !== 'test') {
-    throw new Error('clearDatabase solo puede usarse en entorno de test');
+    throw new Error('clearDatabase can only be used in the test environment');
   }
 
   const collections = mongoose.connection.collections;

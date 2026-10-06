@@ -1,12 +1,12 @@
 import { ObjectId } from 'mongodb';
 
 /**
- * Nivel de dificultad del ejercicio
+ * Exercise difficulty level.
  */
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
 
 /**
- * Lenguajes de programación soportados
+ * Supported programming languages
  */
 export type ProgrammingLanguage =
   | 'python'
@@ -30,76 +30,76 @@ export type ExerciseCategory =
   | 'logic-math';
 
 /**
- * Caso de prueba para validar soluciones
+ * Test case for validating solutions.
  */
 export interface TestCase {
-  /** Entrada del caso de prueba */
+  /** Test case input */
   input: string | Record<string, unknown>;
-  /** Salida esperada */
+  /** Expected output */
   expectedOutput: string | Record<string, unknown>;
-  /** Descripción opcional del caso */
+  /** Optional test case description */
   description?: string;
 }
 
 /**
- * Documento de ejercicio en MongoDB
- * Esta interfaz representa cómo se guarda en la base de datos
+ * Exercise document in MongoDB.
+ * This interface represents how the data is stored in the database
  */
 export interface IExercise {
-  /** ID único del ejercicio (MongoDB) */
+  /** Unique exercise ID (MongoDB) */
   _id: ObjectId;
-  /** Título del ejercicio */
+  /** Exercise title */
   title: string;
-  /** Descripción detallada del problema */
+  /** Detailed problem description */
   description: string;
-  /** Lenguaje de programación objetivo */
+  /** Target programming language */
   language: ProgrammingLanguage;
-  /** Nivel de dificultad */
+  /** Difficulty level */
   difficulty: DifficultyLevel;
-  /** Etiquetas para categorización (ej: arrays, algoritmos) */
+  /** Categorization tags (e.g., arrays, algorithms) */
   tags: string[];
   category: ExerciseCategory;
-  /** Palabras clave para búsqueda avanzada */
+  /** Keywords for advanced search */
   keywords: string[];
-  /** Casos de prueba para validar soluciones */
+  /** Test cases for validating solutions */
   testCases: TestCase[];
-  /** Solución de referencia (opcional) */
+  /** Reference solution (optional) */
   solution?: string;
-  /** Fecha de creación */
+  /** Creation date */
   createdAt: Date;
-  /** Fecha de última actualización */
+  /** Last updated date */
   updatedAt: Date;
-  /** ID del usuario que creó el ejercicio (opcional, para futuro) */
+  /** ID of the user who created the exercise (optional, for future use) */
   userId?: ObjectId;
 }
 
 /**
- * DTO (Data Transfer Object) para crear un ejercicio
- * Los campos que el usuario envía al crear un ejercicio
+ * DTO (Data Transfer Object) for creating an exercise.
+ * Fields sent by the user when creating an exercise
  */
 export interface CreateExerciseDTO {
-  /** Título del ejercicio (3-200 caracteres) */
+  /** Exercise title (3-200 characters) */
   title: string;
-  /** Descripción del problema (10-5000 caracteres) */
+  /** Problem description (10-5000 characters) */
   description: string;
-  /** Lenguaje de programación */
+  /** Programming language */
   language: ProgrammingLanguage;
-  /** Nivel de dificultad */
+  /** Difficulty level */
   difficulty: DifficultyLevel;
-  /** Etiquetas opcionales */
+  /** Optional tags */
   tags?: string[];
   category: ExerciseCategory;
-  /** Palabras clave opcionales */
+  /** Optional keywords */
   keywords?: string[];
-  /** Casos de prueba opcionales */
+  /** Optional test cases */
   testCases?: TestCase[];
-  /** Solución de referencia opcional */
+  /** Optional reference solution */
   solution?: string;
 }
 
 /**
- * DTO para actualizar un ejercicio
- * Todos los campos son opcionales (puedes actualizar solo lo que quieras)
+ * DTO for updating an exercise.
+ * All fields are optional; update only the fields you need.
  */
 export interface UpdateExerciseDTO {
   title?: string;
@@ -114,8 +114,8 @@ export interface UpdateExerciseDTO {
 }
 
 /**
- * Respuesta de la API para un ejercicio
- * Lo que devolvemos al frontend (sin campos internos)
+ * API response for an exercise.
+ * The data returned to the frontend (without internal fields).
  */
 export interface ExerciseResponse {
   _id: string;
@@ -133,21 +133,21 @@ export interface ExerciseResponse {
 }
 
 /**
- * Filtros para búsqueda de ejercicios
+ * Filters for searching exercises
  */
 export interface ExerciseFilters {
-  /** Buscar por texto en título/descripción */
+  /** Search by title/description text */
   search?: string;
-  /** Filtrar por dificultad */
+  /** Filter by difficulty */
   difficulty?: DifficultyLevel;
-  /** Filtrar por lenguaje */
+  /** Filter by language */
   language?: ProgrammingLanguage;
-  /** Filtrar por categoría */
+  /** Filter by category */
   category?: ExerciseCategory;
-  /** Filtrar por etiquetas */
+  /** Filter by tags */
   tags?: string[];
-  /** Número de página (para paginación) */
+  /** Page number (for pagination) */
   page?: number;
-  /** Cantidad de resultados por página */
+  /** Number of results per page */
   limit?: number;
 }

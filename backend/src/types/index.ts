@@ -1,8 +1,8 @@
 /**
- * Punto de entrada para todos los tipos
+ * Entry point for all types
  */
 
-// Tipos de ejercicios
+// Exercise types
 export type {
   DifficultyLevel,
   ProgrammingLanguage,
@@ -22,7 +22,7 @@ export type {
   PaginatedResponse
 } from './api.types';
 
-// Tipos de usuarios
+// User types
 export type {
   UserRole,
   IUser,

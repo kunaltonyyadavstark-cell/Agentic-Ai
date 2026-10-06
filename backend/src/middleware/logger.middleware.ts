@@ -1,24 +1,24 @@
 /**
- * Middleware de Logging para Express
+ * Express logging middleware.
  */
 
 import { Request, Response, NextFunction } from 'express';
 import logger, { sanitizeForLog } from '../config/logger.config';
 
 /**
- * Middleware que loguea todas las peticiones HTTP
+ * Middleware that logs all HTTP requests.
  */
 export const httpLogger = (req: Request, res: Response, next: NextFunction): void => {
   const startTime = Date.now();
 
-  // Capturar el método original de res.json para loguear después de la respuesta
+  // Capture the original res.json method to log after the response
   const originalJson = res.json.bind(res);
   
   res.json = function (body: any) {
     const duration = Date.now() - startTime;
     const statusCode = res.statusCode;
 
-    // Determinar nivel de log según status code
+    // Determine the log level based on the status code
     let logLevel: 'info' | 'warn' | 'error' = 'info';
     if (statusCode >= 500) {
       logLevel = 'error';
@@ -26,7 +26,7 @@ export const httpLogger = (req: Request, res: Response, next: NextFunction): voi
       logLevel = 'warn';
     }
 
-    // Información de la petición (sanitizada)
+    // Request information (sanitized)
     const logData = {
       method: req.method,
       url: req.originalUrl || req.url,
@@ -36,13 +36,13 @@ export const httpLogger = (req: Request, res: Response, next: NextFunction): voi
       userAgent: req.get('user-agent') || 'unknown',
     };
 
-    // Mensaje de log
+    // Log message.
     const message = `${req.method} ${req.originalUrl || req.url} ${statusCode} - ${duration}ms`;
 
-    // Loguear según nivel
+    // Log according to level
     logger[logLevel](message, sanitizeForLog(logData));
 
-    // Llamar al método original
+    // Call the original method
     return originalJson(body);
   };
 
@@ -50,7 +50,7 @@ export const httpLogger = (req: Request, res: Response, next: NextFunction): voi
 };
 
 /**
- * Middleware que loguea errores no capturados
+ * Middleware that logs uncaught errors.
  */
 export const errorLogger = (
   err: Error,
@@ -58,8 +58,8 @@ export const errorLogger = (
   _res: Response,
   next: NextFunction
 ): void => {
-  // Loguear el error con contexto
-  logger.error('Error no capturado:', {
+  // Log the error with context.
+  logger.error('Uncaught error:', {
     error: {
       message: err.message,
       stack: err.stack,
@@ -77,22 +77,22 @@ export const errorLogger = (
 };
 
 /**
- * Loguear inicio de servidor
+ * Log server startup.
  */
 export const logServerStart = (port: number | string): void => {
-  logger.info(`🚀 Servidor iniciado en puerto ${port}`);
-  logger.info(`📝 Entorno: ${process.env.NODE_ENV || 'development'}`);
-  logger.info(`🗄️  MongoDB: ${process.env.MONGODB_URI ? 'Configurado' : 'No configurado'}`);
+  logger.info(`🚀 Server started on port ${port}`);
+  logger.info(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
+  logger.info(`🗄️  MongoDB: ${process.env.MONGODB_URI ? 'Configured' : 'Not configured'}`);
 };
 
 /**
- * Loguear conexión a base de datos
+ * Log database connection
  */
 export const logDatabaseConnection = (success: boolean, error?: Error): void => {
   if (success) {
-    logger.info('✅ Conectado a MongoDB correctamente');
+    logger.info('✅ Connected to MongoDB successfully');
   } else {
-    logger.error('❌ Error conectando a MongoDB:', {
+    logger.error('❌ Error connecting to MongoDB:', {
       error: error?.message,
       stack: error?.stack,
     });
@@ -100,8 +100,8 @@ export const logDatabaseConnection = (success: boolean, error?: Error): void => 
 };
 
 /**
- * Loguear cierre de aplicación
+ * Log application shutdown
  */
 export const logAppShutdown = (reason: string): void => {
-  logger.warn(`⚠️  Cerrando aplicación: ${reason}`);
+  logger.warn(`⚠️  Shutting down application: ${reason}`);
 };

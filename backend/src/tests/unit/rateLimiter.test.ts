@@ -1,5 +1,5 @@
 /**
- * Tests para Rate Limiters
+ * Tests for Rate Limiters
  */
 
 import { describe, it, expect } from 'vitest';
@@ -7,40 +7,40 @@ import { generalLimiter, loginLimiter, registerLimiter, createResourceLimiter } 
 
 describe('Rate Limiters', () => {
   describe('generalLimiter', () => {
-    it('debe existir el middleware', () => {
+    it('has the middleware', () => {
       expect(generalLimiter).toBeDefined();
       expect(typeof generalLimiter).toBe('function');
     });
 
-    it('debe tener configuración correcta', () => {
-      // Verificar que es una función middleware de Express
+    it('has the correct configuration', () => {
+      // Verify that it is an Express middleware function
       expect(generalLimiter.length).toBeGreaterThanOrEqual(2);
     });
   });
 
   describe('loginLimiter', () => {
-    it('debe existir el middleware', () => {
+    it('has the middleware', () => {
       expect(loginLimiter).toBeDefined();
       expect(typeof loginLimiter).toBe('function');
     });
 
-    it('debe ser más estricto que el general', () => {
+    it('is stricter than the general limiter', () => {
       // loginLimiter tiene max: 5
       // generalLimiter tiene max: 100
-      // No podemos acceder a la config directamente, pero verificamos que existe
+      // We cannot access the configuration directly, but we can verify that it exists.
       expect(loginLimiter).toBeDefined();
     });
   });
 
   describe('registerLimiter', () => {
-    it('debe existir el middleware', () => {
+    it('has the middleware', () => {
       expect(registerLimiter).toBeDefined();
       expect(typeof registerLimiter).toBe('function');
     });
   });
 
   describe('createResourceLimiter', () => {
-    it('debe existir el middleware', () => {
+    it('has the middleware', () => {
       expect(createResourceLimiter).toBeDefined();
       expect(typeof createResourceLimiter).toBe('function');
     });

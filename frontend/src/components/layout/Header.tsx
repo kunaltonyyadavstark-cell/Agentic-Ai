@@ -13,8 +13,8 @@ import { Code2, User, LogOut, LayoutDashboard, PlusCircle, BarChart3 } from 'luc
 import { toast } from 'sonner';
 
 /**
- * Header de la aplicación
- * Incluye navegación y menú de usuario
+ * Application Header
+ * Includes navigation and user menu
  */
 export default function Header() {
   const navigate = useNavigate();
@@ -24,26 +24,26 @@ export default function Header() {
 
   const handleLogout = () => {
     logout();
-    toast.success('Sesión cerrada correctamente');
+    toast.success('Logged out successfully');
     navigate('/');
   };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-white dark:bg-gray-950">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo y nombre */}
+        {/* Logo and name */}
         <Link to="/" className="flex items-center space-x-2">
           <Code2 className="h-6 w-6 text-blue-600" />
           <span className="text-xl font-bold">AgentLogic</span>
         </Link>
 
-        {/* Navegación central */}
+        {/* Central navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           <Link
             to="/exercises"
             className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400"
           >
-            Ejercicios
+            Exercises
           </Link>
 
           {isAuthenticated && (
@@ -66,13 +66,13 @@ export default function Header() {
                 to="/exercises/create"
                 className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400"
               >
-                Crear Ejercicio
+                Create Exercise
               </Link>
             </>
           )}
         </nav>
 
-        {/* Acciones de usuario */}
+        {/* User actions */}
         <div className="flex items-center space-x-4">
           {isAuthenticated ? (
             <DropdownMenu>
@@ -83,7 +83,7 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => navigate('/dashboard')}>
                   <LayoutDashboard className="mr-2 h-4 w-4" />
@@ -96,12 +96,12 @@ export default function Header() {
 
                 <DropdownMenuItem onClick={() => navigate('/exercises/create')}>
                   <PlusCircle className="mr-2 h-4 w-4" />
-                  Crear Ejercicio
+                  Create Exercise
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="text-red-600">
                   <LogOut className="mr-2 h-4 w-4" />
-                  Cerrar Sesión
+                  Log Out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -112,13 +112,13 @@ export default function Header() {
                 size="sm"
                 onClick={() => navigate('/login')}
               >
-                Iniciar Sesión
+                Log In
               </Button>
               <Button
                 size="sm"
                 onClick={() => navigate('/register')}
               >
-                Registrarse
+                Sign Up
               </Button>
             </div>
           )}

@@ -12,8 +12,8 @@ interface ExerciseFiltersProps {
 }
 
 /**
- * Filtros para ejercicios
- * Incluye: búsqueda, lenguaje, dificultad y categoría
+ * Exercise filters
+ * Includes: search, language, difficulty, and category
  */
 export default function ExerciseFilters({ filters, onFilterChange }: ExerciseFiltersProps) {
   const handleLanguageChange = (value: string) => {
@@ -94,7 +94,7 @@ export default function ExerciseFilters({ filters, onFilterChange }: ExerciseFil
         onChange={handleCategoryChange}
       />
 
-      {/* Lenguaje */}
+      {/* Language */}
       <div className="space-y-2">
         <Label htmlFor="language">Language</Label>
         <Select
@@ -118,7 +118,7 @@ export default function ExerciseFilters({ filters, onFilterChange }: ExerciseFil
         </Select>
       </div>
 
-      {/* Dificultad */}
+      {/* Difficulty */}
       <div className="space-y-2">
         <Label htmlFor="difficulty">Difficulty</Label>
         <Select

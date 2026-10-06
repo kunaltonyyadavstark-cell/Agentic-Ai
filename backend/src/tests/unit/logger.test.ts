@@ -1,5 +1,5 @@
 /**
- * Tests para el sistema de logging
+ * Tests for the logging system.
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -9,7 +9,7 @@ import { Request, Response } from 'express';
 
 describe('Logger Utils', () => {
   describe('sanitizeForLog', () => {
-    it('debe redactar passwords', () => {
+    it('redacts passwords', () => {
       const data = {
         email: 'test@example.com',
         password: 'secretPassword123',
@@ -23,7 +23,7 @@ describe('Logger Utils', () => {
       expect(sanitized.name).toBe('Test User');
     });
 
-    it('debe redactar tokens', () => {
+    it('redacts tokens', () => {
       const data = {
         userId: '123',
         token: 'jwt.token.here',
@@ -37,7 +37,7 @@ describe('Logger Utils', () => {
       expect(sanitized.refreshToken).toBe('***REDACTED***');
     });
 
-    it('debe redactar authorization headers', () => {
+    it('redacts authorization headers', () => {
       const data = {
         headers: {
           'content-type': 'application/json',
@@ -51,7 +51,7 @@ describe('Logger Utils', () => {
       expect(sanitized.headers['authorization']).toBe('***REDACTED***');
     });
 
-    it('debe sanitizar objetos anidados', () => {
+    it('sanitizes nested objects', () => {
       const data = {
         user: {
           email: 'test@example.com',
@@ -71,7 +71,7 @@ describe('Logger Utils', () => {
       expect(sanitized.user.profile.token).toBe('***REDACTED***');
     });
 
-    it('debe manejar valores no-objeto', () => {
+    it('handles non-object values', () => {
       expect(sanitizeForLog(null)).toBe(null);
       expect(sanitizeForLog(undefined)).toBe(undefined);
       expect(sanitizeForLog('string')).toBe('string');
@@ -79,7 +79,7 @@ describe('Logger Utils', () => {
       expect(sanitizeForLog(true)).toBe(true);
     });
 
-    it('debe detectar campos sensibles case-insensitive', () => {
+    it('detects sensitive fields case-insensitively', () => {
       const data = {
         PASSWORD: 'secret1',
         Token: 'secret2',
@@ -97,7 +97,7 @@ describe('Logger Utils', () => {
   });
 
   describe('Logger Instance', () => {
-    it('debe existir el logger', () => {
+    it('logger is defined', () => {
       expect(logger).toBeDefined();
       expect(typeof logger.info).toBe('function');
       expect(typeof logger.error).toBe('function');
@@ -130,7 +130,7 @@ describe('HTTP Logger Middleware', () => {
     nextFunction = vi.fn();
   });
 
-  it('debe llamar a next()', () => {
+  it('calls next()', () => {
     httpLogger(
       mockRequest as Request,
       mockResponse as Response,
@@ -140,7 +140,7 @@ describe('HTTP Logger Middleware', () => {
     expect(nextFunction).toHaveBeenCalledOnce();
   });
 
-  it('debe modificar res.json para loguear', () => {
+  it('patches res.json for logging', () => {
     const originalJson = mockResponse.json;
 
     httpLogger(
@@ -181,7 +181,7 @@ describe('Error Logger Middleware', () => {
     mockError = new Error('Test error');
   });
 
-  it('debe llamar a next() con el error', () => {
+  it('calls next() with the error', () => {
     errorLogger(
       mockError,
       mockRequest as Request,
@@ -192,7 +192,7 @@ describe('Error Logger Middleware', () => {
     expect(nextFunction).toHaveBeenCalledWith(mockError);
   });
 
-    it('debe loguear el error sin exponer información sensible', () => {
+    it('logs the error without exposing sensitive information', () => {
     const loggerSpy = vi.spyOn(logger, 'error');
 
     errorLogger(
@@ -204,10 +204,10 @@ describe('Error Logger Middleware', () => {
 
     expect(loggerSpy).toHaveBeenCalled();
     
-    // Winston puede loguear de diferentes maneras, verificamos que se llamó
-    // y que los headers originales tenían authorization
+    // Winston can log in different ways; verify that it was called
+    // and that the original headers contained authorization
     expect(loggerSpy).toHaveBeenCalledWith(
-      'Error no capturado:',
+      'Uncaught error:',
       expect.objectContaining({
         error: expect.objectContaining({
           message: mockError.message,

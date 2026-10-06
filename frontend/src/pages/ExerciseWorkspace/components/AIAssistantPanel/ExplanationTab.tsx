@@ -15,7 +15,7 @@ export default function ExplanationTab({ exerciseId }: ExplanationTabProps) {
   const { data, isLoading, error } = useQuery({
     queryKey: ['exercise-analysis', exerciseId],
     queryFn: () => aiService.analyzeExercise(exerciseId),
-    staleTime: 10 * 60 * 1000, // 10 minutos
+    staleTime: 10 * 60 * 1000, // 10 minutes
   })as any;
 
   if (isLoading) {

@@ -63,7 +63,7 @@ export interface Exercise {
   keywords: string[];
   testCases: TestCase[];
   solution?: string;
-  starterCode?: string; // 👈 NUEVA PROPIEDAD
+  starterCode?: string; // 👈 NEW PROPERTY
   hints?: string[];
   createdBy?: string;
   createdAt: string;
@@ -80,7 +80,7 @@ export interface CreateExerciseData {
   keywords?: string[];
   testCases: TestCase[];
   solution?: string;
-  starterCode?: string; // 👈 NUEVA PROPIEDAD
+  starterCode?: string; // 👈 NEW PROPERTY
   hints?: string[];
 }
 
@@ -94,7 +94,7 @@ export interface UpdateExerciseData {
   keywords?: string[];
   testCases?: TestCase[];
   solution?: string;
-  starterCode?: string; // 👈 NUEVA PROPIEDAD
+  starterCode?: string; // 👈 NEW PROPERTY
   hints?: string[];
 }
 
@@ -237,7 +237,7 @@ export interface SendMessageResponse {
 
 /**
  * ============================================
- * FLOWCHART TYPES (Para diagramas de flujo)
+ * FLOWCHART TYPES
  * ============================================
  */
 

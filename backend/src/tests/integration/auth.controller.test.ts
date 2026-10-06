@@ -1,4 +1,4 @@
-// Configurar para tests
+// Configure the test environment.
 process.env.NODE_ENV = 'test';
 process.env.MONGODB_URI = 'mongodb://localhost:27018/agentlogic-test';
 process.env.JWT_SECRET = 'test-secret-key-12345';
@@ -20,7 +20,7 @@ describe('Auth Controller (Integration)', () => {
     await (await import('../../config/database')).connectDatabase();
 
 
-    // Crear app de Express
+    // Create an Express app.
     app = express();
     app.use(express.json());
     app.use('/api/auth', authRoutes);
@@ -28,12 +28,12 @@ describe('Auth Controller (Integration)', () => {
   });
 
   beforeEach(async () => {
-    // Limpiar colección de usuarios antes de cada test
+    // Clear the user collection before each test
     await User.deleteMany({});
   });
 
   describe('POST /api/auth/register', () => {
-    it('debe registrar un usuario válido', async () => {
+    it('registers a valid user', async () => {
       const userData = {
         username: 'testuser',
         email: 'test@example.com',
@@ -52,10 +52,10 @@ describe('Auth Controller (Integration)', () => {
       expect(response.body.data.user).toBeDefined();
       expect(response.body.data.user.email).toBe('test@example.com');
       expect(response.body.data.user.username).toBe('testuser');
-      expect(response.body.data.user.password).toBeUndefined(); // No debe devolver password
+      expect(response.body.data.user.password).toBeUndefined(); // Password should not be returned
     });
 
-    it('debe rechazar registro con email duplicado', async () => {
+    it('rejects registration with a duplicate email', async () => {
       const userData = {
         username: 'user1',
         email: 'duplicate@example.com',
@@ -64,12 +64,12 @@ describe('Auth Controller (Integration)', () => {
       };
 
 
-      // Crear primer usuario
+      // Create the first user
       await request(app)
         .post('/api/auth/register')
         .send(userData);
 
-      // Intentar crear segundo usuario con mismo email
+      // Attempt to create a second user with the same email
       const response = await request(app)
         .post('/api/auth/register')
         .send({
@@ -85,7 +85,7 @@ describe('Auth Controller (Integration)', () => {
       expect(response.body.error).toContain('email');
     });
 
-    it('debe rechazar password débil', async () => {
+    it('rejects a weak password', async () => {
       const userData = {
         username: 'testuser',
         email: 'test@example.com',
@@ -103,7 +103,7 @@ describe('Auth Controller (Integration)', () => {
       expect(response.body.error).toBeDefined();
     });
 
-    it('debe rechazar email inválido', async () => {
+    it('rejects an invalid email', async () => {
       const userData = {
         username: 'testuser',
         email: 'invalid-email',
@@ -124,7 +124,7 @@ describe('Auth Controller (Integration)', () => {
 
   describe('POST /api/auth/login', () => {
     beforeEach(async () => {
-      // Crear usuario de prueba
+      // Create a test user
       await request(app)
         .post('/api/auth/register')
         .send({
@@ -136,7 +136,7 @@ describe('Auth Controller (Integration)', () => {
 
     });
 
-    it('debe hacer login con credenciales válidas', async () => {
+    it('logs in with valid credentials', async () => {
       const response = await request(app)
         .post('/api/auth/login')
         .send({
@@ -151,7 +151,7 @@ describe('Auth Controller (Integration)', () => {
       expect(response.body.data.user.password).toBeUndefined();
     });
 
-    it('debe rechazar password incorrecto', async () => {
+    it('rejects an incorrect password', async () => {
       const response = await request(app)
         .post('/api/auth/login')
         .send({
@@ -164,7 +164,7 @@ describe('Auth Controller (Integration)', () => {
       expect(response.body.error).toBeDefined();
     });
 
-    it('debe rechazar email no registrado', async () => {
+    it('rejects an unregistered email', async () => {
       const response = await request(app)
         .post('/api/auth/login')
         .send({
@@ -177,7 +177,7 @@ describe('Auth Controller (Integration)', () => {
       expect(response.body.error).toBeDefined();
     });
 
-    it('debe rechazar login sin email', async () => {
+    it('rejects login without an email', async () => {
       const response = await request(app)
         .post('/api/auth/login')
         .send({
@@ -194,8 +194,8 @@ describe('Auth Controller (Integration)', () => {
 
 
 
-    it('debe obtener datos del usuario autenticado', async () => {
-      // Registrar y obtener token
+    it('gets the authenticated user data', async () => {
+      // Register and get a token
       const registerResponse = await request(app)
         .post('/api/auth/register')
         .send({
@@ -218,7 +218,7 @@ describe('Auth Controller (Integration)', () => {
     });
 
 
-    it('debe rechazar sin token', async () => {
+    it('rejects a request without a token', async () => {
       const response = await request(app)
         .get('/api/auth/me')
         .expect(401);
@@ -227,7 +227,7 @@ describe('Auth Controller (Integration)', () => {
       expect(response.body.error).toContain('token');
     });
 
-    it('debe rechazar con token inválido', async () => {
+    it('rejects an invalid token', async () => {
       const response = await request(app)
         .get('/api/auth/me')
         .set('Authorization', 'Bearer token-invalido')

@@ -4,17 +4,17 @@ import mongoose, { Model } from 'mongoose';
 import dotenv from 'dotenv';
 
 // ============================================
-// IMPORTAR EJERCICIOS DESDE ARCHIVOS SEPARADOS
+// IMPORT EXERCISES FROM SEPARATE FILES
 // ============================================
 import { originalExercises } from './exercises/original-exercises';
 import { pythonWorkbookChapter1 } from './exercises/python-workbook-chapter1';
 
 dotenv.config();
 
-// Combinar todos los ejercicios
+// Combine all exercises
 const exercises = [
-  ...originalExercises,           // 30 ejercicios originales
-  ...pythonWorkbookChapter1,      // 12 ejercicios del Python Workbook (3 ejercicios × 4 lenguajes)
+  ...originalExercises,           // 30 original exercises
+  ...pythonWorkbookChapter1,      // 12 Python Workbook exercises (3 exercises × 4 languages)
 ];
 
 console.log('\n📊 AGENTLOGIC ACADEMY - EXERCISE SEEDER');
@@ -63,7 +63,7 @@ async function seedExercises() {
     await Exercise.deleteMany({});
     console.log('🗑️  Cleared existing exercises');
 
-    // Insert seed data (cast as any para evitar conflictos de tipos con TypeScript)
+    // Insert seed data (cast as any to avoid TypeScript type conflicts)
     await Exercise.insertMany(exercises as any);
     console.log(`✅ Inserted ${exercises.length} exercises`);
 

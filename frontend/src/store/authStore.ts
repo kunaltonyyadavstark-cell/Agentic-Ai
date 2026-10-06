@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { User } from '../types';
 
 /**
- * Estado de autenticación
+ * Authentication state
  */
 interface AuthState {
   user: User | null;
@@ -13,7 +13,7 @@ interface AuthState {
 }
 
 /**
- * Acciones de autenticación
+ * Authentication actions
  */
 interface AuthActions {
   setAuth: (user: User, token: string) => void;
@@ -23,23 +23,23 @@ interface AuthActions {
 }
 
 /**
- * Store de autenticación con Zustand
- * Persiste automáticamente en localStorage
+ * Authentication store with Zustand
+ * Automatically persists to localStorage
  */
 export const useAuthStore = create<AuthState & AuthActions>()(
   persist(
     (set) => ({
-      // Estado inicial
+      // Initial state
       user: null,
       token: null,
       isAuthenticated: false,
       isLoading: false,
 
       /**
-       * Establecer usuario y token (después de login/register)
+       * Set user and token (after login/register)
        */
       setAuth: (user: User, token: string) => {
-        // Guardar token en localStorage también (para axios interceptor)
+        // Save token to localStorage for axios interceptor
         localStorage.setItem('token', token);
         
         set({
@@ -51,10 +51,10 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       },
 
       /**
-       * Cerrar sesión
+       * Log out
        */
       logout: () => {
-        // Limpiar localStorage
+        // Clear localStorage
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         
@@ -67,14 +67,14 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       },
 
       /**
-       * Cambiar estado de carga
+       * Change loading state
        */
       setLoading: (loading: boolean) => {
         set({ isLoading: loading });
       },
 
       /**
-       * Actualizar datos del usuario (sin cambiar token)
+       * Update user data (without changing token)
        */
       updateUser: (updatedData: Partial<User>) => {
         set((state) => ({
@@ -83,8 +83,8 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       },
     }),
     {
-      name: 'auth-storage', // Nombre en localStorage
-      // Solo persistir user y token (no isLoading)
+      name: 'auth-storage', // Key name in localStorage
+      // Only persist user, token, and isAuthenticated (not isLoading)
       partialize: (state) => ({
         user: state.user,
         token: state.token,
@@ -95,7 +95,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 );
 
 /**
- * Hooks selectores para un mejor performance
+ * Selector hooks for better performance
  */
 export const useUser = () => useAuthStore((state) => state.user);
 export const useToken = () => useAuthStore((state) => state.token);

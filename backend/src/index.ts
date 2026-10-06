@@ -28,7 +28,7 @@ dotenv.config();
 try {
   validateEnv();
 } catch (error) {
-  console.error("Error en variables de entorno:", error);
+  console.error("Error in environment variables:", error);
   process.exit(1);
 }
 
@@ -50,7 +50,7 @@ function createApp(): Express {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // ✅ FIX H3: Swagger SOLO en desarrollo
+  // ✅ FIX H3: Swagger only in development
   if (process.env.NODE_ENV !== 'production') {
     app.use(
       "/api-docs",
@@ -71,7 +71,7 @@ function createApp(): Express {
     logger.info("Health check solicitado");
     res.json({
       success: true,
-      message: "API funcionando correctamente",
+      message: "API is working correctly",
       timestamp: new Date().toISOString(),
     });
   });
@@ -101,25 +101,25 @@ async function startServer(): Promise<void> {
 
     app.listen(PORT, () => {
       logServerStart(PORT);
-      // ✅ FIX H3: Log de Swagger solo en desarrollo
+      // ✅ FIX H3: Log Swagger only in development
       if (process.env.NODE_ENV !== 'production') {
         logger.info(`📚 Swagger UI: http://localhost:${PORT}/api-docs`);
       }
     });
   } catch (error) {
     logDatabaseConnection(false, error as Error);
-    logger.error("❌ Error iniciando servidor:", error);
+    logger.error("❌ Error starting server:", error);
     process.exit(1);
   }
 }
 
 process.on("SIGTERM", () => {
-  logger.warn("⚠️ SIGTERM recibido, cerrando servidor...");
+  logger.warn("⚠️ Received SIGTERM, shutting down the server...");
   process.exit(0);
 });
 
 process.on("SIGINT", () => {
-  logger.warn("⚠️ SIGINT recibido, cerrando servidor...");
+  logger.warn("⚠️ Received SIGINT, shutting down the server...");
   process.exit(0);
 });
 

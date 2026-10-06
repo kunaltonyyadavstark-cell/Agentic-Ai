@@ -2,7 +2,7 @@ import mongoose, { Schema, Model } from 'mongoose';
 import type { IExercise, DifficultyLevel, ProgrammingLanguage, ExerciseCategory } from '../types';
 
 /**
- * Schema de Mongoose para TestCase
+ * Mongoose schema for a test case.
  */
 const testCaseSchema = new Schema({
   input: { 
@@ -21,26 +21,26 @@ const testCaseSchema = new Schema({
 });
 
 /**
- * Schema de Mongoose para Exercise
+ * Mongoose schema for an exercise.
  */
 const exerciseSchema = new Schema<IExercise>({
   title: {
     type: String,
-    required: [true, 'El título es obligatorio'],
+    required: [true, 'Title is required'],
     trim: true,
-    minlength: [3, 'El título debe tener al menos 3 caracteres'],
-    maxlength: [200, 'El título no puede exceder 200 caracteres']
+    minlength: [3, 'Title must be at least 3 characters'],
+    maxlength: [200, 'Title cannot exceed 200 characters']
   },
   description: {
     type: String,
-    required: [true, 'La descripción es obligatoria'],
+    required: [true, 'Description is required'],
     trim: true,
-    minlength: [10, 'La descripción debe tener al menos 10 caracteres'],
-    maxlength: [5000, 'La descripción no puede exceder 5000 caracteres']
+    minlength: [10, 'Description must be at least 10 characters'],
+    maxlength: [5000, 'Description cannot exceed 5000 characters']
   },
   language: {
     type: String,
-    required: [true, 'El lenguaje es obligatorio'],
+    required: [true, 'Language is required'],
     lowercase: true,
     trim: true,
     enum: {
@@ -57,16 +57,16 @@ const exerciseSchema = new Schema<IExercise>({
         'php',
         'ruby'
       ] as ProgrammingLanguage[],
-      message: 'Lenguaje no soportado: {VALUE}'
+      message: 'Unsupported language: {VALUE}'
     }
   },
   difficulty: {
     type: String,
-    required: [true, 'La dificultad es obligatoria'],
+    required: [true, 'Difficulty is required'],
     lowercase: true,
     enum: {
       values: ['easy', 'medium', 'hard'] as DifficultyLevel[],
-      message: 'Dificultad inválida: {VALUE}. Debe ser easy, medium o hard'
+      message: 'Invalid difficulty: {VALUE}. Must be easy, medium, or hard'
     }
   },
   tags: [{
@@ -76,11 +76,11 @@ const exerciseSchema = new Schema<IExercise>({
   }],
   category: {
     type: String,
-    required: [true, 'La categoría es obligatoria'],
+    required: [true, 'Category is required'],
     lowercase: true,
     enum: {
       values: ['arrays', 'strings', 'loops', 'data-structures', 'algorithms', 'logic-math'] as ExerciseCategory[],
-      message: 'Categoría inválida: {VALUE}'
+      message: 'Invalid category: {VALUE}'
     }
   },
   keywords: {
@@ -102,49 +102,49 @@ const exerciseSchema = new Schema<IExercise>({
 });
 
 /**
- * Índices para búsqueda eficiente
+ * Indexes for efficient search
  */
-// Índice compuesto para filtrado común
+// Compound index for common filtering
 exerciseSchema.index({ 
   difficulty: 1, 
   language: 1 
 });
 
-// Índice para texto (búsquedas por palabra clave)
-// language_override evita conflicto con el campo 'language' del ejercicio
+// Text index for keyword searches.
+// language_override avoids a conflict with the exercise's 'language' field.
 exerciseSchema.index({
   title: 'text',
   description: 'text',
   keywords: 'text'
 }, { language_override: 'textLang' });
 
-// Índice para tags
+// Index for tags
 exerciseSchema.index({ 
   tags: 1 
 
 });
 
-// Índice para categoría
+// Index for category
 exerciseSchema.index({ 
   category: 1 
 });
 
-// Índice para ordenar por fecha
+// Index for sorting by date
 exerciseSchema.index({ 
   createdAt: -1 
 });
 
 /**
- * Middleware pre-save
+ * Pre-save middleware.
  */
 exerciseSchema.pre('save', function(next) {
-  // Normalizar tags
+  // Normalize tags.
   if (this.tags && this.tags.length > 0) {
     this.tags = this.tags.map(tag => tag.toLowerCase().trim());
     this.tags = [...new Set(this.tags)];
   }
   
-  // Normalizar keywords
+  // Normalize keywords.
   if (this.keywords && this.keywords.length > 0) {
     this.keywords = this.keywords.map(keyword => keyword.toLowerCase().trim());
     this.keywords = [...new Set(this.keywords)];
@@ -154,7 +154,7 @@ exerciseSchema.pre('save', function(next) {
 });
 
 /**
- * Método toJSON
+ * Method toJSON
  */
 exerciseSchema.methods.toJSON = function() {
   const obj = this.toObject();
@@ -166,7 +166,7 @@ exerciseSchema.methods.toJSON = function() {
 };
 
 /**
- * Método estático para buscar con filtros
+ * Static method for searching with filters
  */
 exerciseSchema.statics.findWithFilters = async function(filters: {
   difficulty?: DifficultyLevel;
@@ -196,7 +196,7 @@ exerciseSchema.statics.findWithFilters = async function(filters: {
   }
 
   if (filters.search) {
-    // Búsqueda en título, descripción y keywords
+    // Search in title, description, and keywords
     query.$or = [
       { title: { $regex: filters.search, $options: 'i' } },
       { description: { $regex: filters.search, $options: 'i' } },
@@ -229,10 +229,10 @@ exerciseSchema.statics.findWithFilters = async function(filters: {
 };
 
 /**
- * Modelo de Exercise
+ * Exercise model
  */
 
-// Singleton para evitar recompilación en tsx
+// Singleton to avoid recompilation in tsx
 let cachedModel: Model<IExercise> | null = null;
 
 export const getExerciseModel = (): Model<IExercise> => {
@@ -247,6 +247,6 @@ export const getExerciseModel = (): Model<IExercise> => {
   return cachedModel;
 };
 
-// Export por defecto y named para compatibilidad
+// Default and named exports for compatibility.
 export const Exercise = getExerciseModel();
 export default Exercise;

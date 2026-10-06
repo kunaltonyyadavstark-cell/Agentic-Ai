@@ -1,17 +1,17 @@
 /**
- * Configuración de Winston Logger
- * Sistema de logging profesional con:
- * - Diferentes niveles (error, warn, info, debug)
- * - Archivos separados por nivel
- * - Rotación diaria de logs
- * - Formato JSON para producción
- * - Formato colorizado para desarrollo
+ * Winston logger configuration
+ * Professional logging system with:
+ * - Different levels (error, warn, info, debug)
+ * - Files separated by level
+ * - Daily log rotation
+ * - JSON format for production
+ * - Colorized format for development
  */
 
 import winston from 'winston';
 import path from 'path';
 
-// Niveles de log (orden de severidad)
+// Log levels (ordered by severity)
 const levels = {
   error: 0,
   warn: 1,
@@ -20,7 +20,7 @@ const levels = {
   debug: 4,
 };
 
-// Colores para cada nivel (solo en desarrollo)
+// Colors for each level (development only)
 const colors = {
   error: 'red',
   warn: 'yellow',
@@ -31,14 +31,14 @@ const colors = {
 
 winston.addColors(colors);
 
-// Determinar nivel de log según entorno
+// Determine the log level based on the environment
 const level = (): string => {
   const env = process.env.NODE_ENV || 'development';
   const isDevelopment = env === 'development';
   return isDevelopment ? 'debug' : 'info';
 };
 
-// Formato para desarrollo (colorizado y legible)
+// Development format (colorized and readable)
 const developmentFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   winston.format.colorize({ all: true }),
@@ -47,28 +47,28 @@ const developmentFormat = winston.format.combine(
   )
 );
 
-// Formato para producción (JSON estructurado)
+// Production format (structured JSON)
 const productionFormat = winston.format.combine(
   winston.format.timestamp(),
   winston.format.errors({ stack: true }),
   winston.format.json()
 );
 
-// Elegir formato según entorno
+// Choose the format based on the environment
 const format =
   process.env.NODE_ENV === 'production'
     ? productionFormat
     : developmentFormat;
 
-// Directorio de logs
+// Log directory
 const logsDir = path.join(process.cwd(), 'logs');
 
-// Transports (destinos de los logs)
+// Transports (log destinations)
 const transports: winston.transport[] = [
-  // Consola (todos los niveles)
+  // Console (all levels)
   new winston.transports.Console(),
 
-  // Archivo de errores (solo errores)
+  // Error file (errors only)
   new winston.transports.File({
     filename: path.join(logsDir, 'error.log'),
     level: 'error',
@@ -76,7 +76,7 @@ const transports: winston.transport[] = [
     maxFiles: 5,
   }),
 
-  // Archivo combinado (todos los niveles)
+  // Combined file (all levels)
   new winston.transports.File({
     filename: path.join(logsDir, 'combined.log'),
     maxsize: 5242880, // 5MB
@@ -84,17 +84,17 @@ const transports: winston.transport[] = [
   }),
 ];
 
-// Crear logger
+// Create logger
 const logger = winston.createLogger({
   level: level(),
   levels,
   format,
   transports,
-  // No salir en errores no capturados
+  // Do not exit on uncaught errors
   exitOnError: false,
 });
 
-// Método auxiliar para sanitizar objetos antes de loguear
+// Helper method to sanitize objects before logging
 export const sanitizeForLog = (obj: any): any => {
   if (!obj || typeof obj !== 'object') return obj;
 

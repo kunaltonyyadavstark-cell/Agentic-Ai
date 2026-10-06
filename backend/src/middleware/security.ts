@@ -1,7 +1,7 @@
 /**
  * Security Middleware
  * 
- * Configura headers de seguridad y sanitización
+ * Configure security headers and sanitization
  */
 
 import helmet from 'helmet';
@@ -9,7 +9,7 @@ import { Express, Request, Response, NextFunction } from 'express';
 import logger from '../config/logger.config';
 
 /**
- * Configurar Helmet con headers de seguridad
+ * Configure Helmet with security headers
  */
 export const helmetConfig = helmet({
   contentSecurityPolicy: {
@@ -24,16 +24,16 @@ export const helmetConfig = helmet({
 });
 
 /**
- * Sanitización manual de MongoDB
- * Solo sanitiza el body (query y params se manejan diferente)
+ * Manual MongoDB sanitization
+ * Only the body is sanitized (query and params are handled differently).
  */
 export const mongoSanitize = (req: Request, _res: Response, next: NextFunction): void => {
   const sanitizeObject = (obj: any): any => {
     if (obj && typeof obj === 'object') {
       Object.keys(obj).forEach((key) => {
-        // Remover claves que empiezan con $ o contienen .
+        // Remove keys that start with $ or contain .
         if (key.startsWith('$') || key.includes('.')) {
-          logger.warn('🚨 Intento de NoSQL injection detectado', {
+          logger.warn('🚨 NoSQL injection attempt detected', {
             ip: req.ip,
             key,
             path: req.path,
@@ -47,7 +47,7 @@ export const mongoSanitize = (req: Request, _res: Response, next: NextFunction):
     return obj;
   };
 
-  // Solo sanitizar body (query y params son read-only)
+  // Only sanitize the body (query and params are read-only).
   if (req.body && typeof req.body === 'object') {
     req.body = sanitizeObject(req.body);
   }
@@ -56,14 +56,14 @@ export const mongoSanitize = (req: Request, _res: Response, next: NextFunction):
 };
 
 /**
- * Aplicar todos los middleware de seguridad
+ * Apply all security middleware
  */
 export const applySecurity = (app: Express): void => {
-  // Helmet - Headers de seguridad
+  // Helmet - Security headers
   app.use(helmetConfig);
   
-  // Sanitización manual de MongoDB (solo body)
+  // Manual MongoDB sanitization (body only)
   app.use(mongoSanitize);
   
-  logger.info('✅ Middleware de seguridad aplicado');
+  logger.info('✅ Security middleware applied');
 };

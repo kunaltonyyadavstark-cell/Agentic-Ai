@@ -10,7 +10,7 @@ const router = Router();
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Registrar nuevo usuario
+ *     summary: Register a new user
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -42,7 +42,7 @@ const router = Router();
  *                 example: John Doe
  *     responses:
  *       201:
- *         description: Usuario registrado exitosamente
+ *         description: User registered successfully
  *         content:
  *           application/json:
  *             schema:
@@ -60,13 +60,13 @@ const router = Router();
  *                     user:
  *                       $ref: '#/components/schemas/User'
  *       400:
- *         description: Datos inválidos o email ya registrado
+ *         description: Invalid data or email already registered
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       429:
- *         description: Demasiados intentos de registro
+ *         description: Too many registration attempts
  */
 router.post(
   '/register',
@@ -79,7 +79,7 @@ router.post(
  * @swagger
  * /api/auth/login:
  *   post:
- *     summary: Iniciar sesión
+ *     summary: Log in
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -101,7 +101,7 @@ router.post(
  *                 example: Password123!
  *     responses:
  *       200:
- *         description: Login exitoso
+ *         description: Login successful
  *         content:
  *           application/json:
  *             schema:
@@ -118,13 +118,13 @@ router.post(
  *                     user:
  *                       $ref: '#/components/schemas/User'
  *       401:
- *         description: Credenciales inválidas
+ *         description: Invalid credentials
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       429:
- *         description: Demasiados intentos de login (5 por cada 15 minutos)
+ *         description: Too many login attempts (5 every 15 minutes)
  */
 router.post(
   '/login',
@@ -137,13 +137,13 @@ router.post(
  * @swagger
  * /api/auth/me:
  *   get:
- *     summary: Obtener usuario autenticado
+ *     summary: Get the authenticated user
  *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Datos del usuario
+ *         description: User data
  *         content:
  *           application/json:
  *             schema:
@@ -155,7 +155,7 @@ router.post(
  *                 data:
  *                   $ref: '#/components/schemas/User'
  *       401:
- *         description: No autenticado o token inválido
+ *         description: Not authenticated or invalid token
  *         content:
  *           application/json:
  *             schema:

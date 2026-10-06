@@ -1,52 +1,52 @@
 /**
- * Respuesta estándar de la API
- * Todas las respuestas siguen este formato
+ * Standard API response
+ * All responses follow this format
  */
 export interface ApiResponse<T = unknown> {
-  /** Indica si la operación fue exitosa */
+  /** Indicates whether the operation succeeded */
   success: boolean;
-  /** Datos de respuesta (puede ser cualquier tipo) */
+  /** Response data (can be any type) */
   data?: T;
-  /** Mensaje descriptivo (opcional) */
+  /** Descriptive message (optional) */
   message?: string;
-  /** Mensaje de error (solo si success = false) */
+  /** Error message (only when success = false) */
   error?: string;
 }
 
 /**
- * Información de paginación
+ * Pagination information
  */
 export interface PaginationInfo {
-  /** Página actual */
+  /** Current page */
   page: number;
-  /** Elementos por página */
+  /** Items per page */
   limit: number;
-  /** Total de elementos */
+  /** Total number of items */
   total: number;
-  /** Total de páginas */
+  /** Total pages */
   totalPages: number;
 }
 
 /**
- * Respuesta paginada de la API
- * Para endpoints que devuelven listas
+ * Paginated API response
+ * For endpoints that return lists.
  */
 export interface PaginatedResponse<T> extends ApiResponse<T[]> {
-  /** Información de paginación */
+  /** Pagination information */
   pagination: PaginationInfo;
 }
 
 /**
- * Ejemplo de uso:
+ * Usage example:
  * 
- * // Respuesta simple
+ * // Simple response
  * const response: ApiResponse<Exercise> = {
  *   success: true,
  *   data: exercise,
- *   message: 'Ejercicio creado exitosamente'
+ *   message: 'Exercise created successfully'
  * }
  * 
- * // Respuesta paginada
+ * // Paginated response
  * const response: PaginatedResponse<Exercise> = {
  *   success: true,
  *   data: exercises,
@@ -58,9 +58,9 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
  *   }
  * }
  * 
- * // Respuesta de error
+ * // Error response
  * const response: ApiResponse = {
  *   success: false,
- *   error: 'Ejercicio no encontrado'
+ *   error: 'Exercise not found'
  * }
  */

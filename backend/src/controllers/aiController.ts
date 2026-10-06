@@ -1,7 +1,7 @@
 /**
- * Controlador de IA
+ * AI controller
  * 
- * Maneja las peticiones relacionadas con Gemini AI
+ * Handles requests related to Gemini AI
  */
 
 import { Request, Response } from 'express';
@@ -18,22 +18,22 @@ import {
 
 export class AIController {
   /**
-   * Generar solución de código
+   * Generate a code solution
    * POST /api/ai/generate-solution
    */
   async generateSolution(req: Request, res: Response): Promise<void> {
     const { problem, language, difficulty, hints } = req.body as GenerateSolutionRequest;
 
-    // Validación
+    // Validation
     if (!problem || !problem.trim()) {
-      throw new AppError('El problema no puede estar vacío', 400);
+      throw new AppError('Problem cannot be empty', 400);
     }
 
     if (!language || !language.trim()) {
-      throw new AppError('El lenguaje es obligatorio', 400);
+      throw new AppError('Language is required', 400);
     }
 
-    logger.info('Solicitud de generación de solución', {
+    logger.info('Solution generation request', {
       language,
       difficulty,
       userId: (req as any).user?._id,
@@ -53,27 +53,27 @@ export class AIController {
   }
 
   /**
-   * Analizar código del usuario
+   * Analyze user code
    * POST /api/ai/analyze-code
    */
   async analyzeCode(req: Request, res: Response): Promise<void> {
     const { code, language, focusAreas } = req.body as AnalyzeCodeRequest;
 
-    // Validación
+    // Validation
     if (!code || !code.trim()) {
-      throw new AppError('El código no puede estar vacío', 400);
+      throw new AppError('Code cannot be empty', 400);
     }
 
     if (!language || !language.trim()) {
-      throw new AppError('El lenguaje es obligatorio', 400);
+      throw new AppError('Language is required', 400);
     }
 
-    // Límite de longitud de código
+    // Code length limit
     if (code.length > 10000) {
-      throw new AppError('El código es demasiado largo (máximo 10,000 caracteres)', 400);
+      throw new AppError('Code is too long (maximum 10,000 characters)', 400);
     }
 
-    logger.info('Solicitud de análisis de código', {
+    logger.info('Code analysis request', {
       language,
       codeLength: code.length,
       focusAreas,
@@ -92,7 +92,7 @@ export class AIController {
     });
   }
   /**
-   * Generar flowchart Mermaid para un ejercicio
+   * Generate a Mermaid flowchart for an exercise
    * POST /api/ai/generate-flowchart
    */
   async generateFlowchart(req: Request, res: Response): Promise<void> {
@@ -190,7 +190,7 @@ Make sure:
   }
 
   /**
-   * Enviar mensaje al chat contextual
+   * Send a message to the contextual chat.
    * POST /api/ai/chat
    */
   async sendChatMessage(req: Request, res: Response): Promise<void> {
@@ -280,18 +280,18 @@ Respond as a friendly tutor would:
   }
 
   /**
-   * Explicar concepto
+   * Explain a concept.
    * POST /api/ai/explain
    */
   async explain(req: Request, res: Response): Promise<void> {
     const { topic, level, includeExamples } = req.body as ExplainRequest;
 
-    // Validación
+    // Validation
     if (!topic || !topic.trim()) {
-      throw new AppError('El tema no puede estar vacío', 400);
+      throw new AppError('Topic cannot be empty', 400);
     }
 
-    logger.info('Solicitud de explicación', {
+    logger.info('Explanation request', {
       topic,
       level,
       includeExamples,
@@ -310,7 +310,7 @@ Respond as a friendly tutor would:
     });
   }
   /**
-   * Analizar ejercicio y proporcionar roadmap de aprendizaje
+   * Analyze an exercise and provide a learning roadmap.
    * POST /api/ai/analyze-exercise
    */
   async analyzeExercise(req: Request, res: Response): Promise<void> {
@@ -389,7 +389,7 @@ Make it encouraging and educational. The roadmap should guide them step-by-step 
   }
 
   /**
-   * Analizar progreso del código en tiempo real
+   * Analyze code progress in real time.
    * POST /api/ai/analyze-progress
    */
   async analyzeProgress(req: Request, res: Response): Promise<void> {
@@ -486,5 +486,5 @@ Return ONLY the JSON object, no markdown formatting.`;
 }
 
 
-// Exportar instancia
+// Export the instance.
 export const aiController = new AIController();

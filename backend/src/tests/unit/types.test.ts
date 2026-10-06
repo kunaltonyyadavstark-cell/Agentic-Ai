@@ -10,7 +10,7 @@ import type {
 
 describe('TypeScript Types', () => {
   describe('DifficultyLevel', () => {
-    it('debe aceptar valores válidos', () => {
+    it('accepts valid values', () => {
       const easy: DifficultyLevel = 'easy';
       const medium: DifficultyLevel = 'medium';
       const hard: DifficultyLevel = 'hard';
@@ -22,7 +22,7 @@ describe('TypeScript Types', () => {
   });
 
   describe('ProgrammingLanguage', () => {
-    it('debe aceptar lenguajes válidos', () => {
+    it('accepts valid languages', () => {
       const python: ProgrammingLanguage = 'python';
       const javascript: ProgrammingLanguage = 'javascript';
       const typescript: ProgrammingLanguage = 'typescript';
@@ -34,25 +34,25 @@ describe('TypeScript Types', () => {
   });
 
   describe('CreateExerciseDTO', () => {
-    it('debe crear un DTO válido', () => {
+    it('creates a valid DTO', () => {
       const dto: CreateExerciseDTO = {
-        title: 'Suma de números',
-        description: 'Escribe una función que sume dos números',
+        title: 'Sum of numbers',
+        description: 'Write a function that adds two numbers',
         language: 'python',
         difficulty: 'easy',
-        tags: ['matemáticas', 'básico']
+        tags: ['math', 'beginner']
       };
 
-      expect(dto.title).toBe('Suma de números');
+      expect(dto.title).toBe('Sum of numbers');
       expect(dto.language).toBe('python');
       expect(dto.difficulty).toBe('easy');
       expect(dto.tags).toHaveLength(2);
     });
 
-    it('debe permitir campos opcionales', () => {
+    it('allows optional fields', () => {
       const dto: CreateExerciseDTO = {
         title: 'Test',
-        description: 'Descripción de prueba',
+        description: 'Test description',
         language: 'javascript',
         difficulty: 'medium'
         // tags y testCases son opcionales
@@ -64,18 +64,18 @@ describe('TypeScript Types', () => {
   });
 
   describe('TestCase', () => {
-    it('debe crear un caso de prueba con strings', () => {
+    it('creates a test case with string values', () => {
       const testCase: TestCase = {
         input: '2, 3',
         expectedOutput: '5',
-        description: 'Suma de 2 y 3'
+        description: 'Sum of 2 and 3'
       };
 
       expect(testCase.input).toBe('2, 3');
       expect(testCase.expectedOutput).toBe('5');
     });
 
-    it('debe crear un caso de prueba con objetos', () => {
+    it('creates a test case with objects', () => {
       const testCase: TestCase = {
         input: { a: 2, b: 3 },
         expectedOutput: { result: 5 }
@@ -87,32 +87,32 @@ describe('TypeScript Types', () => {
   });
 
   describe('ApiResponse', () => {
-    it('debe crear una respuesta exitosa', () => {
+    it('creates a successful response', () => {
       const response: ApiResponse<string> = {
         success: true,
-        data: 'Operación exitosa',
+        data: 'Operation succeeded',
         message: 'Todo bien'
       };
 
       expect(response.success).toBe(true);
-      expect(response.data).toBe('Operación exitosa');
+      expect(response.data).toBe('Operation succeeded');
       expect(response.error).toBeUndefined();
     });
 
-    it('debe crear una respuesta de error', () => {
+    it('creates an error response', () => {
       const response: ApiResponse = {
         success: false,
-        error: 'Algo salió mal'
+        error: 'Something went wrong'
       };
 
       expect(response.success).toBe(false);
-      expect(response.error).toBe('Algo salió mal');
+      expect(response.error).toBe('Something went wrong');
       expect(response.data).toBeUndefined();
     });
   });
 
   describe('PaginatedResponse', () => {
-    it('debe crear una respuesta paginada', () => {
+    it('creates a paginated response', () => {
       const response: PaginatedResponse<string> = {
         success: true,
         data: ['item1', 'item2', 'item3'],

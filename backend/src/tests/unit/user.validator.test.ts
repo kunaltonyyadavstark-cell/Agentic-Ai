@@ -3,50 +3,50 @@ import { UserValidator } from '../../utils/user.validator';
 
 describe('UserValidator', () => {
   describe('validateUsername', () => {
-    it('debe aceptar username válido', () => {
+    it('accepts a valid username', () => {
       const result = UserValidator.validateUsername('john_doe123');
       expect(result.isValid).toBe(true);
     });
 
-    it('debe rechazar username muy corto', () => {
+    it('rejects a username that is too short', () => {
       const result = UserValidator.validateUsername('ab');
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('al menos 3 caracteres');
+      expect(result.error).toContain('at least 3 characters');
     });
 
-    it('debe rechazar username muy largo', () => {
+    it('rejects a username that is too long', () => {
       const result = UserValidator.validateUsername('a'.repeat(31));
       expect(result.isValid).toBe(false);
     });
 
-    it('debe rechazar caracteres especiales peligrosos', () => {
+    it('rejects dangerous special characters', () => {
       const result = UserValidator.validateUsername('user<script>');
       expect(result.isValid).toBe(false);
     });
 
-    it('debe permitir guiones bajos y números', () => {
+    it('allows underscores and numbers', () => {
       const result = UserValidator.validateUsername('user_123');
       expect(result.isValid).toBe(true);
     });
   });
 
   describe('validateEmail', () => {
-    it('debe aceptar email válido', () => {
+    it('accepts a valid email', () => {
       const result = UserValidator.validateEmail('test@example.com');
       expect(result.isValid).toBe(true);
     });
 
-    it('debe rechazar email sin @', () => {
+    it('rejects an email without @', () => {
       const result = UserValidator.validateEmail('testexample.com');
       expect(result.isValid).toBe(false);
     });
 
-    it('debe rechazar email sin dominio', () => {
+    it('rejects an email without a domain', () => {
       const result = UserValidator.validateEmail('test@');
       expect(result.isValid).toBe(false);
     });
 
-    it('debe normalizar email a lowercase', () => {
+    it('normalizes the email to lowercase', () => {
       const result = UserValidator.validateEmail('TEST@EXAMPLE.COM');
       expect(result.isValid).toBe(true);
       expect(result.sanitized).toBe('test@example.com');
@@ -54,39 +54,39 @@ describe('UserValidator', () => {
   });
 
   describe('validatePassword', () => {
-    it('debe aceptar password fuerte', () => {
+    it('accepts a strong password', () => {
       const result = UserValidator.validatePassword('Test1234!');
       expect(result.isValid).toBe(true);
     });
 
-    it('debe rechazar password corto', () => {
+    it('rejects a short password', () => {
       const result = UserValidator.validatePassword('Test1!');
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('8 caracteres');
+      expect(result.error).toContain('8 characters');
     });
 
-    it('debe rechazar password sin mayúscula', () => {
+    it('rejects a password without an uppercase letter', () => {
       const result = UserValidator.validatePassword('test1234!');
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('mayúscula');
+      expect(result.error).toContain('uppercase');
     });
 
-    it('debe rechazar password sin minúscula', () => {
+    it('rejects a password without a lowercase letter', () => {
       const result = UserValidator.validatePassword('TEST1234!');
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('minúscula');
+      expect(result.error).toContain('lowercase');
     });
 
-    it('debe rechazar password sin número', () => {
+    it('rejects a password without a number', () => {
       const result = UserValidator.validatePassword('Testtest!');
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('número');
+      expect(result.error).toContain('number');
     });
 
-    it('debe rechazar password sin carácter especial', () => {
+    it('rejects a password without a special character', () => {
       const result = UserValidator.validatePassword('Test1234');
       expect(result.isValid).toBe(false);
-      expect(result.error).toContain('especial');
+      expect(result.error).toContain('special');
     });
   });
 });

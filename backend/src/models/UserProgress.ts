@@ -6,7 +6,7 @@ export interface IAchievement {
   id: string;
   name: string;
   description: string;
-  icon: string;
+  iwith: string;
   unlockedAt: Date;
   category: 'learning' | 'testing' | 'social' | 'streak' | 'mastery';
 }
@@ -32,7 +32,7 @@ export interface IUserProgress extends Document {
     xpEarned: number;
   }[];
   badges: string[];
-  // ⬇️ AÑADIR ESTOS 3 ⬇️
+  // ⬇️ ADD THESE 3 ⬇️
   dailyGoal: number;
   weeklyGoal: number;
   activityHistory: Array<{
@@ -43,7 +43,7 @@ export interface IUserProgress extends Document {
   createdAt: Date;
   updatedAt: Date;
 
-  // Métodos
+  // Methods
   calculateLevel(): number;
   addXP(amount: number): number;
   updateStreak(): number;
@@ -53,7 +53,7 @@ const achievementSchema = new Schema({
   id: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
-  icon: { type: String, required: true },
+  iwith: { type: String, required: true },
   unlockedAt: { type: Date, default: Date.now },
   category: {
     type: String,

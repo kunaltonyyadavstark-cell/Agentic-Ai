@@ -3,17 +3,17 @@ import logger from '../config/logger.config';
 
 
 /**
- * Error personalizado de la aplicación
+ * Custom application error
  */
 export class AppError extends Error {
   statusCode: number;
   isOperational: boolean;
 
   /**
-   * Crea un error de aplicación
+   * Create an application error
    * 
-   * @param message - Mensaje de error
-   * @param statusCode - Código HTTP de estado
+   * @param message - Error message
+   * @param statusCode - HTTP status code
    */
   constructor(message: string, statusCode: number) {
     super(message);
@@ -25,11 +25,11 @@ export class AppError extends Error {
 }
 
 /**
- * Middleware global para manejar errores
+ * Global error-handling middleware
  * 
- * @param err - Error capturado
- * @param req - Request de Express
- * @param res - Response de Express
+ * @param err - Caught error
+ * @param req - Express request
+ * @param res - Express response
  * @param next - NextFunction
  */
 export function errorHandler(
@@ -38,7 +38,7 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ): void {
-  logger.error('❌ Error capturado:', {
+  logger.error('❌ Caught error:', {
     message: err.message,
     stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
     path: _req.path,
@@ -46,7 +46,7 @@ export function errorHandler(
   });
 
 
-  // Error operacional (controlado)
+  // Operational error (controlled).
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       success: false,
@@ -55,40 +55,40 @@ export function errorHandler(
     return;
   }
 
-  // Error de validación de Mongoose
+  // Mongoose validation error
   if (err.name === 'ValidationError') {
     res.status(400).json({
       success: false,
-      error: 'Error de validación',
+      error: 'Validation error',
       details: err.message
     });
     return;
   }
 
-  // Error de cast de Mongoose (ID inválido)
+  // Mongoose cast error (invalid ID)
   if (err.name === 'CastError') {
     res.status(400).json({
       success: false,
-      error: 'ID inválido'
+      error: 'Invalid ID'
     });
     return;
   }
 
-  // Error genérico
+  // Generic error
   res.status(500).json({
     success: false,
     error: process.env.NODE_ENV === 'development' 
       ? err.message 
-      : 'Error interno del servidor'
+      : 'Internal server error'
   });
 }
 
 /**
- * Middleware para rutas no encontradas
+ * Middleware for routes not found
  */
 export function notFoundHandler(_req: Request, res: Response): void {
   res.status(404).json({
     success: false,
-    error: 'Ruta no encontrada'
+    error: 'Route not found'
   });
 }

@@ -4,24 +4,24 @@
     {
       "number": 1,
       "title": "Mailing Address",
-      "description": "Muestra nombre y dirección postal completa (4+ líneas)",
+      "description": "Print a complete name and mailing address (4+ lines)",
       "difficulty": "easy",
       "category": "strings",
-      "hints": ["Usa print/console.log", "4+ líneas"],
+      "hints": ["Use print/console.log", "4+ lines"],
       "testCases": [
-        {"input": null, "expectedOutput": null, "description": "Muestra 4+ líneas"}
+        {"input": null, "expectedOutput": null, "description": "Print 4+ lines"}
       ],
       "solutions": {
-        "python": "print(\"Juan Pérez\")\\nprint(\"Calle Mayor 123\")\\nprint(\"28001 Madrid\")\\nprint(\"España\")",
-        "javascript": "console.log(\"Juan Pérez\");\\nconsole.log(\"Calle Mayor 123\");\\nconsole.log(\"28001 Madrid\");\\nconsole.log(\"España\");",
-        "java": "public class MailingAddress {\\n    public static void main(String[] args) {\\n        System.out.println(\"Juan Pérez\");\\n        System.out.println(\"Calle Mayor 123\");\\n        System.out.println(\"28001 Madrid\");\\n        System.out.println(\"España\");\\n    }\\n}",
-        "cpp": "#include <iostream>\\nusing namespace std;\\nint main() {\\n    cout << \"Juan Pérez\" << endl;\\n    cout << \"Calle Mayor 123\" << endl;\\n    cout << \"28001 Madrid\" << endl;\\n    cout << \"España\" << endl;\\n    return 0;\\n}"
+        "python": "print(\"Alex Morgan\")\\nprint(\"123 Main Street\")\\nprint(\"New York, NY 10001\")\\nprint(\"United States\")",
+        "javascript": "console.log(\"Alex Morgan\");\\nconsole.log(\"123 Main Street\");\\nconsole.log(\"New York, NY 10001\");\\nconsole.log(\"United States\");",
+        "java": "public class MailingAddress {\\n    public static void main(String[] args) {\\n        System.out.println(\"Alex Morgan\");\\n        System.out.println(\"123 Main Street\");\\n        System.out.println(\"New York, NY 10001\");\\n        System.out.println(\"United States\");\\n    }\\n}",
+        "cpp": "#include <iostream>\\nusing namespace std;\\nint main() {\\n    cout << \"Alex Morgan\" << endl;\\n    cout << \"123 Main Street\" << endl;\\n    cout << \"New York, NY 10001\" << endl;\\n    cout << \"United States\" << endl;\\n    return 0;\\n}"
       },
       "starterCode": {
-        "python": "# Muestra dirección\\n# Tu código aquí\\n",
-        "javascript": "// Muestra dirección\\n// Tu código aquí\\n",
-        "java": "public class MailingAddress {\\n    public static void main(String[] args) {\\n        // Tu código aquí\\n    }\\n}",
-        "cpp": "#include <iostream>\\nusing namespace std;\\nint main() {\\n    // Tu código aquí\\n    return 0;\\n}"
+        "python": "# Print the address\\n# Your code here\\n",
+        "javascript": "// Print the address\\n// Your code here\\n",
+        "java": "public class MailingAddress {\\n    public static void main(String[] args) {\\n        // Your code here\\n    }\\n}",
+        "cpp": "#include <iostream>\\nusing namespace std;\\nint main() {\\n    // Your code here\\n    return 0;\\n}"
       }
     }
   ]

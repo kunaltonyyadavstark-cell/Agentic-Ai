@@ -18,21 +18,21 @@ import ExerciseWorkspace from '@/pages/ExerciseWorkspace/ExerciseWorkspace';
 import Analytics from './pages/Analytics';
 
 /**
- * QueryClient para React Query
+ * QueryClient for React Query
  */
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
       retry: 1,
-      staleTime: 5 * 60 * 1000, // 5 minutos
+      staleTime: 5 * 60 * 1000, // 5 minutes
     },
   },
 });
 
 /**
- * Componente de ruta protegida
- * Redirige a /login si no está autenticado
+ * Protected route component
+ * Redirects to /login if not authenticated
  */
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useIsAuthenticated();
@@ -45,8 +45,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Componente de ruta pública
- * Redirige a /dashboard si ya está autenticado
+ * Public route component
+ * Redirects to /dashboard if already authenticated
  */
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useIsAuthenticated();
@@ -64,7 +64,7 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            {/* Rutas públicas */}
+            {/* Public routes */}
             <Route path="/" element={<Home />} />
 
             <Route
@@ -85,12 +85,12 @@ function App() {
               }
             />
 
-            {/* Rutas de ejercicios (públicas) */}
+            {/* Exercise routes (public) */}
             <Route path="/exercises" element={<Exercises />} />
             <Route path="/exercises/:id" element={<ExerciseDetail />} />
-            <Route path="/exercises/:id/workspace" element={<ExerciseWorkspace />} /> {/* 👈 NUEVA RUTA */}
+            <Route path="/exercises/:id/workspace" element={<ExerciseWorkspace />} />
 
-            {/* Rutas protegidas (requieren autenticación) */}
+            {/* Protected routes (require authentication) */}
             <Route
               path="/dashboard"
               element={
@@ -118,7 +118,7 @@ function App() {
               }
             />
 
-            {/* Ruta 404 */}
+            {/* 404 Route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Layout>

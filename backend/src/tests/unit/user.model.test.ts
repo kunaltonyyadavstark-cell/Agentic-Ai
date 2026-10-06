@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { User } from '../../models/User';
 
 describe.skip('User Model', () => {
-  describe('Crear usuario', () => {
-    it('debe crear un usuario válido', async () => {
+  describe('Create user', () => {
+    it('creates a valid user', async () => {
       const userData = {
         username: 'testuser',
         email: 'test@example.com',
@@ -20,7 +20,7 @@ describe.skip('User Model', () => {
       expect(user.createdAt).toBeInstanceOf(Date);
     });
 
-    it('debe hashear el password automáticamente', async () => {
+    it('automatically hashes the password', async () => {
       const userData = {
         username: 'testuser2',
         email: 'test2@example.com',
@@ -35,8 +35,8 @@ describe.skip('User Model', () => {
     });
   });
 
-  describe('Validaciones', () => {
-    it('debe fallar si falta username', async () => {
+  describe('Validation', () => {
+    it('fails when the username is missing', async () => {
       const userData = {
         email: 'test3@example.com',
         password: 'Test1234!'
@@ -45,7 +45,7 @@ describe.skip('User Model', () => {
       await expect(User.create(userData)).rejects.toThrow();
     });
 
-    it('debe fallar si falta email', async () => {
+    it('fails when the email is missing', async () => {
       const userData = {
         username: 'testuser3',
         password: 'Test1234!'
@@ -54,7 +54,7 @@ describe.skip('User Model', () => {
       await expect(User.create(userData)).rejects.toThrow();
     });
 
-    it('debe fallar si falta password', async () => {
+    it('fails when the password is missing', async () => {
       const userData = {
         username: 'testuser4',
         email: 'test4@example.com'
@@ -63,7 +63,7 @@ describe.skip('User Model', () => {
       await expect(User.create(userData)).rejects.toThrow();
     });
 
-    it('debe fallar con email duplicado', async () => {
+    it('fails with a duplicate email', async () => {
       const userData = {
         username: 'user5',
         email: 'duplicate@example.com',
@@ -81,7 +81,7 @@ describe.skip('User Model', () => {
       await expect(User.create(duplicateUser)).rejects.toThrow();
     });
 
-    it('debe fallar con username duplicado', async () => {
+    it('fails with a duplicate username', async () => {
       const userData = {
         username: 'duplicateuser',
         email: 'test7@example.com',
@@ -101,7 +101,7 @@ describe.skip('User Model', () => {
   });
 
   describe('comparePassword', () => {
-    it('debe retornar true con password correcto', async () => {
+    it('returns true with the correct password', async () => {
       const userData = {
         username: 'testuser9',
         email: 'test9@example.com',
@@ -115,7 +115,7 @@ describe.skip('User Model', () => {
       expect(isMatch).toBe(true);
     });
 
-    it('debe retornar false con password incorrecto', async () => {
+    it('returns false with an incorrect password', async () => {
       const userData = {
         username: 'testuser10',
         email: 'test10@example.com',
@@ -131,7 +131,7 @@ describe.skip('User Model', () => {
   });
 
   describe('toJSON', () => {
-    it('no debe incluir password en JSON', async () => {
+    it('does not include the password in JSON', async () => {
       const userData = {
         username: 'testuser11',
         email: 'test11@example.com',

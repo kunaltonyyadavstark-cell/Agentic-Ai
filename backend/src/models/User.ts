@@ -2,50 +2,50 @@ import mongoose, { Schema, Model, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import type { IUser, UserRole } from '../types';
 
-// Crear interface que extiende Document con los métodos personalizados
+// Create an interface extending Document with custom methods
 interface IUserDocument extends Omit<IUser, '_id'>, Document {
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 /**
- * Schema de Mongoose para User
+ * Mongoose schema for User
  */
 const userSchema = new Schema<IUserDocument>({
   username: {
     type: String,
-    required: [true, 'El username es obligatorio'],
+    required: [true, 'Username is required'],
     unique: true,
     trim: true,
-    minlength: [3, 'El username debe tener al menos 3 caracteres'],
-    maxlength: [30, 'El username no puede exceder 30 caracteres'],
-    match: [/^[a-zA-Z0-9_-]+$/, 'El username solo puede contener letras, números, guiones y guiones bajos']
+    minlength: [3, 'Username must be at least 3 characters'],
+    maxlength: [30, 'Username cannot exceed 30 characters'],
+    match: [/^[a-zA-Z0-9_-]+$/, 'Username may only contain letters, numbers, hyphens, and underscores']
   },
     name: {
     type: String,
-    required: [true, 'El nombre es obligatorio'],
+    required: [true, 'Name is required'],
     trim: true,
-    minlength: [2, 'El nombre debe tener al menos 2 caracteres'],
-    maxlength: [100, 'El nombre no puede exceder 100 caracteres']
+    minlength: [2, 'Name must be at least 2 characters'],
+    maxlength: [100, 'Name cannot exceed 100 characters']
   },
   email: {
     type: String,
-    required: [true, 'El email es obligatorio'],
+    required: [true, 'Email is required'],
     unique: true,
     lowercase: true,
     trim: true,
-    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Email inválido']
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email']
   },
   password: {
     type: String,
-    required: [true, 'El password es obligatorio'],
-    minlength: [8, 'El password debe tener al menos 8 caracteres'],
+    required: [true, 'Password is required'],
+    minlength: [8, 'Password must be at least 8 characters'],
     select: false
   },
   role: {
     type: String,
     enum: {
       values: ['user', 'admin'] as UserRole[],
-      message: 'Rol inválido'
+      message: 'Invalid role'
     },
     default: 'user'
   }
@@ -55,11 +55,11 @@ const userSchema = new Schema<IUserDocument>({
 });
 
 /**
- * Eliminar índices duplicados (el unique: true ya crea los índices)
+ * Remove duplicate indexes (unique: true already creates the indexes)
  */
 
 /**
- * Middleware pre-save: Hashear password antes de guardar
+ * Pre-save middleware: Hash the password before saving
  */
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) {
@@ -76,10 +76,10 @@ userSchema.pre('save', async function(next) {
 });
 
 /**
- * Método de instancia: Comparar password
+ * Instance method: Compare the password
  * 
- * @param candidatePassword - Password a comparar
- * @returns true si coincide, false si no
+ * @param candidatePassword - Password to compare
+ * @returns true if they match, false otherwise
  */
 userSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
   try {
@@ -90,7 +90,7 @@ userSchema.methods.comparePassword = async function(candidatePassword: string): 
 };
 
 /**
- * Método toJSON: No devolver password
+ * toJSON method: Do not return the password
  */
 userSchema.methods.toJSON = function() {
   const obj = this.toObject();
@@ -100,9 +100,9 @@ userSchema.methods.toJSON = function() {
 };
 
 /**
- * Modelo de User
+ * User model
  */
-// Singleton para evitar recompilación en tests/hot-reload
+// Singleton to avoid recompilation in tests/hot reload
 let cachedModel: Model<IUserDocument> | null = null;
 
 export const getUserModel = (): Model<IUserDocument> => {

@@ -4,7 +4,7 @@ import { User } from '../models/User';
 import { AppError } from './errorHandler';
 import type { JWTPayload } from '../types';
 
-// Extender Request de Express para incluir user
+// Extender Request de Express for incluir user
 declare global {
   namespace Express {
     interface Request {
@@ -18,14 +18,14 @@ declare global {
 }
 
 /**
- * Middleware de autenticación JWT
- * Verifica que el usuario tenga un token válido
+ * JWT authentication middleware
+ * Verify that the user has a valid token
  * 
  * @param req - Request de Express
  * @param res - Response de Express
  * @param next - NextFunction
  * 
- * @throws {AppError} 401 - Si no hay token o es inválido
+ * @throws {AppError} 401 - If there is no token or it is invalid
  * 
  * @example
  * router.get('/protected', authenticate, (req, res) => {
@@ -38,26 +38,26 @@ export async function authenticate(
   next: NextFunction
 ): Promise<void> {
   try {
-    // Obtener token del header Authorization
+    // Get the token from the Authorization header
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new AppError('No se proporcionó token de autenticación', 401);
+      throw new AppError('No authentication token was provided', 401);
     }
 
-    const token = authHeader.substring(7); // Remover 'Bearer '
+    const token = authHeader.substring(7); // Remove 'Bearer '
 
-    // Verificar token
+    // Verify the token.
     const payload: JWTPayload = JWTService.verifyToken(token);
 
-    // Verificar que el usuario existe
+    // Verify that the user exists
     const user = await User.findById(payload.userId);
 
     if (!user) {
-      throw new AppError('Usuario no encontrado', 401);
+      throw new AppError('User not found', 401);
     }
 
-    // Añadir datos del usuario al request
+    // Add user data to the request
     req.user = {
       userId: payload.userId,
       email: payload.email,
@@ -69,20 +69,20 @@ export async function authenticate(
     if (error instanceof AppError) {
       next(error);
     } else {
-      next(new AppError('Token inválido o expirado', 401));
+      next(new AppError('Invalid or expired token', 401));
     }
   }
 }
 
 /**
- * Middleware para verificar rol de administrador
- * Debe usarse después del middleware authenticate
+ * Middleware to verify the administrator role
+ * Must be used after the authenticate middleware
  * 
  * @param req - Request de Express
  * @param res - Response de Express
  * @param next - NextFunction
  * 
- * @throws {AppError} 403 - Si el usuario no es admin
+ * @throws {AppError} 403 - If the user is not an admin
  */
 export function requireAdmin(
   req: Request,
@@ -90,11 +90,11 @@ export function requireAdmin(
   next: NextFunction
 ): void {
   if (!req.user) {
-    throw new AppError('No autenticado', 401);
+    throw new AppError('Not authenticated', 401);
   }
 
   if (req.user.role !== 'admin') {
-    throw new AppError('Acceso denegado. Se requieren permisos de administrador', 403);
+    throw new AppError('Access denied. Administrator permissions are required.', 403);
   }
 
   next();

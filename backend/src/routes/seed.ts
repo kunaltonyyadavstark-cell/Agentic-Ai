@@ -7,7 +7,7 @@ router.get('/seed', async (_req: Request, res: Response) => {
   if (process.env.NODE_ENV === 'production') {
     return res.status(403).json({
       success: false,
-      error: 'Seed no permitido en producción'
+      error: 'Seeding is not allowed in production'
     });
   }
 
@@ -16,7 +16,7 @@ router.get('/seed', async (_req: Request, res: Response) => {
     if (count > 0) {
       return res.json({
         success: true,
-        message: `Ya hay ${count} ejercicios. Usa /api/seed/force para reemplazarlos.`,
+        message: `There are already ${count} exercises. Use /api/seed/force to replace them.`,
       });
     }
 
@@ -495,24 +495,24 @@ router.get('/seed', async (_req: Request, res: Response) => {
 
     res.json({
       success: true,
-      message: `✅ ${exercises.length} ejercicios creados exitosamente`,
+      message: `✅ ${exercises.length} exercises created successfully`,
       count: exercises.length,
     });
   } catch (error: any) {
     console.error('Error en seed:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Error al hacer seed',
+      error: error.message || 'Error while seeding exercises',
     });
   }
 });
 
-// Force seed (elimina y redirige al seed normal para reinsertar)
+// Force seed (elimina y redirige al seed normal for reinsertar)
 router.get('/seed/force', async (_req: Request, res: Response) => {
   if (process.env.NODE_ENV === 'production') {
     return res.status(403).json({
       success: false,
-      error: 'Seed no permitido en producción'
+      error: 'Seeding is not allowed in production'
     });
   }
 

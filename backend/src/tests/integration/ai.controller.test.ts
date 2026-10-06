@@ -1,5 +1,5 @@
 /**
- * Tests de Integración para AI Controller
+ * Integration tests for the AI controller.
  */
 
 process.env.NODE_ENV = 'test';
@@ -18,13 +18,13 @@ describe('AI Controller (Integration)', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    // Conectar a base de datos de test
+    // Connect to the test database.
     await connectDatabase();
-    console.log('✅ Conectado a MongoDB');
+    console.log('✅ Connected to MongoDB');
 
     app = createApp();
 
-    // Registrar y obtener token
+    // Register and get a token
     const registerResponse = await request(app)
       .post('/api/auth/register')
       .send({
@@ -39,15 +39,15 @@ describe('AI Controller (Integration)', () => {
 
   afterAll(async () => {
     await disconnectDatabase();
-    console.log('MongoDB desconectado correctamente');
+    console.log('MongoDB disconnected successfully');
   });
 
   describe('POST /api/ai/generate-solution', () => {
-    it('debe rechazar sin autenticación', async () => {
+    it('rejects unauthenticated requests', async () => {
       const response = await request(app)
         .post('/api/ai/generate-solution')
         .send({
-          problem: 'Suma dos números',
+          problem: 'Add two numbers',
           language: 'javascript',
         })
         .expect(401);
@@ -55,7 +55,7 @@ describe('AI Controller (Integration)', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('debe rechazar sin problema', async () => {
+    it('rejects a request without a problem', async () => {
       const response = await request(app)
         .post('/api/ai/generate-solution')
         .set('Authorization', `Bearer ${authToken}`)
@@ -65,31 +65,31 @@ describe('AI Controller (Integration)', () => {
         .expect(400);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toContain('problema');
+      expect(response.body.error).toContain('Problem');
     });
 
-    it('debe rechazar sin lenguaje', async () => {
+    it('rejects a request without a language', async () => {
       const response = await request(app)
         .post('/api/ai/generate-solution')
         .set('Authorization', `Bearer ${authToken}`)
         .send({
-          problem: 'Suma dos números',
+          problem: 'Add two numbers',
         })
         .expect(400);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toContain('lenguaje');
+      expect(response.body.error).toContain('Language');
     });
 
-    // Test con API key válida (skip si no está configurada)
+    // Run with a valid API key; skip when it is not configured.
     it.skipIf(!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'test-api-key-for-unit-tests')(
-      'debe generar solución con datos válidos',
+      'generates a solution with valid data',
       async () => {
         const response = await request(app)
           .post('/api/ai/generate-solution')
           .set('Authorization', `Bearer ${authToken}`)
           .send({
-            problem: 'Crea una función que sume dos números',
+            problem: 'Create a function that adds two numbers',
             language: 'javascript',
             difficulty: 'easy',
           })
@@ -99,12 +99,12 @@ describe('AI Controller (Integration)', () => {
         expect(response.body.data).toBeDefined();
         expect(response.body.data.solution).toBeDefined();
       },
-      30000 // timeout de 30s para llamada a API
+      30000 // 30-second timeout for the API call.
     );
   });
 
   describe('POST /api/ai/analyze-code', () => {
-    it('debe rechazar sin autenticación', async () => {
+    it('rejects unauthenticated requests', async () => {
       const response = await request(app)
         .post('/api/ai/analyze-code')
         .send({
@@ -116,7 +116,7 @@ describe('AI Controller (Integration)', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('debe rechazar sin código', async () => {
+    it('rejects requests without code', async () => {
       const response = await request(app)
         .post('/api/ai/analyze-code')
         .set('Authorization', `Bearer ${authToken}`)
@@ -126,10 +126,10 @@ describe('AI Controller (Integration)', () => {
         .expect(400);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toContain('código');
+      expect(response.body.error).toContain('Code');
     });
 
-    it('debe rechazar código muy largo', async () => {
+    it('rejects overly long code', async () => {
       const longCode = 'a'.repeat(10001);
       
       const response = await request(app)
@@ -142,12 +142,12 @@ describe('AI Controller (Integration)', () => {
         .expect(400);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toContain('largo');
+      expect(response.body.error).toContain('too long');
     });
   });
 
   describe('POST /api/ai/explain', () => {
-    it('debe rechazar sin autenticación', async () => {
+    it('rejects unauthenticated requests', async () => {
       const response = await request(app)
         .post('/api/ai/explain')
         .send({
@@ -158,7 +158,7 @@ describe('AI Controller (Integration)', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('debe rechazar sin tema', async () => {
+    it('rejects a request without a topic', async () => {
       const response = await request(app)
         .post('/api/ai/explain')
         .set('Authorization', `Bearer ${authToken}`)
@@ -168,19 +168,19 @@ describe('AI Controller (Integration)', () => {
         .expect(400);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error).toContain('tema');
+      expect(response.body.error).toContain('Topic');
     });
 
-    it('debe aceptar solicitud válida', async () => {
+    it('accepts a valid request', async () => {
       const response = await request(app)
         .post('/api/ai/explain')
         .set('Authorization', `Bearer ${authToken}`)
         .send({
-          topic: 'Variables en JavaScript',
+          topic: 'Variables in JavaScript',
           level: 'beginner',
         });
 
-      // Puede ser 200 (éxito) o 500 (si no hay API key)
+      // Can return 200 (success) or 500 (if no API key is configured)
       expect([200, 500]).toContain(response.status);
     });
   });
