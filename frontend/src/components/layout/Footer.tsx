@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Code2, Github, Twitter, Linkedin } from 'lucide-react';
+import { Code2, Github } from 'lucide-react';
 
 /**
  * Application Footer
@@ -83,22 +83,6 @@ export default function Footer() {
                 className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
               >
                 <Github className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/victor-manuel-gonzalez-moreno/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
-              >
-                <Linkedin className="h-5 w-5" />
               </a>
             </div>
           </div>

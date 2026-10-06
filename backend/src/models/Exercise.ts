@@ -92,6 +92,14 @@ const exerciseSchema = new Schema<IExercise>({
     type: String,
     trim: true
   },
+  starterCode: {
+    type: String,
+    trim: true
+  },
+  hints: [{
+    type: String,
+    trim: true
+  }],
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'

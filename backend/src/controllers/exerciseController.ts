@@ -166,11 +166,16 @@ export class ExerciseController {
         category: exerciseData.category,
         keywords: exerciseData.keywords,
         testCases: exerciseData.testCases,
-        solution: exerciseData.solution
+        solution: exerciseData.solution,
+        starterCode: exerciseData.starterCode,
+        hints: exerciseData.hints
       };
 
       // Create exercise
-      const exercise = await Exercise.create(sanitizedData);
+      const exercise = await Exercise.create({
+        ...sanitizedData,
+        userId: req.user?.userId
+      });
 
       res.status(201).json({
         success: true,

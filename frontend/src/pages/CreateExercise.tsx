@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, Plus, Trash2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { exerciseService } from '../services/exerciseService';
+import type { CreateExerciseData, ExerciseCategory, TestCase } from '../types';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
@@ -15,17 +16,29 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Badge } from '../components/ui/badge';
 
-const LANGUAGES = ['JavaScript', 'TypeScript', 'Python', 'Java', 'C++', 'C#', 'Go', 'Rust', 'PHP', 'Ruby'];
+const LANGUAGES = [
+  { label: 'JavaScript', value: 'javascript' },
+  { label: 'TypeScript', value: 'typescript' },
+  { label: 'Python', value: 'python' },
+  { label: 'Java', value: 'java' },
+  { label: 'C++', value: 'cpp' },
+  { label: 'C#', value: 'csharp' },
+  { label: 'Go', value: 'go' },
+  { label: 'Rust', value: 'rust' },
+  { label: 'PHP', value: 'php' },
+  { label: 'Ruby', value: 'ruby' },
+];
 
 export default function CreateExercise() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   // Form state
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [difficulty, setDifficulty] = useState('easy');
-  const [category, setCategory] = useState('algorithms');
-  const [language, setLanguage] = useState('Python');
+  const [difficulty, setDifficulty] = useState<CreateExerciseData['difficulty']>('easy');
+  const [category, setCategory] = useState<ExerciseCategory>('algorithms');
+  const [language, setLanguage] = useState('python');
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
   const [solution, setSolution] = useState('');
@@ -37,13 +50,14 @@ export default function CreateExercise() {
 
   // Mutation to create exercise
   const createMutation = useMutation({
-    mutationFn: (data: any) => exerciseService.create(data),
+    mutationFn: (data: CreateExerciseData) => exerciseService.create(data),
     onSuccess: (data) => {
+      void queryClient.invalidateQueries({ queryKey: ['exercises'] });
       toast.success('Exercise created successfully!');
       navigate(`/exercises/${data._id}`);
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to create exercise');
+    onError: (error: { response?: { data?: { error?: string; message?: string } }; message: string }) => {
+      toast.error(error.response?.data?.error || error.response?.data?.message || error.message || 'Failed to create exercise');
     },
   });
 
@@ -51,19 +65,59 @@ export default function CreateExercise() {
     e.preventDefault();
 
     // Basic validation
-    if (!title || !description || tags.length === 0 || testCases.length === 0 || !solution) {
-      toast.error('Please fill in all required fields');
+    if (title.trim().length < 3) {
+      toast.error('Enter an exercise title with at least 3 characters');
       return;
     }
 
-    // Parse test cases
-    const parsedTestCases = testCases.map(tc => ({
-      input: JSON.parse(tc.input || '[]'),
-      expectedOutput: JSON.parse(tc.expectedOutput || 'null'),
-      description: tc.description || undefined,
-    }));
+    if (description.trim().length < 10) {
+      toast.error('Enter a problem description with at least 10 characters');
+      return;
+    }
 
-    const data = {
+    if (tags.length === 0) {
+      toast.error('Add at least one tag');
+      return;
+    }
+
+    if (!solution.trim()) {
+      toast.error('Enter the full reference solution');
+      return;
+    }
+
+    if (testCases.length === 0) {
+      toast.error('Add at least one test case');
+      return;
+    }
+
+    const parsedTestCases: TestCase[] = [];
+    for (const [index, testCase] of testCases.entries()) {
+      try {
+        const inputText = testCase.input.trim();
+        const outputText = testCase.expectedOutput.trim();
+        if (!inputText || !outputText) {
+          toast.error(`Please enter both input and expected output for test case #${index + 1}`);
+          return;
+        }
+
+        const input: unknown = JSON.parse(inputText);
+        if (!Array.isArray(input) || input.length === 0) {
+          toast.error(`Input for test case #${index + 1} must be a non-empty JSON array`);
+          return;
+        }
+
+        parsedTestCases.push({
+          input,
+          expectedOutput: JSON.parse(outputText),
+          description: testCase.description || undefined,
+        });
+      } catch {
+        toast.error(`Test case #${index + 1} contains invalid JSON`);
+        return;
+      }
+    }
+
+    const data: CreateExerciseData = {
       title,
       description,
       difficulty,
@@ -163,7 +217,11 @@ export default function CreateExercise() {
             <div className="grid md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label>Difficulty *</Label>
-                <Select value={difficulty} onValueChange={setDifficulty}>
+                <Select value={difficulty} onValueChange={(value) => {
+                  if (value === 'easy' || value === 'medium' || value === 'hard') {
+                    setDifficulty(value);
+                  }
+                }}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -183,8 +241,8 @@ export default function CreateExercise() {
                   </SelectTrigger>
                   <SelectContent>
                     {LANGUAGES.map((lang) => (
-                      <SelectItem key={lang} value={lang}>
-                        {lang}
+                      <SelectItem key={lang.value} value={lang.value}>
+                        {lang.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -193,7 +251,11 @@ export default function CreateExercise() {
 
               <div className="space-y-2">
                 <Label>Category *</Label>
-                <Select value={category} onValueChange={setCategory}>
+                <Select value={category} onValueChange={(value) => {
+                  if (['arrays', 'strings', 'loops', 'data-structures', 'algorithms', 'logic-math'].includes(value)) {
+                    setCategory(value as ExerciseCategory);
+                  }
+                }}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -272,21 +334,23 @@ export default function CreateExercise() {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Input (JSON)</Label>
+                    <Label>Input (JSON) *</Label>
                     <Textarea
                       placeholder='[1, 2]'
                       rows={2}
                       value={tc.input}
                       onChange={(e) => updateTestCase(index, 'input', e.target.value)}
+                      required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Expected output</Label>
+                    <Label>Expected output *</Label>
                     <Textarea
                       placeholder='3'
                       rows={2}
                       value={tc.expectedOutput}
                       onChange={(e) => updateTestCase(index, 'expectedOutput', e.target.value)}
+                      required
                     />
                   </div>
                 </div>

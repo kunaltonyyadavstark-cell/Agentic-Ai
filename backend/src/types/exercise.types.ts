@@ -65,6 +65,10 @@ export interface IExercise {
   testCases: TestCase[];
   /** Reference solution (optional) */
   solution?: string;
+  /** Code scaffold shown before the learner starts */
+  starterCode?: string;
+  /** Optional hints shown to the learner */
+  hints?: string[];
   /** Creation date */
   createdAt: Date;
   /** Last updated date */
@@ -95,6 +99,10 @@ export interface CreateExerciseDTO {
   testCases?: TestCase[];
   /** Optional reference solution */
   solution?: string;
+  /** Optional code scaffold */
+  starterCode?: string;
+  /** Optional hints */
+  hints?: string[];
 }
 
 /**
@@ -111,6 +119,8 @@ export interface UpdateExerciseDTO {
   keywords?: string[];
   testCases?: TestCase[];
   solution?: string;
+  starterCode?: string;
+  hints?: string[];
 }
 
 /**
@@ -128,6 +138,8 @@ export interface ExerciseResponse {
   keywords: string[];
   testCases: TestCase[];
   solution?: string;
+  starterCode?: string;
+  hints?: string[];
   createdAt: string;
   updatedAt: string;
 }
