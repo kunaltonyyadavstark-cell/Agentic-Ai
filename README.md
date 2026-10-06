@@ -2,6 +2,8 @@
 
 > **AI-Powered Programming Learning Platform** - Your personal coding tutor powered by Google Gemini 2.0
 
+An AI-powered coding practice platform for generating, managing, and evaluating programming exercises with structured learning content and automated exercise generation.
+
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
@@ -471,4 +473,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **⭐ If you find this project useful, please consider giving it a star on GitHub! ⭐**
 
 Made with ❤️ and lots of ☕
-
