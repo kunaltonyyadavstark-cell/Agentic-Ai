@@ -99,7 +99,7 @@ async function startServer(): Promise<void> {
     const app = createApp();
     const PORT = process.env.PORT || 5000;
 
-    app.listen(PORT, () => {
+    app.listen(PORT,"0.0.0.0", () => {
       logServerStart(PORT);
       // ✅ FIX H3: Log Swagger only in development
       if (process.env.NODE_ENV !== 'production') {
